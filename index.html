@@ -27,12 +27,12 @@
       </table>
     </div>
 
-    <button type="button" class ="btn btn-dark" data-toggle = "modal" data-target = "#modalForm">
+    <button type="button" class ="btn btn-dark btn-lg" style = "margin: 10px" data-toggle = "modal" data-target = "#modalForm">
       Добавить
     </button>
 
     <div class = "modal fade" id = "modalForm" tabindex = "-1" role="dialog" aria-labelledby = "formName" aria-hidden="true">
-      <div class = "modal-dialog modal-dialog-centered" role = "document">
+      <div class = "modal-dialog modal-dialog-centered modal-lg" role = "document">
         <div class = "modal-content">
           <div class = "modal-header">
             <h5 class = "modal-title" id="formName">Добавить новую вещь</h5>
@@ -40,8 +40,8 @@
               <span aria-hidden = "true">&times;</span>
             </button>
           </div>
-          <div class = "modal-body">
-            <div class = container style = "margin-top:15px; background-color: lightgrey; padding: 10px" >
+          <div class = "modal-body" style = "background-color: lightgrey" >
+            <div class = "container">
               <form id = "clothes">
                   <div class = "form-group row">
                     <label for = "type" class = "col-sm-2 col-form-label">Тип</label>
@@ -57,31 +57,31 @@
                   </div>
                   <div class = "form-group row">
                       <label for = "color" class = "col-sm-2 col-form-label">Цвет</label>
-                        <div class="col-sm-10">
+                        <div class = "col-sm-10">
                           <input name = "color" id = "color" class = "form-control editable"  type = "text"  required>
                         </div>
                   </div>
                   <div class = "form-group row">
                       <label for = "description" class = "col-sm-2 col-form-label">Описание</label>
-                        <div class="col-sm-10">
+                        <div class = "col-sm-10">
                           <input name = "description" id = "description" class = "form-control editable"  type = "textarea"  required>
                         </div>
                   </div>
                   <div class = "form-group row">
                       <label for = "price" class = "col-sm-2 col-form-label">Стоимость</label>
-                        <div class="col-sm-10">
+                        <div class = "col-sm-10">
                           <input name = "price" id = "price" class = "form-control editable" type = "number"  required>
                         </div>
                   </div>
                   <div class = "form-group row">
                       <label for = "date" class = "col-sm-2 col-form-label">Дата покупки</label>
-                        <div class="col-sm-10">
+                        <div class = "col-sm-10">
                           <input name = "date" id = "date" class = "form-control editable" type = "number"  required>
                         </div>
                   </div>
-                <div class="form-group row">
+                <div class = "row">
                   <label for = "season" class = "col-sm-2 col-form-label">Сезон</label>
-                    <div class="col-sm-10">
+                    <div class = "col-sm-10">
                       <select name = "season" id = "season" class = "form-control editable" required>
                         <option value = "Зима">Зима</option>
                         <option value = "Весна">Весна</option>
@@ -90,15 +90,12 @@
                       </select>
                     </div>
                 </div>
-                <div class = "form-group">
-                  
-                </div>
               </form>
             </div>
           </div>
           <div class="modal-footer">
             <button type = "button" class = "btn btn-secondary" data-dismiss = "modal">Закрыть</button>
-            <input type = "button" class = "btn btn-dark" onclick = controller.processForm() value = "Добавить" style = "margin: 10px">
+            <input type = "button" class = "btn btn-dark" onclick = controller.processForm() value = "Добавить">
           </div>
         </div>
       </div>
