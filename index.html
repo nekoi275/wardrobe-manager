@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html lang = "en">
+  <head>
+    <title>Таблица с одеждой</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="classes.js"></script>
+  </head>
+  <body>
+    
+    <div class = "table-responsive">
+      <table id = "clothes-table" class = "table table-hover">  
+        <thead class="thead-dark">  
+          <tr>
+            <th>Тип</th>
+            <th>Производитель</th>
+            <th>Цвет</th>
+            <th>Описание</th>
+            <th>Стоимость</th>
+            <th>Дата покупки</th>
+            <th>Сезон</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>  
+      </table>
+    </div>
+
+    <button type="button" class ="btn btn-dark" data-toggle = "modal" data-target = "#modalForm">
+      Добавить
+    </button>
+
+    <div class = "modal fade" id = "modalForm" tabindex = "-1" role="dialog" aria-labelledby = "formName" aria-hidden="true">
+      <div class = "modal-dialog modal-dialog-centered" role = "document">
+        <div class = "modal-content">
+          <div class = "modal-header">
+            <h5 class = "modal-title" id="formName">Добавить новую вещь</h5>
+            <button type = "button" class="close" data-dismiss = "modal" aria-label = "Close">
+              <span aria-hidden = "true">&times;</span>
+            </button>
+          </div>
+          <div class = "modal-body">
+            <div class = container style = "margin-top:15px; background-color: lightgrey; padding: 10px" >
+              <form id = "clothes">
+                  <div class = "form-group row">
+                    <label for = "type" class = "col-sm-2 col-form-label">Тип</label>
+                      <div class="col-sm-10">
+                        <input name = "type" id = "type" class = "form-control editable" type = "text"  required>
+                      </div>
+                  </div>
+                  <div class = "form-group row">
+                      <label for = "brand" class = "col-sm-2 col-form-label">Производитель</label>
+                        <div class = "col-sm-10">
+                          <input name = "brand" id = "brand" class = "form-control editable"  type = "text"  required>
+                        </div>
+                  </div>
+                  <div class = "form-group row">
+                      <label for = "color" class = "col-sm-2 col-form-label">Цвет</label>
+                        <div class="col-sm-10">
+                          <input name = "color" id = "color" class = "form-control editable"  type = "text"  required>
+                        </div>
+                  </div>
+                  <div class = "form-group row">
+                      <label for = "description" class = "col-sm-2 col-form-label">Описание</label>
+                        <div class="col-sm-10">
+                          <input name = "description" id = "description" class = "form-control editable"  type = "textarea"  required>
+                        </div>
+                  </div>
+                  <div class = "form-group row">
+                      <label for = "price" class = "col-sm-2 col-form-label">Стоимость</label>
+                        <div class="col-sm-10">
+                          <input name = "price" id = "price" class = "form-control editable" type = "number"  required>
+                        </div>
+                  </div>
+                  <div class = "form-group row">
+                      <label for = "date" class = "col-sm-2 col-form-label">Дата покупки</label>
+                        <div class="col-sm-10">
+                          <input name = "date" id = "date" class = "form-control editable" type = "number"  required>
+                        </div>
+                  </div>
+                <div class="form-group row">
+                  <label for = "season" class = "col-sm-2 col-form-label">Сезон</label>
+                    <div class="col-sm-10">
+                      <select name = "season" id = "season" class = "form-control editable" required>
+                        <option value = "Зима">Зима</option>
+                        <option value = "Весна">Весна</option>
+                        <option value = "Лето">Лето</option>
+                        <option value = "Осень">Осень</option>
+                      </select>
+                    </div>
+                </div>
+                <div class = "form-group">
+                  
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type = "button" class = "btn btn-secondary" data-dismiss = "modal">Закрыть</button>
+            <input type = "button" class = "btn btn-dark" onclick = controller.processForm() value = "Добавить" style = "margin: 10px">
+          </div>
+        </div>
+      </div>
+    </div>
+          
+
+
+    <script> 
+      var controller = new Controller();
+      window.onload = controller.loadData;
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
