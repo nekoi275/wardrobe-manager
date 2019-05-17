@@ -69,6 +69,7 @@ function View() {
 function Controller() {
     var model = new Model();
     var view = new View();
+    this.view = view;
 
     function getFormData(form) {
         var obj = {};

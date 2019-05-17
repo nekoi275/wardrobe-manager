@@ -1,0 +1,12 @@
+.btn {
+    margin: 10px
+}
+
+.modal-body {
+    background-color: lightgrey
+}
+
+.table-responsive th {
+    position: sticky;
+    top: 0;
+}
