@@ -31,7 +31,7 @@
       Добавить
     </button>
 
-    <div class = "modal fade" id = "modal-form" tabindex = "-1" role ="dialog" aria-labelledby = "formName" aria-hidden="true">
+    <div class = "modal fade" id = "modal-form" tabindex = "-1" role ="dialog" aria-labelledby = "formName" aria-hidden ="true">
       <div class = "modal-dialog modal-dialog-centered modal-lg" role = "document">
         <div class = "modal-content">
           <div class = "modal-header">
@@ -62,7 +62,7 @@
                       <label for = "color" class = "col-sm-2 col-form-label">Цвет</label>
                         <div class = "col-sm-10">
                           <input name = "color" id = "color" class = "form-control editable"  type = "text" required>
-                          <div class="invalid-feedback">
+                          <div class = "invalid-feedback">
                             Это поле обязательное 
                           </div>
                         </div>
@@ -77,7 +77,7 @@
                       <label for = "price" class = "col-sm-2 col-form-label">Стоимость</label>
                         <div class = "col-sm-10">
                           <input name = "price" id = "price" class = "form-control editable" type = "number" required>
-                          <div class="invalid-feedback">
+                          <div class = "invalid-feedback">
                             Это поле обязательное 
                           </div>
                         </div>
@@ -100,7 +100,7 @@
                         <option value = "Лето">Лето</option>
                         <option value = "Осень">Осень</option>
                       </select>
-                      <div class="invalid-feedback">
+                      <div class = "invalid-feedback">
                         Это поле обязательное 
                       </div>
                     </div>
@@ -108,7 +108,7 @@
               </form>
             </div>
           </div>
-          <div class="modal-footer">
+          <div class = "modal-footer">
             <input type = "button" id = "cancel-button" class = "btn btn-secondary" data-dismiss = "modal" value = "Закрыть">
             <input type = "button" id = "submit-button" class = "btn btn-dark" value = "Добавить">
           </div>
@@ -116,15 +116,15 @@
       </div>
     </div>
           
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src = "https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script> 
       var controller = new Controller();
-      window.onload = controller.loadData;
+      $(document).ready(controller.loadData);
       $('#cancel-button').click(controller.view.clearForm);
       $('#submit-button').click(controller.processForm);
-      //$('#modal-form').on('hide.bs.modal', controller.view.clearForm);
+      $('#modal-form').on('hide.bs.modal', controller.view.clearForm);
     </script>
   </body>
 </html>
