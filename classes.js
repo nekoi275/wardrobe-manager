@@ -83,6 +83,15 @@ function Controller() {
     };
 
     function validate(form) {
+        [].forEach.call(form.elements, function(elem) {
+            if (elem.validity.valid) {
+                elem.classList.remove("is-invalid");
+                elem.classList.add("is-valid");
+            } else {
+                elem.classList.add("is-invalid");
+                elem.classList.remove("is-valid");
+            }
+        });
         return [].every.call(form.elements, function(elem) {return !elem.validity.valueMissing});
     };
 
@@ -101,7 +110,7 @@ function Controller() {
 
     this.processForm = function() {
         if (!validate(view.form)) {
-            throw "invalid form"
+            return;
         };
         var obj = getFormData(view.form);
         var id = model.create(obj);
