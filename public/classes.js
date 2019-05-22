@@ -1,31 +1,31 @@
 function Model() {
-    var tableName = 'clothes';
-    var data = JSON.parse(localStorage.getItem(tableName));
-    data = (data == null) ? {} : data;
-    var idCounter = getLatestId();
 
-    function getLatestId() {
-        var keys = Object.keys(data);
-        if (keys.length === 0){
-            return 0;
-        };
-        return Math.max.apply(null, keys.map(function(z){return +z;}));
+    this.create = function (obj, responseHandler) {
+        $.ajax({
+            url: '/api/clothes',
+            type: 'POST',
+            data: JSON.stringify(obj),
+            contentType: 'application/json',
+            success: responseHandler
+        });
     };
 
-    this.create = function (obj) {
-        var id = ++idCounter;
-        data[id] = obj;
-        localStorage.setItem(tableName, JSON.stringify(data));
-        return id;
+    this.readAll = function (responseHandler) {
+        $.ajax({
+            url: '/api/clothes',
+            type: 'GET',
+            success: responseHandler
+        });
     };
 
-    this.readAll = function () {
-        return data;
-    };
-
-    this.delete = function (id) {
-        delete(data[id]);
-        localStorage.setItem(tableName, JSON.stringify(data));
+    this.delete = function (id, responseHandler) {
+        $.ajax({
+            url: '/api/clothes',
+            type: 'DELETE',
+            data: JSON.stringify({"id": id}),
+            contentType: 'application/json',
+            success: responseHandler
+        });
     };
 
 }
@@ -99,14 +99,15 @@ function Controller() {
     function removeRow(event) {
         var target = event.target;
         var id = target.getAttribute('data-id');
-        model.delete(id);
-        self.view.removeRow(id);
+        model.delete(id, function() {
+            self.view.removeRow(id);
+        });
     };
 
     this.loadData = function() {
-        var data = model.readAll();
-        var ids = Object.keys(data);
-        ids.forEach(function (id) {self.view.addRow(data[id], id, removeRow)});
+        model.readAll(function(data) {
+            data.forEach(function(obj) {self.view.addRow(obj, obj.id, removeRow)})
+        });
     };
 
     this.processForm = function() {
@@ -114,8 +115,10 @@ function Controller() {
             return;
         };
         var obj = getFormData(self.view.form);
-        var id = model.create(obj);
-        self.view.addRow(obj, id, removeRow);
+        model.create(obj, function(response) {
+            var id = response.id;
+            self.view.addRow(obj, id, removeRow);
+        });
         self.view.clearForm();
     };
 }
