@@ -10,3 +10,13 @@
     position: sticky;
     top: 0;
 }
+
+.color-palette {
+    width: 100%;
+    height: 155px;
+    cursor: crosshair;
+}
+
+#color {
+    display: none;
+}

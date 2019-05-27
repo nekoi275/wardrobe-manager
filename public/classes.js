@@ -33,8 +33,6 @@ function Model() {
 function View() {
     this.form = document.getElementById('clothes');
     var table = document.getElementById('clothes-table');
-    
-    var self = this;
 
     this.clearForm = function() {
         $('.editable').val('');
@@ -47,6 +45,9 @@ function View() {
             var td = document.createElement('td');
             td.innerText = rowData[colName];
             tr.appendChild(td);
+            if(colName === 'color') {
+                td.style.backgroundColor = 'rgb(' + rowData['color'] + ')';
+            };
         };
         var removeButton = document.createElement('button');
         $(removeButton).attr('data-id', id);
@@ -112,8 +113,10 @@ function Controller() {
 
     this.processForm = function() {
         if (!validate(self.view.form)) {
+            $('#submit-button').removeAttr('data-dismiss');
             return;
         };
+        $('#submit-button').attr('data-dismiss', 'modal');
         var obj = getFormData(self.view.form);
         model.create(obj, function(response) {
             var id = response.id;
