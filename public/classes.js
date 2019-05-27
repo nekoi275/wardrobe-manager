@@ -43,11 +43,12 @@ function View() {
         var tr = document.createElement('tr');
         for (var colName of ['type', 'brand', 'color', 'description', 'price', 'date', 'season']) {
             var td = document.createElement('td');
-            td.innerText = rowData[colName];
-            tr.appendChild(td);
             if(colName === 'color') {
                 td.style.backgroundColor = 'rgb(' + rowData['color'] + ')';
-            };
+            } else {
+                td.innerText = rowData[colName];
+            }
+            tr.appendChild(td);
         };
         var removeButton = document.createElement('button');
         $(removeButton).attr('data-id', id);
