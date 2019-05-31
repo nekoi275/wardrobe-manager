@@ -6,6 +6,7 @@
     <meta name = "viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel = "stylesheet" type="text/css" href="style.css">
     <link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">    
   </head>
   <body>
     <div>
@@ -30,22 +31,22 @@
       Добавить
     </button>
 
-    <div class = "modal fade" id = "modal-form" tabindex = "-1" role ="dialog" aria-labelledby = "formName" aria-hidden ="true">
+    <div class = "modal fade" id = "modal-form" tabindex = "-1" role ="dialog" aria-labelledby = "form-name" aria-hidden ="true">
       <div class = "modal-dialog modal-dialog-centered modal-lg" role = "document">
         <div class = "modal-content">
           <div class = "modal-header">
-            <h5 class = "modal-title" id = "formName">Добавить новую вещь</h5>
+            <h5 class = "modal-title" id = "form-name"></h5>
             <button type = "button" class ="close" data-dismiss = "modal" aria-label = "Close">
               <span aria-hidden = "true">&times;</span>
             </button>
           </div>
           <div class = "modal-body">
             <div class = "container">
-              <form id = "clothes" class="needs-validation" novalidate>
+              <form id = "clothes" class = "needs-validation" novalidate>
                   <div class = "form-group row">
                     <label for = "type" class = "col-sm-2 col-form-label">Тип</label>
                       <div class ="col-sm-10">
-                        <input name = "type" id = "type" class = "form-control editable" type = "text" required>
+                        <input name = "type" class = "form-control editable" type = "text" required>
                         <div class ="invalid-feedback">
                           Это поле обязательное 
                         </div>
@@ -54,13 +55,13 @@
                   <div class = "form-group row">
                       <label for = "brand" class = "col-sm-2 col-form-label">Производитель</label>
                         <div class = "col-sm-10">
-                          <input name = "brand" id = "brand" class = "form-control editable"  type = "text">
+                          <input name = "brand" class = "form-control editable"  type = "text">
                         </div>
                   </div>
                   <div class = "form-group row">
                       <label for = "color" class = "col-sm-2 col-form-label">Цвет</label>
                         <div class = "col-sm-10">
-                          <input name = "color" id = "color" class = "form-control editable"  type = "text" required>
+                          <input name = "color" class = "form-control editable"  type = "text" required>
                           <canvas class = "color-palette"></canvas>
                           <div class = "invalid-feedback">
                             Это поле обязательное 
@@ -70,13 +71,13 @@
                   <div class = "form-group row">
                       <label for = "description" class = "col-sm-2 col-form-label">Описание</label>
                         <div class = "col-sm-10">
-                          <input name = "description" id = "description" class = "form-control editable"  type = "textarea">
+                          <input name = "description" class = "form-control editable"  type = "textarea">
                         </div>
                   </div>
                   <div class = "form-group row">
                       <label for = "price" class = "col-sm-2 col-form-label">Стоимость</label>
                         <div class = "col-sm-10">
-                          <input name = "price" id = "price" class = "form-control editable" type = "number" required>
+                          <input name = "price" class = "form-control editable" type = "number" required>
                           <div class = "invalid-feedback">
                             Это поле обязательное 
                           </div>
@@ -85,7 +86,7 @@
                   <div class = "form-group row">
                       <label for = "date" class = "col-sm-2 col-form-label">Дата покупки</label>
                         <div class = "col-sm-10">
-                          <input name = "date" id = "date" class = "form-control editable" type = "date" required>
+                          <input name = "date" class = "form-control editable" type = "date" required>
                           <div class="invalid-feedback">
                             Это поле обязательное 
                           </div>
@@ -94,7 +95,7 @@
                 <div class = "row">
                   <label for = "season" class = "col-sm-2 col-form-label">Сезон</label>
                     <div class = "col-sm-10">
-                      <select name = "season" id = "season" class = "form-control editable" required>
+                      <select name = "season" class = "form-control editable" required>
                         <option value = "Зима">Зима</option>
                         <option value = "Весна">Весна</option>
                         <option value = "Лето">Лето</option>
@@ -105,6 +106,7 @@
                       </div>
                     </div>
                 </div>
+                <input name = "id" type = "hidden">
               </form>
             </div>
           </div>
@@ -115,7 +117,7 @@
         </div>
       </div>
     </div>
-          
+    
     <script src = "https://code.jquery.com/jquery-3.4.1.min.js" integrity = "sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin = "anonymous"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity = "sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin = "anonymous"></script>
     <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity = "sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin = "anonymous"></script>
@@ -126,9 +128,9 @@
       var colorPicker = new ColorPicker();
       $(document).ready(controller.loadData);
       $('#cancel-button').click(controller.view.clearForm);
-      $('#submit-button').click(controller.processForm);
       $('#modal-form').on('hide.bs.modal', controller.view.clearForm);
       $('#modal-form').on('shown.bs.modal', colorPicker.buildColorPalette);
+      $('#add-button').on('click', controller.showAddModalForm);
     </script>
   </body>
 </html>

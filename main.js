@@ -29,7 +29,6 @@ app.post('/api/clothes', function (req, res) {
     db.query(sql, [values], function(err, result) {
         if (err) {
             res.status(500).send(err);
-            throw err;
         }
         res.json({'id': result.insertId});
     });
@@ -40,7 +39,6 @@ app.get('/api/clothes', function(req, res) {
     db.query(sql, function(err, result) {
         if (err) {
             res.status(500).send(err);
-            throw err;
         }
         res.send(result);
     });   
@@ -51,9 +49,19 @@ app.delete('/api/clothes', function(req, res) {
     db.query(sql, function(err, result) {
         if (err) {
             res.status(500).send(err);
-            throw err;
         }
         res.status(200).end();
     });
 });
 
+app.put('/api/clothes', function(req, res) {
+    var sql = 'UPDATE clothes SET type = ?, brand = ?, color = ?, description = ?, price = ?, date = ?, season = ? WHERE id = ?' ;
+    var values = [req.body.type, req.body.brand, req.body.color, req.body.description, 
+        req.body.price, req.body.date, req.body.season, req.body.id];
+    db.query(sql, values, function(err, result) {
+        if (err) {
+            res.status(500).send(err);
+        }
+        res.status(200).end();
+    });
+});

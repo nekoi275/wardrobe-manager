@@ -17,6 +17,8 @@
     cursor: crosshair;
 }
 
-#color {
+input[name="color"] {
     display: none;
 }
+
+

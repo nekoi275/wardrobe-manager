@@ -48,13 +48,15 @@ function ColorPicker() {
     function getColor(e)  {
         var imageData = context.getImageData(colorEventX, colorEventY, 1, 1);
         colorsArray = imageData.data;
-        $('#color').val(colorsArray[0] + ',' + colorsArray[1] + ',' + colorsArray[2]);
+        $('input[name="color"]').val(colorsArray[0] + ',' + colorsArray[1] + ',' + colorsArray[2]);
     };
 
     function drawSelector() {
         self.buildColorPalette();
         context.beginPath();
-        context.arc(colorEventX, colorEventY, 5, 0, 2 * Math.PI);
+        context.arc(colorEventX, colorEventY, 10, 0, 2 * Math.PI);
+        context.globalCompositeOperation = 'xor';
+        context.lineWidth = 2;
         context.stroke();
     };
 };
