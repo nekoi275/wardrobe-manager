@@ -54,11 +54,19 @@ function View() {
         var tr = document.createElement('tr');
         for (var colName of ['type', 'brand', 'color', 'description', 'price', 'date', 'season']) {
             var td = document.createElement('td');
-            if(colName === 'color') {
-                td.style.backgroundColor = 'rgb(' + rowData['color'] + ')';
-            } else {
-                td.innerText = rowData[colName];
+            switch(colName) {
+                case 'color': 
+                    td.style.backgroundColor = 'rgb(' + rowData['color'] + ')';
+                    td.setAttribute("data-color", rowData['color']);
+                    break;
+                case 'date':
+                    var date = new Date(rowData['date']).toLocaleString('ru', {year: 'numeric', month: 'long', day: 'numeric'});
+                    td.innerText = date;
+                    break;
+                default: 
+                    td.innerText = rowData[colName];
             };
+            
             tr.appendChild(td);
         };
         td = document.createElement('td');
@@ -79,10 +87,16 @@ function View() {
         var row = table.querySelector('tr[data-id="'+id+'"]');
         $.each(['type', 'brand', 'color', 'description', 'price', 'date', 'season'], function(index, value){
             var cell = row.cells[index];
-            if(value === 'color') {
-                cell.style.backgroundColor = 'rgb(' + rowData[value] + ')';
-            } else {
-                cell.innerText = rowData[value];
+            switch(value) {
+                case 'color': 
+                    cell.style.backgroundColor = 'rgb(' + rowData[value] + ')';
+                    break;
+                case 'date':
+                    var date = new Date(rowData['date']).toLocaleString('ru', {year: 'numeric', month: 'long', day: 'numeric'});
+                    cell.innerText = date;
+                    break;
+                default: 
+                    cell.innerText = rowData[value];
             };
         });
     };
@@ -91,7 +105,15 @@ function View() {
         $('#form-name').text(formHeader);
         if(arr.length) {
             for(i = 0; i < this.form.elements.length; i ++) {
-                this.form.elements[i].value = arr[i];
+                switch(i) {
+                    case 2: 
+                        colorPicker.selectedColor = arr[i];
+                        break;
+                    case 5:
+                        arr[i] = moment(arr[i], "DD MMMM YYYY").format("YYYY-MM-DD");
+                    default: 
+                        this.form.elements[i].value = arr[i];
+                };
             };
         };
         $('#submit-button').on('click', submitFunction);
@@ -109,7 +131,7 @@ function View() {
         }
         $(button).click(onClickFunction);
         return button;
-    }
+    };
 }
 
 function Controller() {
@@ -127,6 +149,10 @@ function Controller() {
             };
         };
         return obj;
+    };
+
+    this.getCanvasColor = function (color) {
+        $('input[name="color"]').val(color);
     };
 
     function validate(form) {
@@ -155,7 +181,11 @@ function Controller() {
         var id = target.getAttribute('data-id');
         var arr = [];
         $('tr[data-id="'+id+'"] td').each(function(key, td) {
-            arr[key] = td.innerText;
+            if (key == 2) {
+                arr[key] = td.getAttribute('data-color');
+            } else {
+                arr[key] = td.innerText;
+            }
         });
         arr.splice(-1, 1, id)
         self.view.prepareForm(arr, 'Редактировать', processFormEdit);
