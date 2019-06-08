@@ -36,23 +36,6 @@ function ColorPicker(selector, onSelectedColor) {
         gradient.addColorStop(1,   "rgba(0,     0,   0, 1)");
         context.fillStyle = gradient;
         context.fillRect(canvas.width() * 0.9, 0, canvas.width(), canvas.height());
-        if (self.selectedColor) {
-            self.setColor(self.selectedColor);
-            self.selectedColor = null;
-        }
-    };
-
-    var RGBgradients = [[1, 0, 0.5], [0.5, 0, 1], [0, 0.5, 1], [0, 1, 0.5], [0.5, 1, 0], [1, 0.5, 0]];
-
-    function findSector(color) {
-        return RGBgradients.indexOf(RGBgradients.filter(function(grad) {
-            var max = color[grad.indexOf(1)];
-            var min = color[grad.indexOf(0)];
-            return (min == Math.min.apply(null, color)) && (max == Math.max.apply(null, color));
-        })[0])
-    }
-
-    this.setColor = function (color) {
     };
 
     canvas.click(function(e) {

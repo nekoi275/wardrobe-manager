@@ -1,130 +1,138 @@
 <!DOCTYPE HTML>
-<html lang = "en">
+<html lang="en">
   <head>
     <title>Таблица с одеждой</title>
-    <meta charset = "UTF-8">
-    <meta name = "viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel = "stylesheet" type="text/css" href="style.css">
-    <link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
   </head>
   <body>
     <div>
-      <table id = "clothes-table" class = "table table-hover">  
-        <thead class = "thead-dark">  
+      <table id="clothes-table" class="table table-hover">
+        <thead class="thead-dark">
           <tr>
-            <th>Тип</th>
-            <th>Производитель</th>
-            <th>Цвет</th>
-            <th>Описание</th>
-            <th>Стоимость</th>
-            <th>Дата покупки</th>
-            <th>Сезон</th>
+            <th>
+              <span class="searchable">Тип</span>
+              <input id="search-type" class="search" type="text">
+            </th>
+            <th>
+              <span class="searchable">Производитель</span>
+              <input class="search" type="text">
+            </th>
+            <th><span>Цвет</span></th>
+            <th><span>Описание</span></th>
+            <th><span>Стоимость</span></th>
+            <th><span>Дата покупки</span></th>
+            <th>
+              <span class="searchable">Сезон</span>
+              <input class="search" type="text">
+            </th>
             <th></th>
           </tr>
         </thead>
-        <tbody></tbody>  
+        <tbody></tbody>
       </table>
     </div>
-
-    <button type = "button" id = "add-button" class = "btn btn-dark btn-lg" data-toggle = "modal" data-target = "#modal-form">
+    <button type="button" id="add-button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#modal-form">
       Добавить
     </button>
 
-    <div class = "modal fade" id = "modal-form" tabindex = "-1" role ="dialog" aria-labelledby = "form-name" aria-hidden ="true">
-      <div class = "modal-dialog modal-dialog-centered modal-lg" role = "document">
-        <div class = "modal-content">
-          <div class = "modal-header">
-            <h5 class = "modal-title" id = "form-name"></h5>
-            <button type = "button" class ="close" data-dismiss = "modal" aria-label = "Close">
-              <span aria-hidden = "true">&times;</span>
+    <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="form-name" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="form-name"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class = "modal-body">
-            <div class = "container">
-              <form id = "clothes" class = "needs-validation" novalidate>
-                  <div class = "form-group row">
-                    <label for = "type" class = "col-sm-2 col-form-label">Тип</label>
-                      <div class ="col-sm-10">
-                        <input name = "type" class = "form-control editable" type = "text" required>
-                        <div class ="invalid-feedback">
+          <div class="modal-body">
+            <div class="container">
+              <form id="clothes" class="needs-validation" novalidate>
+                  <div class="form-group row">
+                    <label for="type" class="col-sm-2 col-form-label">Тип</label>
+                      <div class="col-sm-10">
+                        <input name="type" class="form-control editable" type="text" required>
+                        <div class="invalid-feedback">
                           Это поле обязательное 
                         </div>
                       </div>
                   </div>
-                  <div class = "form-group row">
-                      <label for = "brand" class = "col-sm-2 col-form-label">Производитель</label>
-                        <div class = "col-sm-10">
-                          <input name = "brand" class = "form-control editable"  type = "text">
+                  <div class="form-group row">
+                      <label for="brand" class="col-sm-2 col-form-label">Производитель</label>
+                        <div class="col-sm-10">
+                          <input name="brand" class="form-control editable"  type="text">
                         </div>
                   </div>
-                  <div class = "form-group row">
-                      <label for = "color" class = "col-sm-2 col-form-label">Цвет</label>
-                        <div class = "col-sm-10">
-                          <input name = "color" class = "form-control editable"  type = "text" required>
-                          <canvas class = "color-palette"></canvas>
-                          <div class = "invalid-feedback">
-                            Это поле обязательное 
-                          </div>
-                        </div>
-                  </div>
-                  <div class = "form-group row">
-                      <label for = "description" class = "col-sm-2 col-form-label">Описание</label>
-                        <div class = "col-sm-10">
-                          <input name = "description" class = "form-control editable"  type = "textarea">
-                        </div>
-                  </div>
-                  <div class = "form-group row">
-                      <label for = "price" class = "col-sm-2 col-form-label">Стоимость</label>
-                        <div class = "col-sm-10">
-                          <input name = "price" class = "form-control editable" type = "number" required>
-                          <div class = "invalid-feedback">
-                            Это поле обязательное 
-                          </div>
-                        </div>
-                  </div>
-                  <div class = "form-group row">
-                      <label for = "date" class = "col-sm-2 col-form-label">Дата покупки</label>
-                        <div class = "col-sm-10">
-                          <input name = "date" class = "form-control editable" type = "date" required>
+                  <div class="form-group row">
+                      <label for="color" class="col-sm-2 col-form-label">Цвет</label>
+                        <div class="col-sm-10">
+                          <input name="color" class="form-control editable"  type="text" required>
+                          <canvas class="color-palette"></canvas>
                           <div class="invalid-feedback">
                             Это поле обязательное 
                           </div>
                         </div>
                   </div>
-                <div class = "row">
-                  <label for = "season" class = "col-sm-2 col-form-label">Сезон</label>
-                    <div class = "col-sm-10">
-                      <select name = "season" class = "form-control editable" required>
-                        <option value = "Зима">Зима</option>
-                        <option value = "Весна">Весна</option>
-                        <option value = "Лето">Лето</option>
-                        <option value = "Осень">Осень</option>
+                  <div class="form-group row">
+                      <label for="description" class="col-sm-2 col-form-label">Описание</label>
+                        <div class="col-sm-10">
+                          <input name="description" class="form-control editable" type="textarea">
+                        </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="price" class="col-sm-2 col-form-label">Стоимость</label>
+                        <div class="col-sm-10">
+                          <input name="price" class="form-control editable" type="number" required>
+                          <div class="invalid-feedback">
+                            Это поле обязательное 
+                          </div>
+                        </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="date" class="col-sm-2 col-form-label">Дата покупки</label>
+                        <div class="col-sm-10">
+                          <input name="date" class="form-control editable" type="date" required>
+                          <div class="invalid-feedback">
+                            Это поле обязательное 
+                          </div>
+                        </div>
+                  </div>
+                <div class="row">
+                  <label for="season" class="col-sm-2 col-form-label">Сезон</label>
+                    <div class="col-sm-10">
+                      <select name="season" class="form-control editable" required>
+                        <option value="Зима">Зима</option>
+                        <option value="Весна">Весна</option>
+                        <option value="Лето">Лето</option>
+                        <option value="Осень">Осень</option>
                       </select>
-                      <div class = "invalid-feedback">
+                      <div class="invalid-feedback">
                         Это поле обязательное 
                       </div>
                     </div>
                 </div>
-                <input name = "id" type = "hidden">
+                <input name="id" type="hidden">
               </form>
             </div>
           </div>
-          <div class = "modal-footer">
-            <input type = "button" id = "cancel-button" class = "btn btn-secondary" data-dismiss = "modal" value = "Закрыть">
-            <input type = "button" id = "submit-button" class = "btn btn-dark" value = "Добавить">
+          <div class="modal-footer">
+            <input type="button" id="cancel-button" class="btn btn-secondary" data-dismiss="modal" value="Закрыть">
+            <input type="button" id="submit-button" class="btn btn-dark" value="Добавить">
           </div>
         </div>
       </div>
     </div>
     
-    <script src = "https://code.jquery.com/jquery-3.4.1.min.js" integrity = "sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin = "anonymous"></script>
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity = "sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin = "anonymous"></script>
-    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity = "sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin = "anonymous"></script>
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ru.js"></script>
-    <script src = "classes.js"></script>
-    <script src = "colorPicker.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ru.js"></script>
+    <script src="classes.js"></script>
+    <script src="colorPicker.js"></script>
     <script> 
       var controller = new Controller();
       var colorPicker = new ColorPicker($('canvas.color-palette'), controller.getCanvasColor);

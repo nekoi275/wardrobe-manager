@@ -21,4 +21,119 @@ input[name="color"] {
     display: none;
 }
 
+.search {
+    position: absolute;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    animation-name: search-disappear;
+    animation-duration: 0.3s;
+}
+
+.search:focus {
+    background-color: aliceblue;
+    opacity: 1;
+    height: 30px;
+    border-radius: .3rem;
+    width: 90%;
+    border: none;
+    animation-name: search-appear;
+    animation-duration: 0.3s;
+    transform: translate(-60%);
+}
+
+#search-type:focus {
+    transform: translate(-25%);
+}
+
+.searchable {
+    position: relative;
+    top: -5px;
+    margin-right: 5px;
+}
+
+th span {
+    position: relative;
+    top: -5px;
+}
+
+@keyframes search-appear {
+    0% {
+        width: 20px;
+        border-radius: 25%;
+        height: 20px;
+        opacity: 0;
+    }
+
+    25% {
+        width: 25%;
+        border-radius: 20%;
+        height: 21px;
+        opacity: 0.25;
+    }
+
+    50% {
+        width: 50%;
+        border-radius: 15%;
+        height: 24px;
+        opacity: 0.5;
+    }
+
+    75% {
+        width: 75%;
+        border-radius: 10%;
+        height: 27px;
+        opacity: 0.75;
+    }
+
+    100% {
+        width: 100%;
+        border-radius: .3rem;
+        height: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes search-disappear {
+    0% {
+        width: 90%;
+        border-radius: .3rem;
+        height: 30px;
+        opacity: 1;
+        transform: translate(-60%);
+    }
+
+    25% {
+        width: 75%;
+        border-radius: 25%;
+        height: 27px;
+        opacity: 0.75;
+        transform: translate(-45%);
+    }
+
+    50% {
+        width: 50%;
+        border-radius: 50%;
+        height: 24px;
+        opacity: 0.5;
+        transform: translate(-30%);
+    }
+
+    75% {
+        width: 25%;
+        border-radius: 75%;
+        height: 21px;
+        opacity: 0.25;
+        transform: translate(-15%);
+    }
+
+    100% {
+        width: 20px;
+        border-radius: 100%;
+        height: 20px;
+        opacity: 0;
+        transform: translate(0%);
+    }
+}
 

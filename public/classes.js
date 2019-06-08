@@ -104,16 +104,12 @@ function View() {
     this.prepareForm = function(arr, formHeader, submitFunction) {
         $('#form-name').text(formHeader);
         if(arr.length) {
-            for(i = 0; i < this.form.elements.length; i ++) {
-                switch(i) {
-                    case 2: 
-                        colorPicker.selectedColor = arr[i];
-                        break;
-                    case 5:
-                        arr[i] = moment(arr[i], "DD MMMM YYYY").format("YYYY-MM-DD");
-                    default: 
-                        this.form.elements[i].value = arr[i];
+            for(i = 0; i < arr.length; i ++) {
+                if(i == 5) {
+                    arr[i] = moment(arr[i], "DD MMMM YYYY").format("YYYY-MM-DD");
+                    this.form.elements[i].value = arr[i];
                 };
+                this.form.elements[i].value = arr[i];
             };
         };
         $('#submit-button').on('click', submitFunction);
