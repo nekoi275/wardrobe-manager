@@ -32,7 +32,7 @@ function Model() {
         $.ajax({
             url: '/api/clothes',
             type: 'DELETE',
-            data: JSON.stringify({"id": id}),
+            data: JSON.stringify({'id': id}),
             contentType: 'application/json',
             success: responseHandler
         });
@@ -57,7 +57,7 @@ function View() {
             switch(colName) {
                 case 'color': 
                     td.style.backgroundColor = 'rgb(' + rowData['color'] + ')';
-                    td.setAttribute("data-color", rowData['color']);
+                    td.setAttribute('data-color', rowData['color']);
                     break;
                 case 'date':
                     var date = new Date(rowData['date']).toLocaleString('ru', {year: 'numeric', month: 'long', day: 'numeric'});
@@ -70,8 +70,8 @@ function View() {
             tr.appendChild(td);
         };
         td = document.createElement('td');
-        td.appendChild(createButton(id, "x", removeFunction, 'remove-button'));
-        td.appendChild(createButton(id, "pencil", editFunction, 'edit-button'));
+        td.appendChild(createButton(id, removeFunction, 'remove-button'));
+        td.appendChild(createButton(id, editFunction, 'edit-button'));
         tr.appendChild(td);
         tr.setAttribute('data-id', id);
         table.tBodies[0].appendChild(tr);
@@ -106,7 +106,7 @@ function View() {
         if(arr.length) {
             for(i = 0; i < arr.length; i ++) {
                 if(i == 5) {
-                    arr[i] = moment(arr[i], "DD MMMM YYYY").format("YYYY-MM-DD");
+                    arr[i] = moment(arr[i], 'DD MMMM YYYY').format('YYYY-MM-DD');
                     this.form.elements[i].value = arr[i];
                 };
                 this.form.elements[i].value = arr[i];
@@ -115,17 +115,43 @@ function View() {
         $('#submit-button').on('click', submitFunction);
     };
 
-    function createButton(id, iconName, onClickFunction, buttonClass) {
+    this.search = function(searchColumn, $input) {
+        var filter, tr, td, text;
+        filter = $input.val().toUpperCase();
+        tr = table.getElementsByTagName('tr');
+
+        for(i = 0; i < tr.length; i ++) {
+            td = tr[i].getElementsByTagName('td')[searchColumn];
+            if(td) {
+                text = td.innerText;
+                if (text.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = '';
+                } else tr[i].style.display = 'none';
+            };
+        };
+    };
+
+    this.searchAnimate = function($container, text) {
+        var $span = $container.children('span');
+        var $input = $container.children('input');
+        $input.on('focus', function() {$span.text('')});
+        $input.on('focusout', function() {$span.text(text)});
+    };
+
+    function createButton(id, onClickFunction, buttonClass) {
         var button = document.createElement('button');
+        $(button).click(onClickFunction);
         $(button).addClass('btn btn-dark btn-sm');
-        $(button).append('<span class="oi oi-' + iconName + '"></span>');
         $(button).attr('data-id', id);
         $(button).addClass(buttonClass);
+        if (buttonClass === 'remove-button') {
+            $(button).html('<span>&times;</span>');
+        };
         if (buttonClass === 'edit-button') {
+            $(button).html('<span>&#9998;</span>');
             $(button).attr('data-toggle', 'modal');
             $(button).attr('data-target', '#modal-form');
-        }
-        $(button).click(onClickFunction);
+        };
         return button;
     };
 }
@@ -152,7 +178,7 @@ function Controller() {
     };
 
     function validate(form) {
-        [].forEach.call(form.elements, function(elem) {
+        Array.prototype.forEach.call(form.elements, function(elem) {
             if (elem.validity.valid) {
                 elem.classList.remove('is-invalid');
                 elem.classList.add('is-valid');
@@ -195,6 +221,20 @@ function Controller() {
         model.readAll(function(data) {
             data.forEach(function(obj) {self.view.addRow(obj, obj.id, removeRow, showEditModalForm)})
         });
+    };
+
+    this.initSearch = function() {
+        var searchType = $('#search-type input');
+        searchType.on('keyup', function() {
+            self.view.search(0, searchType);
+        });
+        self.view.searchAnimate($('#search-type'), 'Тип');
+
+        var searchBrand = $('#search-brand input');
+        searchBrand.on('keyup', function() {
+            self.view.search(1, searchBrand);
+        });
+        self.view.searchAnimate($('#search-brand'), 'Производитель');
     };
 
     function processFormEdit() {
