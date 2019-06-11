@@ -26,11 +26,17 @@ input[name="color"] {
     display: none;
 }
 
+th span {
+    position: relative;
+    top: 5px;
+}
+
 .search {
     border-radius: 100%;
     width: 20px;
     height: 20px;
     background-color: transparent;
+    font-size: 0px;
     animation-name: search-disappear;
     animation-duration: 0.1s;
     border: 2px solid #ffffff;
@@ -38,6 +44,7 @@ input[name="color"] {
 
 .search:focus {
     background-color: #ffffff;
+    font-size: 14pt;
     opacity: 1;
     height: 30px;
     border-radius: .3rem;
