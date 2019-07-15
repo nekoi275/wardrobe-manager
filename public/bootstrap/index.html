@@ -4,7 +4,7 @@
     <title>Таблица с одеждой</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="../common/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
   <body>
@@ -35,10 +35,9 @@
         <tbody></tbody>
       </table>
     </div>
-    <button type="button" id="add-button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#modal-form">
+    <button id="add-button" class="button" data-toggle="modal" data-target="#modal-form">
       Добавить
     </button>
-
     <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="form-name" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -119,29 +118,19 @@
             </div>
           </div>
           <div class="modal-footer">
-            <input type="button" id="cancel-button" class="btn btn-secondary" data-dismiss="modal" value="Закрыть">
-            <input type="button" id="submit-button" class="btn btn-dark" value="Добавить">
+            <input type="button" id="cancel-button" class="button" data-dismiss="modal" value="Закрыть">
+            <input type="button" id="submit-button" class="button" value="Добавить">
           </div>
         </div>
       </div>
     </div>
-    
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ru.js"></script>
     <script src="classes.js"></script>
-    <script src="colorPicker.js"></script>
-    <script> 
-      var controller = new Controller();
-      var colorPicker = new ColorPicker($('canvas.color-palette'), controller.getCanvasColor);
-      $(document).ready(controller.loadData);
-      $('#cancel-button').click(controller.view.clearForm);
-      $('#modal-form').on('hide.bs.modal', controller.view.clearForm);
-      $('#modal-form').on('shown.bs.modal', colorPicker.buildColorPalette);
-      $('#add-button').on('click', controller.showAddModalForm);
-      controller.initSearch();
-    </script>
+    <script src="../common/colorPicker.js"></script>
+    <script src="init.js"></script>
   </body>
 </html>
