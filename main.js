@@ -27,30 +27,33 @@ app.post('/api/clothes', function (req, res) {
     var values = [[req.body.type, req.body.brand, req.body.color, req.body.description, 
                    req.body.price, req.body.date, req.body.season]];
     db.query(sql, [values], function(err, result) {
-        if (err) {
-            res.status(500).send(err);
+        if (err == null) {
+            res.json({'id': result.insertId});
+            return
         }
-        res.json({'id': result.insertId});
+        res.status(500).send(err);
     });
 });
 
 app.get('/api/clothes', function(req, res) {
     var sql = 'SELECT * FROM clothes';
     db.query(sql, function(err, result) {
-        if (err) {
-            res.status(500).send(err);
+        if (err == null) {
+            res.send(result);
+            return
         }
-        res.send(result);
+        res.status(500).send(err);
     });   
 });
 
 app.delete('/api/clothes', function(req, res) {
     var sql = 'DELETE FROM clothes WHERE id = ' + req.body.id;
     db.query(sql, function(err, result) {
-        if (err) {
-            res.status(500).send(err);
+        if (err == null) {
+            res.status(204).end();
+            return
         }
-        res.status(200).end();
+        res.status(500).send(err);
     });
 });
 
@@ -59,9 +62,10 @@ app.put('/api/clothes', function(req, res) {
     var values = [req.body.type, req.body.brand, req.body.color, req.body.description, 
         req.body.price, req.body.date, req.body.season, req.body.id];
     db.query(sql, values, function(err, result) {
-        if (err) {
-            res.status(500).send(err);
+        if (err == null) {
+            res.status(204).end();
+            return
         }
-        res.status(200).end();
+        res.status(500).send(err);
     });
 });

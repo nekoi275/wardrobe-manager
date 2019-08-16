@@ -1,159 +1,153 @@
 function Model() {
+    var errorHandler = function(response) {
+        console.log(response.responseText);
+    }
 
-    this.create = function (obj, responseHandler) {
+    this.create = function(data, responseHandler) {
         $.ajax({
             url: '/api/clothes',
             type: 'POST',
-            data: JSON.stringify(obj),
+            data: JSON.stringify(data),
             contentType: 'application/json',
-            success: responseHandler
+            success: responseHandler,
+            error: errorHandler
         });
     };
 
-    this.readAll = function (responseHandler) {
+    this.readAll = function(responseHandler) {
         $.ajax({
             url: '/api/clothes',
             type: 'GET',
-            success: responseHandler
+            success: responseHandler,
+            error: errorHandler
         });
     };
 
-    this.edit = function (obj, responseHandler) {
+    this.edit = function(data, responseHandler) {
         $.ajax({
             url: '/api/clothes',
             type: 'PUT',
-            data: JSON.stringify(obj),
+            data: JSON.stringify(data),
             contentType: 'application/json',
-            success: responseHandler
+            success: responseHandler,
+            error: errorHandler
         });
     };
 
-    this.delete = function (id, responseHandler) {
+    this.delete = function(id, responseHandler) {
         $.ajax({
             url: '/api/clothes',
             type: 'DELETE',
             data: JSON.stringify({'id': id}),
             contentType: 'application/json',
-            success: responseHandler
+            success: responseHandler,
+            error: errorHandler
         });
     };
-
 }
 
 function View() {
-    this.form = document.getElementById('clothes');
-    var table = document.getElementById('clothes-table');
+    this.formInputs = $('#clothes-form input');
+    var table = $('#clothes-table');
+    var self = this;
 
     this.clearForm = function() {
         $('.editable').val('');
-        $('.editable').removeClass('is-invalid is-valid');
-        $('#submit-button').off('click');
+        $('input[name="season"]:checked').prop('checked', false);
+        $('.editable.required').removeClass('is-invalid');
+        $('.color-palette').removeClass('is-invalid');
     };
     
-    this.addRow = function(rowData, id, removeFunction, editFunction) {
-        var tr = document.createElement('tr');
+    this.addRow = function(data, id, removeFunction, editFunction) {
+        var tr = $("<tr></tr>");
         for (var colName of ['type', 'brand', 'color', 'description', 'price', 'date', 'season']) {
-            var td = document.createElement('td');
+            var td = $("<td></td>");
+
             switch(colName) {
                 case 'color': 
-                    td.style.backgroundColor = 'rgb(' + rowData['color'] + ')';
-                    td.setAttribute('data-color', rowData['color']);
+                    td.css('background-color','rgb(' + data['color'] + ')');
+                    td.attr('data-color', data['color']);
                     break;
                 case 'date':
-                    var date = new Date(rowData['date']).toLocaleString('ru', {year: 'numeric', month: 'long', day: 'numeric'});
-                    td.innerText = date;
+                    var date = new Date(data['date']).toLocaleString('ru', {year: 'numeric', month: 'long', day: 'numeric'});
+                    td.text(date);
                     break;
                 default: 
-                    td.innerText = rowData[colName];
+                    td.text(data[colName]);
             };
-            
-            tr.appendChild(td);
+            tr.append(td);
         };
-        td = document.createElement('td');
-        td.appendChild(createButton(id, removeFunction, 'remove-button'));
-        td.appendChild(createButton(id, editFunction, 'edit-button'));
-        tr.appendChild(td);
-        tr.setAttribute('data-id', id);
-        table.tBodies[0].appendChild(tr);
+
+        td = $("<td></td>");
+        td.append(createButton(id, editFunction, 'edit-button'));
+        td.append(createButton(id, removeFunction, 'remove-button'));
+        tr.append(td);
+        tr.attr('data-id', id);
+        table.append(tr);
     };
 
     this.removeRow = function(id) {
-        var row = table.querySelector('tr[data-id="'+id+'"]');
-        table.tBodies[0].removeChild(row);
+        $('tr[data-id="'+ id +'"]').remove();
     };
 
-    this.editRow = function(rowData) {
-        var id = rowData.id;
-        var row = table.querySelector('tr[data-id="'+id+'"]');
-        $.each(['type', 'brand', 'color', 'description', 'price', 'date', 'season'], function(index, value){
-            var cell = row.cells[index];
+    this.editRow = function(data) { 
+        $.each(['type', 'brand', 'color', 'description', 'price', 'date', 'season'], function(i, value) {
+            var cell = $('tr[data-id="'+ data.id +'"]').children('td:eq(' + i + ')');
+            
             switch(value) {
                 case 'color': 
-                    cell.style.backgroundColor = 'rgb(' + rowData[value] + ')';
+                    cell.css('background-color','rgb(' + data[value] + ')');
                     break;
                 case 'date':
-                    var date = new Date(rowData['date']).toLocaleString('ru', {year: 'numeric', month: 'long', day: 'numeric'});
-                    cell.innerText = date;
+                    var date = new Date(data['date']).toLocaleString('ru', {year: 'numeric', month: 'long', day: 'numeric'});
+                    cell.text(date);
                     break;
                 default: 
-                    cell.innerText = rowData[value];
+                    cell.text(data[value]);
             };
         });
     };
 
-    this.prepareForm = function(arr, formHeader, submitFunction) {
+    this.prepareForm = function(data, formHeader, submitFunction) {
         $('#form-name').text(formHeader);
-        if(arr.length) {
-            for(i = 0; i < arr.length; i ++) {
-                if(i == 5) {
-                    arr[i] = moment(arr[i], 'DD MMMM YYYY').format('YYYY-MM-DD');
-                    this.form.elements[i].value = arr[i];
-                };
-                this.form.elements[i].value = arr[i];
-            };
+
+        if(data.length) {
+            this.formInputs.filter('[name="type"]').val(data[0]);
+            this.formInputs.filter('[name="brand"]').val(data[1]);
+            this.formInputs.filter('[name="color"]').val(data[2]);
+            this.formInputs.filter('[name="description"]').val(data[3]);
+            this.formInputs.filter('[name="price"]').val(data[4]);
+            this.formInputs.filter('[name="date"]').val( moment(data[5], 'DD MMMM YYYY').format('YYYY-MM-DD') );
+            this.formInputs.filter('[name="season"][value="' + data[6] + '"]').prop('checked', true);
+            this.formInputs.filter('[name="id"]').val(data[7]);  
         };
         $('#submit-button').on('click', submitFunction);
     };
 
-    this.search = function(searchColumn, $input) {
-        var filter, tr, td, text;
-        filter = $input.val().toUpperCase();
-        tr = table.getElementsByTagName('tr');
-
-        for(i = 0; i < tr.length; i ++) {
-            td = tr[i].getElementsByTagName('td')[searchColumn];
-            if(td) {
-                text = td.innerText;
-                if (text.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = '';
-                } else tr[i].style.display = 'none';
-            };
+    this.modalToggle = function() {
+        var target = $(this).attr('data-modal');
+    
+        if (target == 'close') {
+            $('.modal-container').removeClass('active');
+            $('.modal-container .modal').removeClass('active');
+            self.clearForm();
+        } else {
+            $('.modal-container').addClass('active');
+            $('.modal-container .modal').addClass('active');
         };
-    };
-
-    this.searchAnimate = function($container, text) {
-        var $span = $container.children('span');
-        var $input = $container.children('input');
-        $input.on('focus', function() {$span.text('')});
-        $input.on('focusout', function() {$span.text(text)});
     };
 
     function createButton(id, onClickFunction, buttonClass) {
-        var button = document.createElement('button');
-        $(button).click(onClickFunction);
-        $(button).addClass('btn btn-dark btn-sm');
-        $(button).attr('data-id', id);
-        $(button).addClass(buttonClass);
-        if (buttonClass === 'remove-button') {
-            $(button).html('<span>&times;</span>');
-        };
+        var button = $('<button class="button" data-id="' + id + '"></button>');
+        button.on('click', onClickFunction);
+        button.addClass(buttonClass);
         if (buttonClass === 'edit-button') {
-            $(button).html('<span>&#9998;</span>');
-            $(button).attr('data-toggle', 'modal');
-            $(button).attr('data-target', '#modal-form');
+            button.attr('data-modal', 'open');
         };
         return button;
     };
+
+    $('[data-modal]').on('click', this.modalToggle);
 }
 
 function Controller() {
@@ -162,55 +156,65 @@ function Controller() {
     
     var self = this;
 
-    function getFormData(form) {
-        var obj = {};
-        for(i = 0; i < form.elements.length; i ++) {
-            var paramName = form.elements[i].name;
-            if (paramName !== '') {
-                obj[paramName] = form.elements[i].value;
+    function getFormData(formInputs) {
+        var data = {};
+
+        formInputs.each( function() {
+            var name = $(this).attr('name');
+            console.log(this);
+            if (name === 'season') {
+                data[name] = $('input[name="season"]:checked').val();
             };
-        };
-        return obj;
+            data[name] = $(this).val();
+        });
+
+        return data;
     };
 
     this.getCanvasColor = function (color) {
         $('input[name="color"]').val(color);
     };
 
-    function validate(form) {
-        Array.prototype.forEach.call(form.elements, function(elem) {
-            if (elem.validity.valid) {
-                elem.classList.remove('is-invalid');
-                elem.classList.add('is-valid');
+    function validate(formInputs) {
+        var isValid = true;
+        formInputs.filter('.required').each( function() {
+            var inputValue = $(this).val();
+            if (!inputValue) {
+                $(this).addClass('is-invalid');
+                if ( $(this).attr('name') === 'color' ) $(this).next().addClass('is-invalid');
+                isValid = false;
             } else {
-                elem.classList.add('is-invalid');
-                elem.classList.remove('is-valid');
-            }
-        });
-        return [].every.call(form.elements, function(elem) {return !elem.validity.valueMissing});
+                $(this).removeClass('is-invalid');
+                if ( $(this).attr('name') === 'color' ) $(this).next().removeClass('is-invalid');
+            };
+        } ); 
+        return isValid;
     };
 
-    function removeRow(event) {
-        var target = event.target;
-        var id = target.getAttribute('data-id');
+    function removeRow() {
+        var target = $(this);
+        var id = target.attr('data-id');
         model.delete(id, function() {
             self.view.removeRow(id);
         });
     };
 
-    function showEditModalForm(event) {
+    function showEditModalForm(event) { 
         var target = event.target;
         var id = target.getAttribute('data-id');
-        var arr = [];
-        $('tr[data-id="'+id+'"] td').each(function(key, td) {
-            if (key == 2) {
-                arr[key] = td.getAttribute('data-color');
+        var data = [];
+
+        $('tr[data-id="'+ id +'"] td').each( function(i) {
+            if (i == 2) {
+                data[i] = $(this).attr('data-color');
             } else {
-                arr[key] = td.innerText;
+                data[i] = $(this).text();
             }
         });
-        arr.splice(-1, 1, id)
-        self.view.prepareForm(arr, 'Редактировать', processFormEdit);
+
+        data.splice(-1, 1, id)
+        self.view.prepareForm(data, 'Редактировать', processFormEdit);
+        self.view.modalToggle();
     }
 
     this.showAddModalForm = function() {
@@ -219,47 +223,36 @@ function Controller() {
 
     this.loadData = function() {
         model.readAll(function(data) {
-            data.forEach(function(obj) {self.view.addRow(obj, obj.id, removeRow, showEditModalForm)})
+            data.forEach(function(data) {self.view.addRow(data, data.id, removeRow, showEditModalForm)})
         });
-    };
-
-    this.initSearch = function() {
-        var searchType = $('#search-type input');
-        searchType.on('keyup', function() {
-            self.view.search(0, searchType);
-        });
-        self.view.searchAnimate($('#search-type'), 'Тип');
-
-        var searchBrand = $('#search-brand input');
-        searchBrand.on('keyup', function() {
-            self.view.search(1, searchBrand);
-        });
-        self.view.searchAnimate($('#search-brand'), 'Производитель');
     };
 
     function processFormEdit() {
-        if (!validate(self.view.form)) {
-            $('#submit-button').removeAttr('data-dismiss');
-            return;
-        };
-        $('#submit-button').attr('data-dismiss', 'modal');
-        var obj = getFormData(self.view.form);
-        model.edit(obj, function() {
-            self.view.editRow(obj);
-        });
+        var isValid = validate(self.view.formInputs);
+        if (isValid) {
+            var data = getFormData(self.view.formInputs);
+            model.edit(data, function() {
+                self.view.editRow(data);
+            });
+            self.view.clearForm();
+            $('.modal-container').removeClass('active');
+            $('.modal-container .modal').removeClass('active');
+        }
     };
 
     function processFormAdd() {
-        if (!validate(self.view.form)) {
-            $('#submit-button').removeAttr('data-dismiss');
-            return;
-        };
-        $('#submit-button').attr('data-dismiss', 'modal');
-        var obj = getFormData(self.view.form);
-        model.create(obj, function(response) {
-            var id = response.id;
-            self.view.addRow(obj, id, removeRow, showEditModalForm);
-        });
-        self.view.clearForm();
+        var isValid = validate(self.view.formInputs);
+        if (isValid) {
+            var data = getFormData(self.view.formInputs);
+
+            model.create(data, function(response) {
+                var id = response.id;
+                self.view.addRow(data, id, removeRow, showEditModalForm);
+            });
+
+            self.view.clearForm();
+            $('.modal-container').removeClass('active');
+            $('.modal-container .modal').removeClass('active');    
+        } 
     };
 }

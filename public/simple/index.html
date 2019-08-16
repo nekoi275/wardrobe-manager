@@ -10,18 +10,8 @@
         <table id="clothes-table">
             <thead>
             <tr>
-                <th>
-                <div id="search-type">
-                    <span>Тип</span>
-                    <input class="search" type="text">
-                </div>
-                </th>
-                <th>
-                <div id="search-brand">
-                    <span>Производитель</span>
-                    <input class="search" type="text">
-                </div>
-                </th>
+                <th><span>Тип</span></th>
+                <th><span>Производитель</span></th>
                 <th><span>Цвет</span></th>
                 <th><span>Описание</span></th>
                 <th><span>Стоимость</span></th>
@@ -33,27 +23,28 @@
             <tbody></tbody>
         </table>
     </div>
-    <button id="add-button" class="button" data-modal="#modal-form">Добавить</button>
+    <button id="add-button" class="button" data-modal="open">Добавить</button>
     <div class="modal-container">
         <div class="overlay" data-modal="close"></div>
         <div id="modal-form" class="modal">
-            <div class="modal-title" id="form-name">Form name</div>
+            <div class="modal-title">
+                <h4 id="form-name"></h4>
+                <button class="button close-button" data-modal="close"></button>
+            </div>
             <div class="modal-content">
-                <form id="clothes" class="needs-validation" novalidate>
+                <div class="form" id="clothes-form" novalidate>
                     <div class="input-group">
                         <p>Тип</p>
-                        <input name="type" class="editable" type="text" required>
-                        <div class="invalid-feedback">Это поле обязательное</div>
+                        <input name="type" class="editable required" type="text">
                     </div>
                     <div class="input-group">
                         <p>Производитель</p>
                         <input name="brand" class="editable"  type="text">
                     </div> 
                     <div class="input-group">
-                        <p for="color">Цвет</p>
-                        <input name="color" class="editable"  type="hidden" required>
+                        <p>Цвет</p>
+                        <input name="color" class="editable required"  type="hidden">
                         <canvas class="color-palette"></canvas>
-                        <div class="invalid-feedback">Это поле обязательное</div>
                     </div>
                     <div class="input-group">
                         <p>Описание</p>
@@ -61,34 +52,31 @@
                     </div>
                     <div class="input-group">
                         <p>Стоимость</p>
-                        <input name="price" class="editable" type="number" required>
-                        <div class="invalid-feedback">Это поле обязательное</div>
+                        <input name="price" class="editable required" type="number">
                     </div>
                     <div class="input-group">
                         <p>Дата покупки</p>
-                        <input name="date" class="editable" type="date" required>
-                        <div class="invalid-feedback">Это поле обязательное</div>
+                        <input name="date" class="editable required" type="date" >
                     </div>
                     <div class="input-group">
                         <p>Сезон</p>
                         <div class="radio-group">
                             <span>зима</span>
-                            <input name="season" type="radio" id="winter" value="зима">
+                            <input name="season" type="radio" value="зима">
                             <span>весна</span>
-                            <input name="season" type="radio" id="spring" value="весна">
+                            <input name="season" type="radio" value="весна">
                             <span>лето</span>
-                            <input name="season" type="radio" id="summer" value="лето">
+                            <input name="season" type="radio" value="лето">
                             <span>осень</span>
-                            <input name="season" type="radio" id="fall" value="осень">
+                            <input name="season" type="radio" value="осень">
                         </div>
-                        <div class="invalid-feedback">Это поле обязательное</div>
                     </div>
                     <input name="id" type="hidden">
-                </form>
+                </div>
             </div>
             <div class="modal-footer">
-                <input type="button" id="cancel-button" class="button" data-dismiss="modal" value="Закрыть">
-                <input type="button" id="submit-button" class="button" value="Добавить">
+                <button id="cancel-button" class="button" data-modal="close">Закрыть</button>
+                <button id="submit-button" class="button">Добавить</button>
             </div>
         </div>
     </div>

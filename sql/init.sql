@@ -8,10 +8,25 @@ CREATE TABLE `wardrobe`.`clothes` (
   `description` VARCHAR(255) NULL,
   `price` FLOAT NULL DEFAULT 0.0,
   `date` DATETIME NOT NULL,
-  `season` ENUM("Зима", "Весна", "Лето", "Осень") NOT NULL,
+  `season` ENUM("Зима", "Весна", "Лето", "Осень"),
   `timestamp` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`));
   
 INSERT INTO clothes (type, brand, color, description, price, date, season)
-VALUES ("type", "brand", "color", "{description: }>", 0, "2019-01-12", "winter");
+VALUES ("type", "brand", "color", "{description: }>", 0, "2019-01-12", "Зима");
 SELECT * FROM clothes;
+DELETE FROM clothes WHERE id = 1;
+UPDATE `wardrobe`.`clothes`
+SET
+`id` = <{id: }>,
+`type` = <{type: }>,
+`brand` = <{brand: Noname}>,
+`color` = <{color: }>,
+`description` = <{description: }>,
+`price` = <{price: 0}>,
+`date` = <{date: }>,
+`season` = <{season: }>,
+`timestamp` = <{timestamp: CURRENT_TIMESTAMP}>
+WHERE `id` = <{expr}>;
+
+
