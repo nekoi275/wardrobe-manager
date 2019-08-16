@@ -121,6 +121,7 @@ function View() {
             this.formInputs.filter('[name="season"][value="' + data[6] + '"]').prop('checked', true);
             this.formInputs.filter('[name="id"]').val(data[7]);  
         };
+        $('#submit-button').off('click');
         $('#submit-button').on('click', submitFunction);
     };
 
@@ -161,13 +162,12 @@ function Controller() {
 
         formInputs.each( function() {
             var name = $(this).attr('name');
-            console.log(this);
             if (name === 'season') {
                 data[name] = $('input[name="season"]:checked').val();
-            };
-            data[name] = $(this).val();
+            } else {
+                data[name] = $(this).val();
+            }
         });
-
         return data;
     };
 

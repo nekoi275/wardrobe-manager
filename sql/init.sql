@@ -1,5 +1,6 @@
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'eroluse3';
 CREATE DATABASE `wardrobe` DEFAULT CHARACTER SET utf8mb4;
+DROP table if exists clothes;
 CREATE TABLE `wardrobe`.`clothes` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(45) NOT NULL,
@@ -8,7 +9,7 @@ CREATE TABLE `wardrobe`.`clothes` (
   `description` VARCHAR(255) NULL,
   `price` FLOAT NULL DEFAULT 0.0,
   `date` DATETIME NOT NULL,
-  `season` ENUM("Зима", "Весна", "Лето", "Осень"),
+  `season` ENUM("зима", "весна", "лето", "осень"),
   `timestamp` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`));
   
