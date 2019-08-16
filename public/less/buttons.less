@@ -1,0 +1,51 @@
+// out: ../css/buttons.css, compress: false, sourceMap: false
+
+@violet: #9b59a1;
+@gray: #e9e6dd;
+@blue: #1b1c4a;
+
+.button {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: @violet;
+    color: white;
+    transition: 0.3s ease all;
+
+    &:hover {
+        background-color: @blue;
+    }
+
+    &.remove-button {
+        background-image: url('../img/trash.png'); 
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: transparent;
+        width: 40px;
+        height: 40px;
+    }
+
+    &.edit-button {
+        background: url('../img/art.png'); 
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 40px;
+        height: 40px;
+    }
+
+    &.close-button {
+        background: url('../img/rejected.png'); 
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+}

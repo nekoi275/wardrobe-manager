@@ -1,0 +1,40 @@
+// out: ../css/main.css, compress: false, sourceMap: false
+
+@violet: #9b59a1;
+@gray: #e9e6dd;
+@blue: #1b1c4a;
+
+html, body {
+	margin: 0;
+	padding: 0;
+    font-family: "Tahoma";
+    font-size: 12pt;
+}
+
+.table-container {
+    table {
+        width: 100%;
+        line-height: 300%;
+        border-collapse: collapse;
+        text-align: center;
+
+        thead {
+            background-color: @violet;
+            line-height: 400%;
+            position: sticky;
+            top: 0;
+            border-bottom: 3px solid @gray;
+            font-weight: initial;
+            color: white;
+        }
+
+        tbody {
+            tr {
+                border-bottom: 1px solid @gray;
+                &:hover {
+                    background-color: @gray;
+                }
+            } 
+        }   
+    }
+}
