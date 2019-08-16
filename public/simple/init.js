@@ -3,4 +3,3 @@ var colorPicker = new ColorPicker($('canvas.color-palette'), controller.getCanva
 colorPicker.buildColorPalette();
 $(document).ready(controller.loadData);
 $('#add-button').on('click', controller.showAddModalForm);
-// controller.initSearch();
