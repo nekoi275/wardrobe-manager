@@ -14,18 +14,23 @@ html, body {
 .table-container {
     table {
         width: 100%;
-        line-height: 300%;
         border-collapse: collapse;
         text-align: center;
 
         thead {
-            background-color: @violet;
-            line-height: 400%;
+            background: linear-gradient(270deg, #1b1c4a, #9b59a1);
+            background-size: 400% 400%;
+            -webkit-animation: gradient 8s ease infinite;
+            -moz-animation: gradient 8s ease infinite;
+            animation: gradient 8s ease infinite;
             position: sticky;
             top: 0;
             border-bottom: 3px solid @gray;
             font-weight: initial;
             color: white;
+            th {
+                padding: 20px;
+            }     
         }
 
         tbody {
@@ -34,7 +39,26 @@ html, body {
                 &:hover {
                     background-color: @gray;
                 }
+                td {
+                    padding-left: 10px;
+                }
             } 
         }   
     }
+}
+
+@-webkit-keyframes gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 51%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 51%}
+    100%{background-position:0% 50%}
+}
+@keyframes gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 51%}
+    100%{background-position:0% 50%}
 }
