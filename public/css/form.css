@@ -14,12 +14,12 @@
 .form .input-group input:not([type="radio"]) {
   width: 100%;
   padding: 10px;
-  border: 1px solid #e9e6dd;
   border-radius: 3px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  border: 3px solid transparent;
 }
 .form .input-group input:not([type="radio"]):focus {
-  border: 3px solid #9b59a1;
+  border: 3px solid #573a5a;
 }
 .form .input-group .is-invalid {
   box-shadow: 0 0px 20px #dd5454;
@@ -42,6 +42,6 @@
 }
 .form .radio-group input[type="radio"]:checked {
   border-width: 5px;
-  border-color: #9b59a1;
+  border-color: #573a5a;
   background-color: white;
 }

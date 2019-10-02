@@ -1,6 +1,6 @@
 // out: ../css/modal.css, compress: false, sourceMap: false
 
-@violet: #9b59a1;
+@violet: #573a5a;
 @gray: #e9e6dd;
 @blue: #1b1c4a;
 
@@ -9,10 +9,12 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
+	position: fixed;
 	transition: all 0.2s ease;
 	visibility: hidden;
     opacity: 0;
-    color: white;
+	color: white;
+	overflow: auto;
 	
 	&.active {
 		opacity: 1;
@@ -29,14 +31,12 @@
     }
     
 	.modal {
-        position: fixed;
+        position: absolute;
         box-sizing: border-box;
 		left: 50%;
 		transform: translateX(-50%);
         top: 20px;
-        max-height: 100%;
         width: 750px;
-        max-width: 100%;
         background-color: @blue;
 		border-radius: 3px;
 		opacity: 0;
