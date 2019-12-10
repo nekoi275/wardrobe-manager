@@ -1,28 +1,56 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <clothes-table></clothes-table>
+    <button v-on:click="modalToggle()">Добавить</button>
+    <modal-form></modal-form>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import clothesTable from "./components/clothesTable.vue";
+import modalForm from "./components/modalForm.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    HelloWorld
+    clothesTable,
+    modalForm
+  },
+  methods: {
+    modalToggle() {
+      this.$store.commit('modalToggle');
+    }
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Tahoma";
+  font-size: 12pt;
+}
+button {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  border: 3px solid transparent;
+  border-radius: 3px;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+  color: white;
+  transition: 0.3s ease all;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  width: 200px;
+  background-color: #573a5a;
+  font-family: "Tahoma";
+  font-size: 12pt;
+}
+button:hover {
+  background-color: #1b1c4a;
+  border: 3px solid #573a5a;
 }
 </style>
