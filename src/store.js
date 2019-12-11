@@ -5,20 +5,41 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
-        modalOpen: false,
-        modalRole: 'add',
-        formData: []
+        modal: {open: false, role: ''},
+        table: [],
+        index: 0,
+        currentData: {}
     },
     mutations: {
         modalToggle(state) {
-            state.modalOpen = !state.modalOpen;
+            state.modal.open = !state.modal.open;
         },
         changeModalRole(state, role) {
-            state.modalRole = role;
+            state.modal.role = role;
         },
-        addFormData(state, data) {
-            var record = Object.assign({}, data);
-            state.formData.push(record);
+        add(state) {
+            var record = Object.assign({
+                id: ++state.index
+            }, state.currentData);
+            state.table.push(record);
+        },
+        /* edit(state) {
+            var data = state.table.find((el) => {el.id == state.currentData.id});
+            Object.assign(data, state.currentData);
+        }, */
+        setCurrentData(state, row) {
+            if (row) {
+                state.currentData = row;
+            } else {
+                state.currentData = {
+                    type: "",
+                    brand: "No name",
+                    description: "",
+                    price: "0",
+                    year: "",
+                    season: "Любой"
+                }
+            }
         }
     },
     actions: {},

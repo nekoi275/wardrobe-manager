@@ -5,17 +5,17 @@
       <th></th>
     </thead>
     <tbody>
-      <tr v-for="shownRow in shownRows" :key="shownRow.id">
-        <td>{{shownRow.type}}</td>
-        <td>{{shownRow.brand}}</td>
-        <td>{{shownRow.color}}</td>
-        <td>{{shownRow.description}}</td>
-        <td>{{shownRow.price}}</td>
-        <td>{{shownRow.year}}</td>
-        <td>{{shownRow.season}}</td>
+      <tr v-for="row in rows" :key="row.id">
+        <td>{{row.type}}</td>
+        <td>{{row.brand}}</td>
+        <td>{{row.color}}</td>
+        <td>{{row.description}}</td>
+        <td>{{row.price}}</td>
+        <td>{{row.year}}</td>
+        <td>{{row.season}}</td>
         <td>
-          <span v-on:click="modalToggle()">edit</span>
-          <span>remove</span>
+          <span v-on:click="modalToggle('edit', row)">edit</span>
+          <span v-on:click="removeTableRows()">remove</span>
         </td>
       </tr>
     </tbody>
@@ -36,19 +36,18 @@ export default {
         "Год покупки",
         "Сезон"
       ]
-    }
+    };
   },
   computed: {
-    shownRows() {
-      return this.$store.state.formData;
+    rows() {
+      return this.$store.state.table;
     },
-    modalOpen() {
-      return this.$store.state.modalOpen;
-    }
   },
-   methods: {
-    modalToggle() {
-      this.$store.commit('modalToggle');
+  methods: {
+    modalToggle(role, row) {
+      this.$store.commit("setCurrentData", row);
+      this.$store.commit("modalToggle");
+      this.$store.commit("changeModalRole", role);
     }
   }
 };
@@ -76,7 +75,8 @@ tbody tr {
   border-bottom: 1px solid #e9e6dd;
 }
 tbody tr:hover {
-  background-color: #e9e6dd;
+  background-color: #cccccc;
+  border-bottom: 1px solid #ffffff;
 }
 tbody tr td {
   padding: 10px;

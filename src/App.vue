@@ -1,7 +1,7 @@
 <template>
   <div>
     <clothes-table></clothes-table>
-    <button v-on:click="modalToggle()">Добавить</button>
+    <button v-on:click="modalToggle('add')">Добавить</button>
     <modal-form></modal-form>
   </div>
 </template>
@@ -17,8 +17,10 @@ export default {
     modalForm
   },
   methods: {
-    modalToggle() {
+    modalToggle(role) {
+      this.$store.commit('setCurrentData');
       this.$store.commit('modalToggle');
+      this.$store.commit('changeModalRole', role);
     }
   }
 };
@@ -31,6 +33,7 @@ body {
   padding: 0;
   font-family: "Tahoma";
   font-size: 12pt;
+  background-color: #ad9baf;
 }
 button {
   -moz-user-select: none;

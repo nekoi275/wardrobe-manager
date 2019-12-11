@@ -1,30 +1,32 @@
 <template>
-  <div class="modal-container" v-bind:class="{ active: modalOpen }">
+  <div class="container" v-show="open">
     <div class="overlay" v-on:click="modalToggle()"></div>
     <div class="modal">
-      <div class="modal-title" v-if="modalRole === 'add'">Добавить новую вещь</div>
-      <div class="modal-title" v-if="modalRole === 'edit'">Редактировать</div>
-      <div class="modal-content">
-        <div>
+      <div class="title" v-if="role === 'add'">Добавить новую вещь</div>
+      <div class="title" v-if="role === 'edit'">Редактировать</div>
+      <div class="content">
+        <form action="#" target="_self">
+          <span class="required-msg" v-show="!validate()">Это поле обязательное</span>
           <label>
             <span>Тип</span>
-            <input type="text" name="type" v-model="formData.type" required/>
+            <input type="text" name="type" v-model="formData.type" required />
           </label>
           <label>
             <span>Производитель</span>
-            <input type="text" name="brand" v-model="formData.brand" required/>
+            <input type="text" name="brand" v-model="formData.brand" />
           </label>
           <label>
             <span>Описание</span>
-            <input type="text" name="description" v-model="formData.description"/>
+            <input type="text" name="description" v-model="formData.description" />
           </label>
           <label>
             <span>Стоимость</span>
-            <input type="number" name="price" v-model="formData.price" required/>
+            <input type="number" name="price" v-model="formData.price" />
           </label>
+          <span class="required-msg" v-show="!validate()">Это поле обязательное</span>
           <label>
             <span>Год покупки</span>
-            <input type="number" name="year" v-model="formData.year" required/>
+            <input type="number" name="year" min="1990" max="2050" v-model="formData.year" required />
           </label>
           <label>
             <span>Сезон</span>
@@ -32,12 +34,14 @@
               <option value="зима">Зима</option>
               <option value="осень-весна">Осень/Весна</option>
               <option value="лето">Лето</option>
+              <option value="любой">Любой</option>
             </select>
           </label>
-          <button v-on:click="addFormData()" v-if="modalRole === 'add'">Добавить</button>
-          <button v-on:click="editFormData()" v-if="modalRole === 'edit'">Изменить</button>
+          <input type="hidden" v-model="formData.id" />
+          <button v-on:click="add()" v-if="role === 'add'" type="button">Добавить</button>
+          <button v-on:click="closeEdit()" v-if="role === 'edit'" type="button">Изменить</button>
           <button v-on:click="modalToggle()" type="reset">Закрыть</button>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -46,33 +50,41 @@
 <script>
 export default {
   name: "modal-form",
-  data: function() {
-    return {
-      formData: {
-        type: '',
-        brand: '',
-        description: '',
-        price: '',
-        year: '',
-        season: ''
-      }
-    };
-  },
   computed: {
-    modalOpen() {
-      return this.$store.state.modalOpen;
+    open() {
+      return this.$store.state.modal.open;
     },
-    modalRole() {
-      return this.$store.state.modalRole;
+    role() {
+      return this.$store.state.modal.role;
+    },
+    formData: {
+      get() {
+        return this.$store.state.currentData;
+      }
+      /* set() {
+        if (this.validate()) {
+          this.$store.commit("edit");
+        }
+      } */
     }
   },
   methods: {
     modalToggle() {
       this.$store.commit("modalToggle");
     },
-    addFormData() {
-      this.$store.commit("addFormData", this.formData);
-      this.modalToggle();
+    add() {
+      if (this.validate()) {
+        this.$store.commit("add");
+        this.modalToggle();
+      }
+    },
+    closeEdit() {
+      if (this.validate()) {
+        this.modalToggle();
+      }
+    },
+    validate() {
+      return this.formData.type != "" && this.formData.year != "";
     }
   }
 };
@@ -80,21 +92,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.modal-container {
+.container {
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   position: fixed;
-  transition: all 0.3s ease;
-  opacity: 0;
-  visibility: hidden;
 }
-.modal-container.active {
-  opacity: 1;
-  visibility: visible;
-}
-.modal-container .overlay {
+.container .overlay {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -102,7 +107,7 @@ export default {
   left: 0;
   background-color: rgba(0, 0, 0, 0.7);
 }
-.modal-container .modal {
+.container .modal {
   position: absolute;
   box-sizing: border-box;
   left: 50%;
@@ -111,14 +116,14 @@ export default {
   background-color: #1b1c4a;
   border-radius: 3px;
 }
-.modal-container .modal .modal-title {
+.container .modal .title {
   text-align: center;
   border-bottom: 1px solid #573a5a;
   padding: 20px;
   color: #e9e6dd;
   font-weight: bold;
 }
-.modal-container .modal .modal-content {
+.container .modal .content {
   padding: 20px;
 }
 label {
@@ -144,5 +149,10 @@ input:focus {
 }
 span {
   margin-left: 30px;
+}
+.required-msg {
+  margin-left: 30px;
+  color: #f84747;
+  font-size: 10pt;
 }
 </style>
