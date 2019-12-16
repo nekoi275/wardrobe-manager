@@ -1,7 +1,7 @@
 <template>
   <div>
     <clothes-table></clothes-table>
-    <button v-on:click="modalToggle('add')">Добавить</button>
+    <button v-on:click="openModal('add')">Добавить</button>
     <modal-form></modal-form>
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
     modalForm
   },
   methods: {
-    modalToggle(role) {
+    openModal(role) {
       this.$store.commit('setCurrentData');
       this.$store.commit('modalToggle');
       this.$store.commit('changeModalRole', role);

@@ -8,14 +8,14 @@
       <tr v-for="row in rows" :key="row.id">
         <td>{{row.type}}</td>
         <td>{{row.brand}}</td>
-        <td>{{row.color}}</td>
+        <td v-bind:style="{backgroundColor: row.color.hex}"></td>
         <td>{{row.description}}</td>
         <td>{{row.price}}</td>
         <td>{{row.year}}</td>
         <td>{{row.season}}</td>
         <td>
-          <span v-on:click="modalToggle('edit', row)">edit</span>
-          <span v-on:click="removeTableRows()">remove</span>
+          <span class="edit" v-on:click="openModal('edit', row)"></span>
+          <span class="remove" v-on:click="remove(row)"></span>
         </td>
       </tr>
     </tbody>
@@ -44,10 +44,13 @@ export default {
     },
   },
   methods: {
-    modalToggle(role, row) {
-      this.$store.commit("setCurrentData", row);
+    openModal(role, row) {
+      this.$store.commit("setCurrentData", Object.assign({}, row));
       this.$store.commit("modalToggle");
       this.$store.commit("changeModalRole", role);
+    },
+    remove(row) {
+      this.$store.commit("remove", row);
     }
   }
 };
@@ -82,7 +85,22 @@ tbody tr td {
   padding: 10px;
 }
 span {
+  display: inline-block;
   margin-left: 10px;
   cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+.edit {
+  background-image: url('../assets/document.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.remove {
+  background-image: url('../assets/garbage.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 </style>

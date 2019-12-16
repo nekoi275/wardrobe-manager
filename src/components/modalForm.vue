@@ -1,46 +1,51 @@
 <template>
   <div class="container" v-show="open">
-    <div class="overlay" v-on:click="modalToggle()"></div>
+    <div class="overlay" v-on:click="close()"></div>
     <div class="modal">
       <div class="title" v-if="role === 'add'">Добавить новую вещь</div>
       <div class="title" v-if="role === 'edit'">Редактировать</div>
       <div class="content">
         <form action="#" target="_self">
-          <span class="required-msg" v-show="!validate()">Это поле обязательное</span>
+          <span class="required-msg" v-show='currentData.type == "" && isSubmitted'>Это поле обязательное</span>
           <label>
             <span>Тип</span>
-            <input type="text" name="type" v-model="formData.type" required />
+            <input type="text" name="type" v-model="currentData.type" required />
           </label>
           <label>
             <span>Производитель</span>
-            <input type="text" name="brand" v-model="formData.brand" />
+            <input type="text" name="brand" v-model="currentData.brand" />
           </label>
+          <span class="required-msg" v-show='colors == "" && isSubmitted'>Это поле обязательное</span>
+          <div class="colors">
+            <span>Цвет</span>
+            <color-picker v-model="colors"></color-picker>
+          </div> 
           <label>
             <span>Описание</span>
-            <input type="text" name="description" v-model="formData.description" />
+            <input type="text" name="description" v-model="currentData.description" />
           </label>
           <label>
             <span>Стоимость</span>
-            <input type="number" name="price" v-model="formData.price" />
+            <input type="number" name="price" v-model="currentData.price" />
           </label>
-          <span class="required-msg" v-show="!validate()">Это поле обязательное</span>
+          <span class="required-msg" v-show='currentData.year == "" && isSubmitted'>Это поле обязательное</span>
           <label>
             <span>Год покупки</span>
-            <input type="number" name="year" min="1990" max="2050" v-model="formData.year" required />
+            <input type="number" name="year" min="2000" max="2050" v-model="currentData.year" required />
           </label>
           <label>
             <span>Сезон</span>
-            <select name="season" v-model="formData.season" required>
+            <select name="season" v-model="currentData.season" required>
               <option value="зима">Зима</option>
               <option value="осень-весна">Осень/Весна</option>
               <option value="лето">Лето</option>
               <option value="любой">Любой</option>
             </select>
           </label>
-          <input type="hidden" v-model="formData.id" />
-          <button v-on:click="add()" v-if="role === 'add'" type="button">Добавить</button>
-          <button v-on:click="closeEdit()" v-if="role === 'edit'" type="button">Изменить</button>
-          <button v-on:click="modalToggle()" type="reset">Закрыть</button>
+          <input type="hidden" v-model="currentData.id" />
+          <button v-on:click="submit()" v-if="role === 'add'" type="button">Добавить</button>
+          <button v-on:click="submit()" v-if="role === 'edit'" type="button">Изменить</button>
+          <button v-on:click="close()" type="reset">Закрыть</button>
         </form>
       </div>
     </div>
@@ -48,8 +53,19 @@
 </template>
 
 <script>
+import {Compact} from 'vue-color';
+
 export default {
   name: "modal-form",
+  components: {
+    'color-picker': Compact
+  },
+  data: () => {
+    return {
+      isSubmitted: false,
+      colors: ''
+    }
+  },
   computed: {
     open() {
       return this.$store.state.modal.open;
@@ -57,34 +73,27 @@ export default {
     role() {
       return this.$store.state.modal.role;
     },
-    formData: {
+    currentData: {
       get() {
         return this.$store.state.currentData;
       }
-      /* set() {
-        if (this.validate()) {
-          this.$store.commit("edit");
-        }
-      } */
     }
   },
   methods: {
-    modalToggle() {
+    close() {
+      this.isSubmitted = false;
       this.$store.commit("modalToggle");
     },
-    add() {
-      if (this.validate()) {
-        this.$store.commit("add");
-        this.modalToggle();
+    submit() {
+      this.isSubmitted = true;
+      if (this.isValid()) {
+        this.$store.commit('setColor', this.colors);
+        this.$store.commit(this.role);
+        this.close();
       }
     },
-    closeEdit() {
-      if (this.validate()) {
-        this.modalToggle();
-      }
-    },
-    validate() {
-      return this.formData.type != "" && this.formData.year != "";
+    isValid() {
+      return this.currentData.type != "" && this.currentData.year != "" && this.colors != "";
     }
   }
 };
@@ -119,12 +128,25 @@ export default {
 .container .modal .title {
   text-align: center;
   border-bottom: 1px solid #573a5a;
-  padding: 20px;
+  padding: 15px;
   color: #e9e6dd;
   font-weight: bold;
 }
 .container .modal .content {
-  padding: 20px;
+  padding: 15px;
+}
+.colors {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: flex-end;
+}
+.colors span {
+  color: #e9e6dd;
+  margin-right: 30px;
+}
+.colors div {
+  margin: 8px;
 }
 label {
   display: flex;
@@ -138,7 +160,7 @@ input,
 select {
   box-sizing: border-box;
   padding: 5px;
-  margin: 10px;
+  margin: 8px;
   border-radius: 3px;
   transition: all 0.3s ease;
   border: 3px solid transparent;
