@@ -5,11 +5,17 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
-        modal: {shown: false, role: ''},
+        modal: { shown: false, role: '' },
         table: [],
         index: 0,
         currentData: {},
-        sidebar: {open: false, active: ''}
+        sidebar: {
+            open: false,
+            tabs: {
+                filter: false,
+                sort: false
+            }
+        }
     },
     mutations: {
         modalToggle(state) {
@@ -17,6 +23,14 @@ export const store = new Vuex.Store({
         },
         sidebarToggle(state) {
             state.sidebar.open = !state.sidebar.open;
+        },
+        switchTabs(state, tab) {
+            state.sidebar.tabs.filter = tab == 'filter';
+            state.sidebar.tabs.sort = tab == 'sort';
+        },
+        deactivateTabs(state) {
+            state.sidebar.tabs.filter = false;
+            state.sidebar.tabs.sort = false;
         },
         changeModalRole(state, role) {
             state.modal.role = role;

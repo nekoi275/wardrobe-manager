@@ -1,7 +1,7 @@
 <template>
   <div>
     <sidebar></sidebar>
-    <div class="content" @click="closeSidebar()"> 
+    <div class="main-content" @click="closeSidebar()">
       <clothes-table></clothes-table>
       <button @click="openModal('add')">Добавить</button>
       <modal-form></modal-form>
@@ -28,7 +28,10 @@ export default {
       this.$store.commit("changeModalRole", role);
     },
     closeSidebar() {
-      this.$store.commit("sidebarToggle");
+      if (this.$store.state.sidebar.open) {
+        this.$store.commit("sidebarToggle");
+        this.$store.commit("deactivateTabs")
+      }
     }
   }
 };
@@ -41,7 +44,7 @@ body {
   padding: 0;
   font-family: "Tahoma";
   font-size: 12pt;
-  background-color: #ad9baf;
+  background-color: #acbfce;
   height: 100%;
 }
 button {
@@ -65,7 +68,7 @@ button:hover {
   background-color: #1b1c4a;
   border: 3px solid #573a5a;
 }
-.content {
+.main-content {
   margin-left: 40px;
   height: 100vh;
 }
