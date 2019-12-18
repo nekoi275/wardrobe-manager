@@ -5,14 +5,18 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
-        modal: {open: false, role: ''},
+        modal: {shown: false, role: ''},
         table: [],
         index: 0,
-        currentData: {}
+        currentData: {},
+        sidebar: {open: false, active: ''}
     },
     mutations: {
         modalToggle(state) {
-            state.modal.open = !state.modal.open;
+            state.modal.shown = !state.modal.shown;
+        },
+        sidebarToggle(state) {
+            state.sidebar.open = !state.sidebar.open;
         },
         changeModalRole(state, role) {
             state.modal.role = role;
@@ -37,7 +41,7 @@ export const store = new Vuex.Store({
                     color: "",
                     description: "",
                     price: "0",
-                    year: "",
+                    year: new Date().getFullYear(),
                     season: "Любой"
                 }
             }

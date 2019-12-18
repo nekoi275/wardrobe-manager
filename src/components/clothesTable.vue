@@ -14,8 +14,8 @@
         <td>{{row.year}}</td>
         <td>{{row.season}}</td>
         <td>
-          <span class="edit" v-on:click="openModal('edit', row)"></span>
-          <span class="remove" v-on:click="remove(row)"></span>
+          <span class="edit" @click="openModal('edit', row)"></span>
+          <span class="remove" @click="remove(row)"></span>
         </td>
       </tr>
     </tbody>
@@ -62,6 +62,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
+  box-sizing: border-box;
 }
 thead {
   background: #573a5a;
@@ -69,7 +70,7 @@ thead {
   top: 0;
   border-bottom: 3px solid #e9e6dd;
   font-weight: initial;
-  color: white;
+  color: #ffffff;
 }
 thead th {
   padding: 15px;
