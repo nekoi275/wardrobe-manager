@@ -42,10 +42,43 @@
           <p>По сезону</p>
         </label>
       </div>
+      <div v-show="tabs.tables">
+        <button
+          class="small-btn"
+          @click="changeTable({name: 'clothes', headers: [
+        'Тип',
+        'Производитель',
+        'Цвет',
+        'Описание',
+        'Стоимость',
+        'Год покупки',
+        'Сезон'
+      ]})"
+        >Одежда</button>
+        <button
+          class="small-btn"
+          @click="changeTable({name:'jewelry', headers: ['Тип', 'Страна', 'Описание', 'Стоимость', 'Год покупки']})"
+        >Украшения</button>
+        <button
+          class="small-btn"
+          @click="changeTable({name:'old', headers: [
+        'Тип',
+      'Производитель',
+        'Цвет',
+        'Описание',
+        'Стоимость',
+        'Год покупки',
+        'Сезон',
+        'Статус',
+        'Выручка с продажи'
+      ]})"
+        >Старое</button>
+      </div>
     </div>
     <ul>
-      <li class="filter" @click="showFilters()" v-bind:class="{ active: tabs.filter }"></li>
-      <li class="sort" @click="showSorting()" v-bind:class="{ active: tabs.sort }"></li>
+      <li class="filter" @click="switchTab('filter')" v-bind:class="{ active: tabs.filter }"></li>
+      <li class="sort" @click="switchTab('sort')" v-bind:class="{ active: tabs.sort }"></li>
+      <li class="tables" @click="switchTab('tables')" v-bind:class="{ active: tabs.tables }"></li>
     </ul>
   </div>
 </template>
@@ -67,13 +100,12 @@ export default {
         this.$store.commit("sidebarToggle");
       }
     },
-    showFilters() {
-      this.$store.commit("switchTabs", "filter");
+    switchTab(tab) {
+      this.$store.commit("switchTabs", tab);
       this.slideOpen();
     },
-    showSorting() {
-      this.$store.commit("switchTabs", "sort");
-      this.slideOpen();
+    changeTable(tableInfo) {
+      this.$store.commit("changeTable", tableInfo);
     }
   }
 };
@@ -90,33 +122,36 @@ export default {
   top: 0;
   left: 0;
   bottom: 0;
-  background-color: #cccccc;
-  border-right: 1px solid #573a5a;
+  background-color: var(--neutral-color);
+  border-right: 1px solid var(--main-color);
 }
 .sidebar.open {
   transform: none;
 }
 .options {
   width: 80%;
-  background-color: #1b1c4a;
-  color: #ffffff;
+  background-color: var(--modal-color);
+  color: var(--neutral-color);
   box-sizing: border-box;
   padding: 10px;
 }
 select {
   width: 100%;
-  background-color: #cccccc;
+  background-color: var(--neutral-color);
   border: none;
 }
 select[multiple] option {
-  background: #cccccc linear-gradient(0deg, #cccccc 0%, #cccccc 100%);
-  color: #1b1c4a;
+  background: var(--neutral-color)
+    linear-gradient(0deg, var(--neutral-color) 0%, var(--neutral-color) 100%);
+  color: var(--modal-color);
 }
 select[multiple]:focus option:checked {
-  background: #573a5a linear-gradient(0deg, #573a5a 0%, #573a5a 100%);
+  background: var(--main-color)
+    linear-gradient(0deg, var(--main-color) 0%, var(--main-color) 100%);
 }
 select[multiple] option:checked {
-  background: #573a5a linear-gradient(0deg, #573a5a 0%, #573a5a 100%);
+  background: var(--main-color)
+    linear-gradient(0deg, var(--main-color) 0%, var(--main-color) 00%);
 }
 label {
   cursor: pointer;
@@ -129,15 +164,15 @@ input[type="radio"] {
   width: 12px;
   height: 12px;
   box-sizing: border-box;
-  border: 1px solid #e9e6dd;
-  background-color: #e9e6dd;
+  border: 1px solid var(--neutral-color);
+  background-color: var(--neutral-color);
   border-radius: 100%;
   transition: all 0.2s ease;
 }
 input[type="radio"]:checked {
   border-width: 5px;
-  border-color: #573a5a;
-  background-color: #e9e6dd
+  border-color: var(--main-color);
+  background-color: var(--neutral-color);
 }
 ul {
   width: 20%;
@@ -155,12 +190,18 @@ li {
   cursor: pointer;
 }
 li.active {
-  background-color: #573a5a;
+  background-color: var(--main-color);
 }
 .filter {
   background-image: url("../assets/funnel.png");
 }
 .sort {
   background-image: url("../assets/sort.png");
+}
+.tables {
+  background-image: url("../assets/spreadsheet.png");
+}
+.small-btn {
+  width: 110px;
 }
 </style>

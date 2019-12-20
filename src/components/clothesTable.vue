@@ -1,7 +1,7 @@
 <template>
   <table>
     <thead>
-      <th v-for="colName in colNames" :key="colName.id">{{colName}}</th>
+      <th v-for="header in headers" :key="header.id">{{header}}</th>
       <th></th>
     </thead>
     <tbody>
@@ -25,23 +25,14 @@
 <script>
 export default {
   name: "clothes-table",
-  data: function() {
-    return {
-      colNames: [
-        "Тип",
-        "Производитель",
-        "Цвет",
-        "Описание",
-        "Стоимость",
-        "Год покупки",
-        "Сезон"
-      ]
-    };
-  },
   computed: {
     rows() {
-      return this.$store.state.table;
+      var current = this.$store.state.currentTable;
+      return this.$store.state.tables[current];
     },
+    headers() {
+      return this.$store.state.headers;
+    }
   },
   methods: {
     openModal(role, row) {
@@ -65,22 +56,22 @@ table {
   box-sizing: border-box;
 }
 thead {
-  background: #573a5a;
+  background: var(--main-color);
   position: sticky;
   top: 0;
-  border-bottom: 3px solid #e9e6dd;
+  border-bottom: 3px solid var(--neutral-color);
   font-weight: initial;
-  color: #ffffff;
+  color: var(--neutral-color);
 }
 thead th {
   padding: 15px;
 }
 tbody tr {
-  border-bottom: 1px solid #e9e6dd;
+  border-bottom: 1px solid var(--neutral-color);
 }
 tbody tr:hover {
-  background-color: #cccccc;
-  border-bottom: 1px solid #ffffff;
+  background-color: var(--neutral-color);
+  border-bottom: 1px solid var(--neutral-color);
 }
 tbody tr td {
   padding: 10px;

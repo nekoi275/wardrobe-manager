@@ -38,13 +38,20 @@ export default {
 </script>
 
 <style>
+:root {
+  --body-color: #dbdfea;
+  --modal-color: #9da8c0;
+  --main-color:  #484757;
+  --neutral-color: #eff5fa;
+  --warning-color: #f73149;
+}
 html,
 body {
   margin: 0;
   padding: 0;
   font-family: "Tahoma";
   font-size: 12pt;
-  background-color: #acbfce;
+  background-color: var(--body-color);
   height: 100%;
 }
 button {
@@ -56,17 +63,17 @@ button {
   padding: 10px;
   margin: 10px;
   cursor: pointer;
-  color: white;
+  color: var(--neutral-color);
   transition: 0.3s ease all;
   text-align: center;
   width: 200px;
-  background-color: #573a5a;
+  background-color: var(--main-color);
   font-family: "Tahoma";
   font-size: 12pt;
 }
 button:hover {
-  background-color: #1b1c4a;
-  border: 3px solid #573a5a;
+  background-color: var(--modal-color);
+  border: 3px solid var(--main-color);
 }
 .main-content {
   margin-left: 40px;

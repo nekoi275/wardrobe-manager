@@ -6,14 +6,29 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
     state: {
         modal: { shown: false, role: '' },
-        table: [],
+        tables: {
+            clothes:[],
+            jewelry:[],
+            old:[]
+        },
+        currentTable: "clothes",
+        headers: [
+            "Тип",
+            "Производитель",
+            "Цвет",
+            "Описание",
+            "Стоимость",
+            "Год покупки",
+            "Сезон"
+        ],
         index: 0,
         currentData: {},
         sidebar: {
             open: false,
             tabs: {
                 filter: false,
-                sort: false
+                sort: false,
+                tables: false
             }
         }
     },
@@ -27,10 +42,12 @@ export const store = new Vuex.Store({
         switchTabs(state, tab) {
             state.sidebar.tabs.filter = tab == 'filter';
             state.sidebar.tabs.sort = tab == 'sort';
+            state.sidebar.tabs.tables = tab == 'tables';
         },
         deactivateTabs(state) {
             state.sidebar.tabs.filter = false;
             state.sidebar.tabs.sort = false;
+            state.sidebar.tabs.tables = false;
         },
         changeModalRole(state, role) {
             state.modal.role = role;
@@ -39,7 +56,7 @@ export const store = new Vuex.Store({
             var record = Object.assign({
                 id: ++state.index
             }, state.currentData);
-            state.table.push(record);
+            state.tables[state.currentTable].push(record);
         },
         edit(state) {
             var data = this.getters.getById(state.currentData.id);
@@ -65,17 +82,21 @@ export const store = new Vuex.Store({
         },
         remove(state, row) {
             state.table.splice(this.getters.getArrayIndex(row), 1);
+        },
+        changeTable(state, tableInfo) {
+            state.currentTable = tableInfo.name;
+            state.headers = tableInfo.headers;
         }
     },
     actions: {},
     getters: {
         getById: state => id => {
-            return state.table.find(el => {
+            return state.tables[state.currentTable].find(el => {
                 return el.id === id
             });
         },
         getArrayIndex: state => el => {
-            return state.table.indexOf(el);
+            return state.tables[state.currentTable].indexOf(el);
         }
     },
 });

@@ -137,14 +137,14 @@ export default {
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   top: 50%;
-  background-color: #1b1c4a;
+  background-color: var(--modal-color);
   border-radius: 3px;
 }
 .container .modal .title {
   text-align: center;
-  border-bottom: 1px solid #573a5a;
+  border-bottom: 1px solid var(--main-color);
   padding: 15px;
-  color: #e9e6dd;
+  color: var(--neutral-color);
   font-weight: bold;
 }
 .container .modal .content {
@@ -157,7 +157,7 @@ export default {
   justify-content: flex-end;
 }
 .colors span {
-  color: #e9e6dd;
+  color: var(--neutral-color);
   margin-right: 30px;
 }
 .colors div {
@@ -165,7 +165,7 @@ export default {
 }
 label {
   display: flex;
-  color: #e9e6dd;
+  color: var(--neutral-color);
   align-items: center;
   width: 100%;
   cursor: pointer;
@@ -182,14 +182,14 @@ select {
   width: 60%;
 }
 input:focus {
-  border: 3px solid #573a5a;
+  border: 3px solid var(--neutral-color);
 }
 span {
   margin-left: 30px;
 }
 .required-msg {
   margin-left: 30px;
-  color: #f84747;
+  color: var(--warning-color);
   font-size: 10pt;
 }
 </style>
