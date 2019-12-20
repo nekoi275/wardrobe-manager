@@ -8,16 +8,17 @@
       <tr v-for="row in rows" :key="row.id">
         <!--<td v-for="data in row" :key="data.id">{{data}}</td>-->
         <td>{{row.type}}</td>
-        <td v-if="currentTable == 'clothes'">{{row.brand}}</td>
-        <td v-if="currentTable == 'clothes'" v-bind:style="{backgroundColor: row.color.hex}"></td>
+        <td v-if="currentTable != 'jewelry'">{{row.brand}}</td>
+        <td v-if="currentTable != 'jewelry'" v-bind:style="{backgroundColor: row.color.hex}"></td>
         <td>{{row.description}}</td>
         <td>{{row.price}}</td>
         <td>{{row.year}}</td>
-        <td v-if="currentTable == 'clothes'">{{row.season}}</td>
+        <td v-if="currentTable != 'jewelry'">{{row.season}}</td>
         <td v-if="currentTable == 'jewelry'">{{row.country}}</td>
         <td>
           <span class="edit" @click="openModal('edit', row)"></span>
           <span class="remove" @click="remove(row)"></span>
+          <span v-if="currentTable == 'clothes'" class="move" @click="moveToOld(row)"></span>
         </td>
       </tr>
     </tbody>
@@ -46,6 +47,10 @@ export default {
     },
     remove(row) {
       this.$store.commit("remove", row);
+    },
+    moveToOld(row) {
+      this.$store.commit("setCurrentData", Object.assign({}, row));
+      this.$store.commit("move", row);
     }
   }
 };
@@ -86,17 +91,17 @@ span {
   cursor: pointer;
   width: 20px;
   height: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 .edit {
-  background-image: url('../assets/document.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  background-image: url("../assets/document.png");
 }
 .remove {
-  background-image: url('../assets/garbage.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  background-image: url("../assets/garbage.png");
+}
+.move {
+  background-image: url("../assets/transfer.png");
 }
 </style>

@@ -13,15 +13,15 @@
           <span>Тип</span>
           <input type="text" v-model="currentData.type" required />
         </label>
-        <label v-if="currentTable == 'clothes'">
+        <label v-if="currentTable != 'jewelry'">
           <span>Производитель</span>
           <input type="text" v-model="currentData.brand" />
         </label>
         <span
           class="required-msg"
-          v-show="colors == '' && isSubmitted && currentTable == 'clothes'"
+          v-show="colors == '' && isSubmitted && currentTable !='jewelry'"
         >Это поле обязательное</span>
-        <div v-if="currentTable == 'clothes'" class="colors">
+        <div v-if="currentTable != 'jewelry'" class="colors">
           <span>Цвет</span>
           <color-picker v-model="colors"></color-picker>
         </div>
@@ -41,7 +41,7 @@
           <span>Год покупки</span>
           <input type="number" min="2000" max="2050" v-model="currentData.year" required />
         </label>
-        <label v-if="currentTable == 'clothes'">
+        <label v-if="currentTable != 'jewelry'">
           <span>Сезон</span>
           <select name="season" v-model="currentData.season" required>
             <option value="зима">Зима</option>
@@ -101,7 +101,7 @@ export default {
     submit() {
       this.isSubmitted = true;
       if (this.isValid()) {
-        if (this.currentTable == 'clothes') {
+        if (this.currentTable != 'jewelry') {
           this.$store.commit("setColor", this.colors);
         }
         this.$store.commit(this.role);

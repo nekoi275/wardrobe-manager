@@ -97,6 +97,11 @@ export const store = new Vuex.Store({
         changeTable(state, tableInfo) {
             state.currentTable = tableInfo.name;
             state.headers = tableInfo.headers;
+        },
+        move(state, row) {
+            state.tables[state.currentTable].splice(this.getters.getArrayIndex(row), 1);
+            var record = Object.assign({}, state.currentData);
+            state.tables.old.push(record);
         }
     },
     actions: {},
