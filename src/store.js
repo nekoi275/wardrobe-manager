@@ -66,14 +66,25 @@ export const store = new Vuex.Store({
             if (row) {
                 state.currentData = row;
             } else {
-                state.currentData = {
-                    type: "",
-                    brand: "No name",
-                    color: "",
-                    description: "",
-                    price: "0",
-                    year: new Date().getFullYear(),
-                    season: "Любой"
+                if (state.currentTable == "clothes") {
+                    state.currentData = {
+                        type: "",
+                        brand: "No name",
+                        color: "",
+                        description: "",
+                        price: "0",
+                        year: new Date().getFullYear(),
+                        season: "Любой"
+                    }
+                }
+                if (state.currentTable == "jewelry") {
+                    state.currentData = {
+                        type: "",
+                        description: "",
+                        price: "0",
+                        year: new Date().getFullYear(),
+                        country: ""
+                    }
                 }
             }
         },
@@ -81,7 +92,7 @@ export const store = new Vuex.Store({
             state.currentData.color = color;
         },
         remove(state, row) {
-            state.table.splice(this.getters.getArrayIndex(row), 1);
+            state.tables[state.currentTable].splice(this.getters.getArrayIndex(row), 1);
         },
         changeTable(state, tableInfo) {
             state.currentTable = tableInfo.name;

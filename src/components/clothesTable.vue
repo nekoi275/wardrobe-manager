@@ -6,13 +6,15 @@
     </thead>
     <tbody>
       <tr v-for="row in rows" :key="row.id">
+        <!--<td v-for="data in row" :key="data.id">{{data}}</td>-->
         <td>{{row.type}}</td>
-        <td>{{row.brand}}</td>
-        <td v-bind:style="{backgroundColor: row.color.hex}"></td>
+        <td v-if="currentTable == 'clothes'">{{row.brand}}</td>
+        <td v-if="currentTable == 'clothes'" v-bind:style="{backgroundColor: row.color.hex}"></td>
         <td>{{row.description}}</td>
         <td>{{row.price}}</td>
         <td>{{row.year}}</td>
-        <td>{{row.season}}</td>
+        <td v-if="currentTable == 'clothes'">{{row.season}}</td>
+        <td v-if="currentTable == 'jewelry'">{{row.country}}</td>
         <td>
           <span class="edit" @click="openModal('edit', row)"></span>
           <span class="remove" @click="remove(row)"></span>
@@ -27,11 +29,13 @@ export default {
   name: "clothes-table",
   computed: {
     rows() {
-      var current = this.$store.state.currentTable;
-      return this.$store.state.tables[current];
+      return this.$store.state.tables[this.currentTable];
     },
     headers() {
       return this.$store.state.headers;
+    },
+    currentTable() {
+      return this.$store.state.currentTable;
     }
   },
   methods: {

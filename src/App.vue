@@ -3,7 +3,7 @@
     <sidebar></sidebar>
     <div class="main-content" @click="closeSidebar()">
       <clothes-table></clothes-table>
-      <button @click="openModal('add')">Добавить</button>
+      <button @click="openModal('add')" v-show="currentTable == 'clothes' || currentTable == 'jewelry'">Добавить</button>
       <modal-form></modal-form>
     </div>
   </div>
@@ -20,6 +20,11 @@ export default {
     clothesTable,
     modalForm,
     sidebar
+  },
+  computed: {
+    currentTable() {
+      return this.$store.state.currentTable;
+    }
   },
   methods: {
     openModal(role) {

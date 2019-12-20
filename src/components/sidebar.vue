@@ -57,7 +57,7 @@
         >Одежда</button>
         <button
           class="small-btn"
-          @click="changeTable({name:'jewelry', headers: ['Тип', 'Страна', 'Описание', 'Стоимость', 'Год покупки']})"
+          @click="changeTable({name:'jewelry', headers: ['Тип', 'Описание', 'Стоимость', 'Год покупки', 'Страна']})"
         >Украшения</button>
         <button
           class="small-btn"
@@ -68,9 +68,7 @@
         'Описание',
         'Стоимость',
         'Год покупки',
-        'Сезон',
-        'Статус',
-        'Выручка с продажи'
+        'Сезон'
       ]})"
         >Старое</button>
       </div>
