@@ -3,7 +3,7 @@
     <sidebar></sidebar>
     <div class="main-content" @click="closeSidebar()">
       <clothes-table></clothes-table>
-      <button @click="openModal('add')" v-show="currentTable == 'clothes' || currentTable == 'jewelry'">Добавить</button>
+      <button @click="openModal('add')" v-show="currentTable != 'old'">Добавить</button>
       <modal-form></modal-form>
     </div>
   </div>
@@ -35,9 +35,12 @@ export default {
     closeSidebar() {
       if (this.$store.state.sidebar.open) {
         this.$store.commit("sidebarToggle");
-        this.$store.commit("deactivateTabs")
+        this.$store.commit("deactivateTabs");
       }
     }
+  },
+  mounted: function() {
+    this.$store.dispatch('loadData');
   }
 };
 </script>
@@ -46,7 +49,7 @@ export default {
 :root {
   --body-color: #dbdfea;
   --modal-color: #9da8c0;
-  --main-color:  #484757;
+  --main-color: #484757;
   --neutral-color: #eff5fa;
   --warning-color: #f73149;
 }

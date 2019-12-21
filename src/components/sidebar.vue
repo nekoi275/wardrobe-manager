@@ -104,6 +104,7 @@ export default {
     },
     changeTable(tableInfo) {
       this.$store.commit("changeTable", tableInfo);
+      this.$store.dispatch("loadData");
     }
   }
 };

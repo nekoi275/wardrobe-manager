@@ -104,7 +104,7 @@ export default {
         if (this.currentTable != 'jewelry') {
           this.$store.commit("setColor", this.colors);
         }
-        this.$store.commit(this.role);
+        this.$store.dispatch(this.role);
         this.close();
       }
     },

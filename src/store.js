@@ -7,9 +7,9 @@ export const store = new Vuex.Store({
     state: {
         modal: { shown: false, role: '' },
         tables: {
-            clothes:[],
-            jewelry:[],
-            old:[]
+            clothes: [],
+            jewelry: [],
+            old: []
         },
         currentTable: "clothes",
         headers: [
@@ -21,7 +21,6 @@ export const store = new Vuex.Store({
             "Год покупки",
             "Сезон"
         ],
-        index: 0,
         currentData: {},
         sidebar: {
             open: false,
@@ -52,11 +51,8 @@ export const store = new Vuex.Store({
         changeModalRole(state, role) {
             state.modal.role = role;
         },
-        add(state) {
-            var record = Object.assign({
-                id: ++state.index
-            }, state.currentData);
-            state.tables[state.currentTable].push(record);
+        add(state, data) {
+            state.tables[state.currentTable].push(data);
         },
         edit(state) {
             var data = this.getters.getById(state.currentData.id);
@@ -100,11 +96,35 @@ export const store = new Vuex.Store({
         },
         move(state, row) {
             state.tables[state.currentTable].splice(this.getters.getArrayIndex(row), 1);
-            var record = Object.assign({}, state.currentData);
-            state.tables.old.push(record);
+            state.tables.old.push(Object.assign({}, state.currentData));
+        },
+        setData(state, data) {
+            state.tables[state.currentTable] = data;
         }
     },
-    actions: {},
+    actions: {
+        loadData(ctx) {
+            fetch("http://46.173.214.223/api/?table=" + ctx.state.currentTable)
+                .then(response => {
+                    return response.json();
+                })
+                .then(json => ctx.commit("setData", json));
+        },
+        add(ctx) {
+            ctx.state.currentData.table = ctx.state.currentTable;
+            fetch("http://46.173.214.223/api/", {
+                method: 'POST', 
+                body: JSON.stringify(ctx.state.currentData), 
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(json => ctx.commit("add", json));
+        }
+    },
     getters: {
         getById: state => id => {
             return state.tables[state.currentTable].find(el => {
