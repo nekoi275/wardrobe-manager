@@ -8,11 +8,7 @@
         </select>
         <p v-if="currentTable !='jewelry'">Производитель</p>
         <select v-if="currentTable !='jewelry'" v-model="filterBrand" multiple>
-          <option
-            v-for="brand in brands"
-            :key="brand.id"
-            :value="brand"
-          >{{brand}}</option>
+          <option v-for="brand in brands" :key="brand.id" :value="brand">{{brand}}</option>
         </select>
         <p>Год покупки</p>
         <select v-model="filterYear" multiple>
@@ -26,42 +22,20 @@
           <option value="любой">Любой</option>
         </select>
       </div>
-      <div v-show="tabs.sort">
-        <label>
-          <input type="radio" name="sort" />
-          <p>По типу</p>
-        </label>
-        <label v-if="currentTable !='jewelry'">
-          <input type="radio" name="sort" />
-          <p>По производителю</p>
-        </label>
-        <label>
-          <input type="radio" name="sort" />
-          <p>По году покупки</p>
-        </label>
-        <label v-if="currentTable !='jewelry'">
-          <input type="radio" name="sort" />
-          <p>По сезону</p>
-        </label>
-      </div>
       <div v-show="tabs.tables">
         <button
           class="small-btn"
-          @click="changeTable({name: 'clothes', headers: ['Тип','Производитель','Цвет','Описание','Стоимость','Год покупки','Сезон']})"
+          @click="changeTable({name: 'clothes', headers: clothesHeaders})"
         >Одежда</button>
         <button
           class="small-btn"
-          @click="changeTable({name:'jewelry', headers: ['Тип', 'Описание', 'Стоимость', 'Год покупки', 'Страна']})"
+          @click="changeTable({name:'jewelry', headers: jewelryHeaders})"
         >Украшения</button>
-        <button
-          class="small-btn"
-          @click="changeTable({name:'old', headers: ['Тип','Производитель','Цвет','Описание','Стоимость','Год покупки','Сезон']})"
-        >Старое</button>
+        <button class="small-btn" @click="changeTable({name:'old', headers: oldHeaders})">Старое</button>
       </div>
     </div>
     <ul>
       <li class="filter" @click="switchTab('filter')" v-bind:class="{ active: tabs.filter }"></li>
-      <li class="sort" @click="switchTab('sort')" v-bind:class="{ active: tabs.sort }"></li>
       <li class="tables" @click="switchTab('tables')" v-bind:class="{ active: tabs.tables }"></li>
     </ul>
   </div>
@@ -70,6 +44,35 @@
 <script>
 export default {
   name: "sidebar",
+  data: function() {
+    return {
+      clothesHeaders: [
+        { name: "type", displayName: "Тип", isSortable: true },
+        { name: "brand", displayName: "Производитель", isSortable: true },
+        { name: "color", displayName: "Цвет" },
+        { name: "description", displayName: "Описание" },
+        { name: "price", displayName: "Стоимость", isSortable: true },
+        { name: "year", displayName: "Год покупки", isSortable: true },
+        { name: "season", displayName: "Сезон", isSortable: true }
+      ],
+      oldHeaders: [
+        { name: "type", displayName: "Тип", isSortable: true },
+        { name: "brand", displayName: "Производитель", isSortable: true },
+        { name: "color", displayName: "Цвет" },
+        { name: "description", displayName: "Описание" },
+        { name: "price", displayName: "Стоимость", isSortable: true },
+        { name: "year", displayName: "Год покупки", isSortable: true },
+        { name: "season", displayName: "Сезон", isSortable: true }
+      ],
+      jewelryHeaders: [
+        { name: "type", displayName: "Тип", isSortable: true },
+        { name: "description", displayName: "Описание" },
+        { name: "price", displayName: "Стоимость", isSortable: true },
+        { name: "year", displayName: "Год покупки", isSortable: true },
+        { name: "country", displayName: "Страна", isSortable: true }
+      ]
+    };
+  },
   computed: {
     open() {
       return this.$store.state.sidebar.open;
@@ -246,9 +249,6 @@ li.active {
 }
 .filter {
   background-image: url("../assets/funnel.png");
-}
-.sort {
-  background-image: url("../assets/sort.png");
 }
 .tables {
   background-image: url("../assets/spreadsheet.png");

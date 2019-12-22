@@ -1,12 +1,15 @@
 <template>
   <table>
     <thead>
-      <th v-for="header in headers" :key="header.id">{{header}}</th>
+      <th v-for="header in headers" :key="header.id">
+        <div @click="sort(header)">
+          {{header.displayName}}
+        </div>
+      </th>
       <th></th>
     </thead>
     <tbody>
       <tr v-for="row in rows" :key="row.id">
-        <!--<td v-for="data in row" :key="data.id">{{data}}</td>-->
         <td>{{row.type}}</td>
         <td v-if="currentTable != 'jewelry'">{{row.brand}}</td>
         <td v-if="currentTable != 'jewelry'" v-bind:style="{backgroundColor: row.color.hex}"></td>
@@ -27,7 +30,7 @@
 
 <script>
 export default {
-  name: 'clothes-table',
+  name: "clothes-table",
   computed: {
     rows() {
       return this.$store.state.tablesView[this.currentTable];
@@ -41,16 +44,32 @@ export default {
   },
   methods: {
     openModal(role, row) {
-      this.$store.commit('setCurrentData', Object.assign({}, row));
-      this.$store.commit('modalToggle');
-      this.$store.commit('changeModalRole', role);
+      this.$store.commit("setCurrentData", Object.assign({}, row));
+      this.$store.commit("modalToggle");
+      this.$store.commit("changeModalRole", role);
     },
     remove(row) {
-      this.$store.commit('remove', row);
+      this.$store.commit("remove", row);
     },
     moveToOld(row) {
-      this.$store.commit('setCurrentData', Object.assign({}, row));
-      this.$store.commit('move', row);
+      this.$store.commit("setCurrentData", Object.assign({}, row));
+      this.$store.commit("move", row);
+    },
+    sort(field) {
+      if (field.isSortable) {
+        if (this.$store.state.sorting.field == field.name) {
+          this.$store.commit("setSorting", {
+            field: field.name,
+            isAscending: !this.$store.state.sorting.isAscending
+          });
+        } else {
+          this.$store.commit("setSorting", {
+            field: field.name,
+            isAscending: true
+          });
+        }
+        this.$store.commit("showData");
+      }
     }
   }
 };
@@ -74,6 +93,9 @@ thead {
 }
 thead th {
   padding: 15px;
+}
+thead th div {
+  cursor: pointer;
 }
 tbody tr {
   border-bottom: 1px solid var(--neutral-color);

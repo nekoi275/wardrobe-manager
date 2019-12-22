@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import clothesTable from './components/clothesTable.vue';
-import modalForm from './components/modalForm.vue';
-import sidebar from './components/sidebar.vue';
+import clothesTable from "./components/clothesTable.vue";
+import modalForm from "./components/modalForm.vue";
+import sidebar from "./components/sidebar.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
     clothesTable,
     modalForm,
@@ -29,33 +29,44 @@ export default {
   methods: {
     openModal() {
       var row = {
-        type: '',
-        description: '',
-        price: '0',
+        type: "",
+        description: "",
+        price: "0",
         year: new Date().getFullYear()
       };
-      if (this.currentTable == 'clothes') {
-        row.brand = 'No name';
-        row.color = '';
-        row.season = 'любой';
+      if (this.currentTable == "clothes") {
+        row.brand = "No name";
+        row.color = "";
+        row.season = "любой";
       }
-      if (this.currentTable == 'jewelry') {
-        row.country = '';
+      if (this.currentTable == "jewelry") {
+        row.country = "";
       }
-      this.$store.commit('setCurrentData', row);
-      this.$store.commit('modalToggle');
-      this.$store.commit('changeModalRole', 'add');
+      this.$store.commit("setCurrentData", row);
+      this.$store.commit("modalToggle");
+      this.$store.commit("changeModalRole", "add");
     },
     closeSidebar() {
       if (this.$store.state.sidebar.open) {
-        this.$store.commit('sidebarToggle');
-        this.$store.commit('deactivateTabs');
+        this.$store.commit("sidebarToggle");
+        this.$store.commit("deactivateTabs");
       }
     }
   },
   beforeMount: function() {
-    this.$store.commit("changeTable", {name: 'clothes', headers: ['Тип','Производитель','Цвет','Описание','Стоимость','Год покупки','Сезон']});
-    this.$store.dispatch('loadData');
+    this.$store.commit("changeTable", {
+      name: "clothes",
+      headers: [
+        { name: "type", displayName: "Тип", isSortable: true },
+        { name: "brand", displayName: "Производитель", isSortable: true },
+        { name: "color", displayName: "Цвет" },
+        { name: "description", displayName: "Описание" },
+        { name: "price", displayName: "Стоимость", isSortable: true },
+        { name: "year", displayName: "Год покупки", isSortable: true },
+        { name: "season", displayName: "Сезон", isSortable: true }
+      ]
+    });
+    this.$store.dispatch("loadData");
   }
 };
 </script>

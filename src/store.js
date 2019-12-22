@@ -16,15 +16,15 @@ export const store = new Vuex.Store({
             jewelry: [],
             old: []
         },
-        currentTable: "",
+        currentTable: '',
         headers: [],
         currentData: {},
         filters: { type: [], brand: [], year: [], season: [] },
+        sorting: { field: '', isAscending: false },
         sidebar: {
             open: false,
             tabs: {
                 filter: false,
-                sort: false,
                 tables: false
             }
         }
@@ -38,12 +38,10 @@ export const store = new Vuex.Store({
         },
         switchTabs(state, tab) {
             state.sidebar.tabs.filter = tab == 'filter';
-            state.sidebar.tabs.sort = tab == 'sort';
             state.sidebar.tabs.tables = tab == 'tables';
         },
         deactivateTabs(state) {
             state.sidebar.tabs.filter = false;
-            state.sidebar.tabs.sort = false;
             state.sidebar.tabs.tables = false;
         },
         changeModalRole(state, role) {
@@ -84,10 +82,27 @@ export const store = new Vuex.Store({
                     data = data.filter(item => { return values.includes(item[key]) });
                 }
             }
+            data.sort((item1, item2) => {
+                var field = state.sorting.field;
+                var result = 0;
+                if (item1[field] > item2[field]) {
+                    result = 1;
+                }
+                if (item1[field] < item2[field]) {
+                    result = -1;
+                }
+                if (!state.sorting.isAscending) {
+                    result = -result;
+                }
+                return result;
+            });
             state.tablesView[state.currentTable] = data;
         },
         setFilter(state, filter) {
             state.filters[filter.name] = filter.value;
+        },
+        setSorting(state, sorting) {
+            state.sorting = sorting;
         }
     },
     actions: {
@@ -98,7 +113,7 @@ export const store = new Vuex.Store({
                 })
                 .then(json => {
                     ctx.commit("setData", json);
-                    ctx.commit("showData");                    
+                    ctx.commit("showData");
                 });
         },
         add(ctx) {
