@@ -6,7 +6,12 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
     state: {
         modal: { shown: false, role: '' },
-        tables: {
+        tablesView: {
+            clothes: [],
+            jewelry: [],
+            old: []
+        },
+        tablesCache: {
             clothes: [],
             jewelry: [],
             old: []
@@ -22,6 +27,7 @@ export const store = new Vuex.Store({
             "Сезон"
         ],
         currentData: {},
+        filters: { type: [], brand: [], year: [], season: [] },
         sidebar: {
             open: false,
             tabs: {
@@ -52,7 +58,7 @@ export const store = new Vuex.Store({
             state.modal.role = role;
         },
         add(state, data) {
-            state.tables[state.currentTable].push(data);
+            state.tablesView[state.currentTable].push(data);
         },
         edit(state) {
             var data = this.getters.getById(state.currentData.id);
@@ -65,23 +71,31 @@ export const store = new Vuex.Store({
             state.currentData.color = color;
         },
         remove(state, row) {
-            state.tables[state.currentTable].splice(this.getters.getArrayIndex(row), 1);
+            state.tablesView[state.currentTable].splice(this.getters.getArrayIndex(row), 1);
         },
         changeTable(state, tableInfo) {
             state.currentTable = tableInfo.name;
             state.headers = tableInfo.headers;
         },
         move(state, row) {
-            state.tables[state.currentTable].splice(this.getters.getArrayIndex(row), 1);
-            state.tables.old.push(Object.assign({}, state.currentData));
+            state.tablesView[state.currentTable].splice(this.getters.getArrayIndex(row), 1);
+            state.tablesView.old.push(Object.assign({}, state.currentData));
         },
         setData(state, data) {
-            state.tables[state.currentTable] = data;
+            state.tablesCache[state.currentTable] = data;
         },
-        filter(state, filter) {
-            state.tables[state.currentTable] = state.tables[state.currentTable].filter(item => {
-                return item[filter.name] == filter.value;
-            })
+        showData(state) {
+            var data = state.tablesCache[state.currentTable];
+            for (let key in state.filters) {
+                let values = state.filters[key];
+                if (values.length) {
+                    data = data.filter(item => { return values.includes(item[key]) });
+                }
+            }
+            state.tablesView[state.currentTable] = data;
+        },
+        setFilter(state, filter) {
+            state.filters[filter.name] = filter.value;
         }
     },
     actions: {
@@ -90,7 +104,10 @@ export const store = new Vuex.Store({
                 .then(response => {
                     return response.json();
                 })
-                .then(json => ctx.commit("setData", json));
+                .then(json => {
+                    ctx.commit("setData", json);
+                    ctx.commit("showData");                    
+                });
         },
         add(ctx) {
             ctx.state.currentData.table = ctx.state.currentTable;
@@ -109,12 +126,12 @@ export const store = new Vuex.Store({
     },
     getters: {
         getById: state => id => {
-            return state.tables[state.currentTable].find(el => {
+            return state.tablesView[state.currentTable].find(el => {
                 return el.id === id
             });
         },
         getArrayIndex: state => el => {
-            return state.tables[state.currentTable].indexOf(el);
+            return state.tablesView[state.currentTable].indexOf(el);
         }
     },
 });

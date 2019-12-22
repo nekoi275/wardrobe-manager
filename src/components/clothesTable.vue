@@ -30,7 +30,7 @@ export default {
   name: 'clothes-table',
   computed: {
     rows() {
-      return this.$store.state.tables[this.currentTable];
+      return this.$store.state.tablesView[this.currentTable];
     },
     headers() {
       return this.$store.state.headers;

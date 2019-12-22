@@ -3,23 +3,27 @@
     <div class="options">
       <div v-show="tabs.filter">
         <p>Тип</p>
-        <select multiple>
+        <select v-model="filterType" multiple>
           <option v-for="type in types" :key="type.id" :value="type">{{type}}</option>
         </select>
         <p v-if="currentTable !='jewelry'">Производитель</p>
-        <select v-if="currentTable !='jewelry'" multiple>
-          <option v-for="brand in brands" :key="brand.id" :value="brand">{{brand}}</option>
+        <select v-if="currentTable !='jewelry'" v-model="filterBrand" multiple>
+          <option
+            v-for="brand in brands"
+            :key="brand.id"
+            :value="brand"
+          >{{brand}}</option>
         </select>
         <p>Год покупки</p>
-        <select multiple>
+        <select v-model="filterYear" multiple>
           <option v-for="year in years" :key="year.id" :value="year">{{year}}</option>
         </select>
         <p v-show="currentTable !='jewelry'">Сезон</p>
-        <select v-if="currentTable !='jewelry'" multiple>
+        <select v-if="currentTable !='jewelry'" v-model="filterSeason" multiple>
           <option value="зима">Зима</option>
           <option value="осень-весна">Осень/Весна</option>
           <option value="лето">Лето</option>
-          <option value="лето">Любой</option>
+          <option value="любой">Любой</option>
         </select>
       </div>
       <div v-show="tabs.sort">
@@ -43,15 +47,7 @@
       <div v-show="tabs.tables">
         <button
           class="small-btn"
-          @click="changeTable({name: 'clothes', headers: [
-        'Тип',
-        'Производитель',
-        'Цвет',
-        'Описание',
-        'Стоимость',
-        'Год покупки',
-        'Сезон'
-      ]})"
+          @click="changeTable({name: 'clothes', headers: ['Тип','Производитель','Цвет','Описание','Стоимость','Год покупки','Сезон']})"
         >Одежда</button>
         <button
           class="small-btn"
@@ -59,15 +55,7 @@
         >Украшения</button>
         <button
           class="small-btn"
-          @click="changeTable({name:'old', headers: [
-        'Тип',
-      'Производитель',
-        'Цвет',
-        'Описание',
-        'Стоимость',
-        'Год покупки',
-        'Сезон'
-      ]})"
+          @click="changeTable({name:'old', headers: ['Тип','Производитель','Цвет','Описание','Стоимость','Год покупки','Сезон']})"
         >Старое</button>
       </div>
     </div>
@@ -81,7 +69,7 @@
 
 <script>
 export default {
-  name: 'sidebar',
+  name: "sidebar",
   computed: {
     open() {
       return this.$store.state.sidebar.open;
@@ -93,44 +81,83 @@ export default {
       return this.$store.state.currentTable;
     },
     types() {
-      return this.getProperties('type');
+      return this.getProperties("type");
     },
     brands() {
-      if (this.currentTable != 'jewelry') {
-        return this.getProperties('brand');
+      if (this.currentTable != "jewelry") {
+        return this.getProperties("brand");
       } else {
         return [];
       }
     },
     years() {
-      return this.getProperties('year');
+      return this.getProperties("year");
+    },
+    filterType: {
+      get() {
+        return [];
+      },
+      set(value) {
+        this.setFilter("type", value);
+      }
+    },
+    filterBrand: {
+      get() {
+        return [];
+      },
+      set(value) {
+        this.setFilter("brand", value);
+      }
+    },
+    filterYear: {
+      get() {
+        return [];
+      },
+      set(value) {
+        this.setFilter("year", value);
+      }
+    },
+    filterSeason: {
+      get() {
+        return [];
+      },
+      set(value) {
+        this.setFilter("season", value);
+      }
     }
   },
   methods: {
     slideOpen() {
       if (!this.open) {
-        this.$store.commit('sidebarToggle');
+        this.$store.commit("sidebarToggle");
       }
     },
     switchTab(tab) {
-      this.$store.commit('switchTabs', tab);
+      this.$store.commit("switchTabs", tab);
       this.slideOpen();
     },
     changeTable(tableInfo) {
-      this.$store.commit('changeTable', tableInfo);
-      this.$store.dispatch('loadData');
+      this.$store.commit("changeTable", tableInfo);
+      this.$store.dispatch("loadData");
     },
-    filter(filterName, filterValue) {
-      var filter = {name: filterName, value: filterValue};
-      this.$store.commit('filter', filter);
+    applyFilter(filterName, filterValue) {
+      var filter = { name: filterName, value: filterValue };
+      this.$store.commit("filter", filter);
     },
     getProperties(prop) {
-      var table = this.$store.state.tables[this.currentTable];
+      var table = this.$store.state.tablesCache[this.currentTable];
       return new Set(
-        table.map(item => {
-          return item[prop];
-        }).sort()
+        table
+          .map(item => {
+            return item[prop];
+          })
+          .sort()
       );
+    },
+    setFilter(name, value) {
+      var filter = { name: name, value: value };
+      this.$store.commit("setFilter", filter);
+      this.$store.commit("showData");
     }
   }
 };
