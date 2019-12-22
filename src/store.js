@@ -16,16 +16,8 @@ export const store = new Vuex.Store({
             jewelry: [],
             old: []
         },
-        currentTable: "clothes",
-        headers: [
-            "Тип",
-            "Производитель",
-            "Цвет",
-            "Описание",
-            "Стоимость",
-            "Год покупки",
-            "Сезон"
-        ],
+        currentTable: "",
+        headers: [],
         currentData: {},
         filters: { type: [], brand: [], year: [], season: [] },
         sidebar: {

@@ -53,7 +53,8 @@ export default {
       }
     }
   },
-  mounted: function() {
+  beforeMount: function() {
+    this.$store.commit("changeTable", {name: 'clothes', headers: ['Тип','Производитель','Цвет','Описание','Стоимость','Год покупки','Сезон']});
     this.$store.dispatch('loadData');
   }
 };
