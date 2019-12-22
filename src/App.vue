@@ -3,19 +3,19 @@
     <sidebar></sidebar>
     <div class="main-content" @click="closeSidebar()">
       <clothes-table></clothes-table>
-      <button @click="openModal('add')" v-show="currentTable != 'old'">Добавить</button>
+      <button @click="openModal()" v-show="currentTable != 'old'">Добавить</button>
       <modal-form></modal-form>
     </div>
   </div>
 </template>
 
 <script>
-import clothesTable from "./components/clothesTable.vue";
-import modalForm from "./components/modalForm.vue";
-import sidebar from "./components/sidebar.vue";
+import clothesTable from './components/clothesTable.vue';
+import modalForm from './components/modalForm.vue';
+import sidebar from './components/sidebar.vue';
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
     clothesTable,
     modalForm,
@@ -27,15 +27,29 @@ export default {
     }
   },
   methods: {
-    openModal(role) {
-      this.$store.commit("setCurrentData");
-      this.$store.commit("modalToggle");
-      this.$store.commit("changeModalRole", role);
+    openModal() {
+      var row = {
+        type: '',
+        description: '',
+        price: '0',
+        year: new Date().getFullYear()
+      };
+      if (this.currentTable == 'clothes') {
+        row.brand = 'No name';
+        row.color = '';
+        row.season = 'любой';
+      }
+      if (this.currentTable == 'jewelry') {
+        row.country = '';
+      }
+      this.$store.commit('setCurrentData', row);
+      this.$store.commit('modalToggle');
+      this.$store.commit('changeModalRole', 'add');
     },
     closeSidebar() {
       if (this.$store.state.sidebar.open) {
-        this.$store.commit("sidebarToggle");
-        this.$store.commit("deactivateTabs");
+        this.$store.commit('sidebarToggle');
+        this.$store.commit('deactivateTabs');
       }
     }
   },

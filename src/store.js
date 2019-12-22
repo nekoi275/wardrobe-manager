@@ -59,30 +59,7 @@ export const store = new Vuex.Store({
             Object.assign(data, state.currentData);
         },
         setCurrentData(state, row) {
-            if (row) {
-                state.currentData = row;
-            } else {
-                if (state.currentTable == "clothes") {
-                    state.currentData = {
-                        type: "",
-                        brand: "No name",
-                        color: "",
-                        description: "",
-                        price: "0",
-                        year: new Date().getFullYear(),
-                        season: "Любой"
-                    }
-                }
-                if (state.currentTable == "jewelry") {
-                    state.currentData = {
-                        type: "",
-                        description: "",
-                        price: "0",
-                        year: new Date().getFullYear(),
-                        country: ""
-                    }
-                }
-            }
+            state.currentData = row;
         },
         setColor(state, color) {
             state.currentData.color = color;
@@ -100,6 +77,11 @@ export const store = new Vuex.Store({
         },
         setData(state, data) {
             state.tables[state.currentTable] = data;
+        },
+        filter(state, filter) {
+            state.tables[state.currentTable] = state.tables[state.currentTable].filter(item => {
+                return item[filter.name] == filter.value;
+            })
         }
     },
     actions: {
@@ -113,16 +95,16 @@ export const store = new Vuex.Store({
         add(ctx) {
             ctx.state.currentData.table = ctx.state.currentTable;
             fetch("http://46.173.214.223/api/", {
-                method: 'POST', 
-                body: JSON.stringify(ctx.state.currentData), 
+                method: 'POST',
+                body: JSON.stringify(ctx.state.currentData),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
-            .then(response => {
-                return response.json();
-            })
-            .then(json => ctx.commit("add", json));
+                .then(response => {
+                    return response.json();
+                })
+                .then(json => ctx.commit("add", json));
         }
     },
     getters: {

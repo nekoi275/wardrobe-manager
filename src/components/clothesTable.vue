@@ -27,7 +27,7 @@
 
 <script>
 export default {
-  name: "clothes-table",
+  name: 'clothes-table',
   computed: {
     rows() {
       return this.$store.state.tables[this.currentTable];
@@ -41,16 +41,16 @@ export default {
   },
   methods: {
     openModal(role, row) {
-      this.$store.commit("setCurrentData", Object.assign({}, row));
-      this.$store.commit("modalToggle");
-      this.$store.commit("changeModalRole", role);
+      this.$store.commit('setCurrentData', Object.assign({}, row));
+      this.$store.commit('modalToggle');
+      this.$store.commit('changeModalRole', role);
     },
     remove(row) {
-      this.$store.commit("remove", row);
+      this.$store.commit('remove', row);
     },
     moveToOld(row) {
-      this.$store.commit("setCurrentData", Object.assign({}, row));
-      this.$store.commit("move", row);
+      this.$store.commit('setCurrentData', Object.assign({}, row));
+      this.$store.commit('move', row);
     }
   }
 };

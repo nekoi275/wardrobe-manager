@@ -64,17 +64,17 @@
 </template>
 
 <script>
-import { Compact } from "vue-color";
+import { Compact } from 'vue-color';
 
 export default {
-  name: "modal-form",
+  name: 'modal-form',
   components: {
-    "color-picker": Compact
+    'color-picker': Compact
   },
   data: () => {
     return {
       isSubmitted: false,
-      colors: ""
+      colors: ''
     };
   },
   computed: {
@@ -96,13 +96,13 @@ export default {
   methods: {
     close() {
       this.isSubmitted = false;
-      this.$store.commit("modalToggle");
+      this.$store.commit('modalToggle');
     },
     submit() {
       this.isSubmitted = true;
       if (this.isValid()) {
         if (this.currentTable != 'jewelry') {
-          this.$store.commit("setColor", this.colors);
+          this.$store.commit('setColor', this.colors);
         }
         this.$store.dispatch(this.role);
         this.close();
@@ -110,16 +110,16 @@ export default {
     },
     isValid() {
       return (
-        this.currentData.type != "" &&
-        this.currentData.year != "" &&
-        (this.colors != "" || this.$store.currentTable == "jewelry")
+        this.currentData.type != '' &&
+        this.currentData.year != '' &&
+        (this.colors != '' || this.$store.currentTable == 'jewelry')
       );
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
 .container {
   top: 0;

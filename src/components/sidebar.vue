@@ -4,24 +4,22 @@
       <div v-show="tabs.filter">
         <p>Тип</p>
         <select multiple>
-          <option value="1">1</option>
-          <option value="2">2</option>
+          <option v-for="type in types" :key="type.id" :value="type">{{type}}</option>
         </select>
-        <p>Производитель</p>
-        <select multiple>
-          <option value="1">1</option>
-          <option value="2">2</option>
+        <p v-if="currentTable !='jewelry'">Производитель</p>
+        <select v-if="currentTable !='jewelry'" multiple>
+          <option v-for="brand in brands" :key="brand.id" :value="brand">{{brand}}</option>
         </select>
         <p>Год покупки</p>
         <select multiple>
-          <option value="1">1</option>
-          <option value="2">2</option>
+          <option v-for="year in years" :key="year.id" :value="year">{{year}}</option>
         </select>
-        <p>Сезон</p>
-        <select multiple>
+        <p v-show="currentTable !='jewelry'">Сезон</p>
+        <select v-if="currentTable !='jewelry'" multiple>
           <option value="зима">Зима</option>
           <option value="осень-весна">Осень/Весна</option>
           <option value="лето">Лето</option>
+          <option value="лето">Любой</option>
         </select>
       </div>
       <div v-show="tabs.sort">
@@ -29,7 +27,7 @@
           <input type="radio" name="sort" />
           <p>По типу</p>
         </label>
-        <label>
+        <label v-if="currentTable !='jewelry'">
           <input type="radio" name="sort" />
           <p>По производителю</p>
         </label>
@@ -37,7 +35,7 @@
           <input type="radio" name="sort" />
           <p>По году покупки</p>
         </label>
-        <label>
+        <label v-if="currentTable !='jewelry'">
           <input type="radio" name="sort" />
           <p>По сезону</p>
         </label>
@@ -83,28 +81,56 @@
 
 <script>
 export default {
-  name: "sidebar",
+  name: 'sidebar',
   computed: {
     open() {
       return this.$store.state.sidebar.open;
     },
     tabs() {
       return this.$store.state.sidebar.tabs;
+    },
+    currentTable() {
+      return this.$store.state.currentTable;
+    },
+    types() {
+      return this.getProperties('type');
+    },
+    brands() {
+      if (this.currentTable != 'jewelry') {
+        return this.getProperties('brand');
+      } else {
+        return [];
+      }
+    },
+    years() {
+      return this.getProperties('year');
     }
   },
   methods: {
     slideOpen() {
       if (!this.open) {
-        this.$store.commit("sidebarToggle");
+        this.$store.commit('sidebarToggle');
       }
     },
     switchTab(tab) {
-      this.$store.commit("switchTabs", tab);
+      this.$store.commit('switchTabs', tab);
       this.slideOpen();
     },
     changeTable(tableInfo) {
-      this.$store.commit("changeTable", tableInfo);
-      this.$store.dispatch("loadData");
+      this.$store.commit('changeTable', tableInfo);
+      this.$store.dispatch('loadData');
+    },
+    filter(filterName, filterValue) {
+      var filter = {name: filterName, value: filterValue};
+      this.$store.commit('filter', filter);
+    },
+    getProperties(prop) {
+      var table = this.$store.state.tables[this.currentTable];
+      return new Set(
+        table.map(item => {
+          return item[prop];
+        }).sort()
+      );
     }
   }
 };
