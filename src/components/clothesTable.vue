@@ -49,7 +49,8 @@ export default {
       this.$store.commit("changeModalRole", role);
     },
     remove(row) {
-      this.$store.commit("remove", row);
+      this.$store.commit("setCurrentData", row);
+      this.$store.dispatch("delete");
     },
     moveToOld(row) {
       this.$store.commit("setCurrentData", Object.assign({}, row));

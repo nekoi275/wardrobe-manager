@@ -60,8 +60,9 @@ export const store = new Vuex.Store({
         setColor(state, color) {
             state.currentData.color = color;
         },
-        remove(state, row) {
-            state.tablesView[state.currentTable].splice(this.getters.getArrayIndex(row), 1);
+        remove(state, id) {
+            var index = this.getters.getArrayIndex(this.getters.getById(id));
+            state.tablesCache[state.currentTable].splice(index, 1);
         },
         changeTable(state, tableInfo) {
             state.currentTable = tableInfo.name;
@@ -112,12 +113,17 @@ export const store = new Vuex.Store({
         loadData(ctx) {
             fetch("http://46.173.214.223/api/?table=" + ctx.state.currentTable)
                 .then(response => {
-                    return response.json();
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw Error("get error. Status: " + response.statusText);
+                    }
                 })
                 .then(json => {
                     ctx.commit("setData", json);
                     ctx.commit("showData");
-                });
+                })
+                .catch(reason => console.error(reason));
         },
         add(ctx) {
             ctx.state.currentData.table = ctx.state.currentTable;
@@ -129,9 +135,14 @@ export const store = new Vuex.Store({
                 }
             })
                 .then(response => {
-                    return response.json();
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw Error("create error. Status: " + response.statusText);
+                    }
                 })
-                .then(json => ctx.commit("add", json));
+                .then(json => ctx.commit("add", json))
+                .catch(reason => console.error(reason));
         },
         edit(ctx) {
             ctx.state.currentData.table = ctx.state.currentTable;
@@ -151,14 +162,31 @@ export const store = new Vuex.Store({
                 }
             })
                 .then(response => {
-                    console.log(response)
-                    return response.json();
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw Error("update error. Status: " + response.statusText);
+                    }
                 })
                 .then(json => {
-                    console.log(json)
                     ctx.commit("edit", json);
                     ctx.commit("showData");
-                });
+                })
+                .catch(reason => console.error(reason));
+        },
+        delete(ctx) {
+            var id = ctx.state.currentData._id;
+            fetch("http://46.173.214.223/api/?_id=" + id, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        ctx.commit("remove", id);
+                    } else {
+                        throw Error("delete error. Status: " + response.statusText);
+                    }
+                })
+                .catch(reason => console.error(reason));
         }
     },
     getters: {
@@ -168,7 +196,7 @@ export const store = new Vuex.Store({
             });
         },
         getArrayIndex: state => el => {
-            return state.tablesView[state.currentTable].indexOf(el);
+            return state.tablesCache[state.currentTable].indexOf(el);
         }
     },
 });
