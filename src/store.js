@@ -50,10 +50,10 @@ export const store = new Vuex.Store({
         add(state, data) {
             state.tablesView[state.currentTable].push(data);
         },
-      /*   edit(state) {
-            var data = this.getters.getById(state.currentData.id);
-            Object.assign(data, state.currentData);
-        }, */
+        edit(state, data) {
+            var record = this.getters.getById(data._id);
+            Object.assign(record, data);
+        },
         setCurrentData(state, row) {
             state.currentData = row;
         },
@@ -102,7 +102,7 @@ export const store = new Vuex.Store({
             state.filters[filter.name] = filter.value;
         },
         removeAllFilters(state) {
-          state.filters = { type: [], brand: [], year: [], season: [] }; 
+            state.filters = { type: [], brand: [], year: [], season: [] };
         },
         setSorting(state, sorting) {
             state.sorting = sorting;
@@ -150,20 +150,21 @@ export const store = new Vuex.Store({
                     'Content-Type': 'application/json'
                 }
             })
-            .then(response => {
-                console.log(response)
-                return response.json();
-            })
-            .then(json => {
-                ctx.commit("setData", json);
-                ctx.commit("showData");
-            });
+                .then(response => {
+                    console.log(response)
+                    return response.json();
+                })
+                .then(json => {
+                    console.log(json)
+                    ctx.commit("edit", json);
+                    ctx.commit("showData");
+                });
         }
     },
     getters: {
         getById: state => id => {
-            return state.tablesView[state.currentTable].find(el => {
-                return el.id === id
+            return state.tablesCache[state.currentTable].find(el => {
+                return el._id === id
             });
         },
         getArrayIndex: state => el => {
