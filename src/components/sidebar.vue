@@ -4,23 +4,24 @@
       <div v-show="tabs.filter">
         <p>Тип</p>
         <select v-model="filterType" multiple>
-          <option v-for="type in types" :key="type.id" :value="type">{{type}}</option>
+          <option v-for="type in types" :key="type.id" :value="type" :class="{ selected: isSelected('type', type) }">{{type}}</option>
         </select>
         <p v-if="currentTable !='jewelry'">Производитель</p>
         <select v-if="currentTable !='jewelry'" v-model="filterBrand" multiple>
-          <option v-for="brand in brands" :key="brand.id" :value="brand">{{brand}}</option>
+          <option v-for="brand in brands" :key="brand.id" :value="brand" :class="{ selected: isSelected('brand', brand) }">{{brand}}</option>
         </select>
         <p>Год покупки</p>
         <select v-model="filterYear" multiple>
-          <option v-for="year in years" :key="year.id" :value="year">{{year}}</option>
+          <option v-for="year in years" :key="year.id" :value="year" :class="{ selected: isSelected('year', year) }">{{year}}</option>
         </select>
         <p v-show="currentTable !='jewelry'">Сезон</p>
         <select v-if="currentTable !='jewelry'" v-model="filterSeason" multiple>
-          <option value="зима">Зима</option>
-          <option value="осень-весна">Осень/Весна</option>
-          <option value="лето">Лето</option>
-          <option value="любой">Любой</option>
+          <option value="зима" :class="{ selected: isSelected('season', 'зима') }">Зима</option>
+          <option value="осень-весна" :class="{ selected: isSelected('season', 'осень-весна') }">Осень/Весна</option>
+          <option value="лето" :class="{ selected: isSelected('season', 'лето') }">Лето</option>
+          <option value="любой" :class="{ selected: isSelected('season', 'любой') }">Любой</option>
         </select>
+        <button class="small-btn" @click="removeFilters()">Сброс</button>
       </div>
       <div v-show="tabs.tables">
         <button
@@ -143,10 +144,6 @@ export default {
       this.$store.commit("changeTable", tableInfo);
       this.$store.dispatch("loadData");
     },
-    applyFilter(filterName, filterValue) {
-      var filter = { name: filterName, value: filterValue };
-      this.$store.commit("filter", filter);
-    },
     getProperties(prop) {
       var table = this.$store.state.tablesCache[this.currentTable];
       return new Set(
@@ -160,6 +157,13 @@ export default {
     setFilter(name, value) {
       var filter = { name: name, value: value };
       this.$store.commit("setFilter", filter);
+      this.$store.commit("showData");
+    },
+    isSelected(prop, value) {
+      return this.$store.state.filters[prop].includes(value);
+    },
+    removeFilters() {
+      this.$store.commit("removeAllFilters");
       this.$store.commit("showData");
     }
   }
@@ -194,19 +198,12 @@ select {
   width: 100%;
   background-color: var(--neutral-color);
   border: none;
-}
-select[multiple] option {
-  background: var(--neutral-color)
-    linear-gradient(0deg, var(--neutral-color) 0%, var(--neutral-color) 100%);
   color: var(--modal-color);
 }
-select[multiple]:focus option:checked {
+.selected {
   background: var(--main-color)
     linear-gradient(0deg, var(--main-color) 0%, var(--main-color) 100%);
-}
-select[multiple] option:checked {
-  background: var(--main-color)
-    linear-gradient(0deg, var(--main-color) 0%, var(--main-color) 00%);
+  color: var(--modal-color);
 }
 label {
   cursor: pointer;
@@ -255,5 +252,6 @@ li.active {
 }
 .small-btn {
   width: 110px;
+  margin-top: 20px;
 }
 </style>

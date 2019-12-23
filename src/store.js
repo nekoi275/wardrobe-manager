@@ -50,10 +50,10 @@ export const store = new Vuex.Store({
         add(state, data) {
             state.tablesView[state.currentTable].push(data);
         },
-        edit(state) {
+      /*   edit(state) {
             var data = this.getters.getById(state.currentData.id);
             Object.assign(data, state.currentData);
-        },
+        }, */
         setCurrentData(state, row) {
             state.currentData = row;
         },
@@ -101,6 +101,9 @@ export const store = new Vuex.Store({
         setFilter(state, filter) {
             state.filters[filter.name] = filter.value;
         },
+        removeAllFilters(state) {
+          state.filters = { type: [], brand: [], year: [], season: [] }; 
+        },
         setSorting(state, sorting) {
             state.sorting = sorting;
         }
@@ -129,6 +132,32 @@ export const store = new Vuex.Store({
                     return response.json();
                 })
                 .then(json => ctx.commit("add", json));
+        },
+        edit(ctx) {
+            ctx.state.currentData.table = ctx.state.currentTable;
+            var update = Object.assign({}, ctx.state.currentData);
+            delete update._id;
+            var data = {
+                query: {
+                    '_id': ctx.state.currentData._id
+                },
+                update: update
+            }
+            fetch("http://46.173.214.223/api/", {
+                method: 'PUT',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log(response)
+                return response.json();
+            })
+            .then(json => {
+                ctx.commit("setData", json);
+                ctx.commit("showData");
+            });
         }
     },
     getters: {
