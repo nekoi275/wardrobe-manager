@@ -1,94 +1,14 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Таблица с одеждой</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/buttons.css">
-    <link rel="stylesheet" type="text/css" href="css/modal.css">
-    <link rel="stylesheet" type="text/css" href="css/form.css">
-    <link rel="stylesheet" type="text/css" href="css/colorPicker.css">
-<body>
-    <div class="table-container">
-        <table id="clothes-table">
-            <thead>
-            <tr>
-                <th><span>Тип</span></th>
-                <th><span>Производитель</span></th>
-                <th><span>Цвет</span></th>
-                <th><span>Описание</span></th>
-                <th><span>Стоимость</span></th>
-                <th><span>Дата покупки</span></th>
-                <th><span>Сезон</span></th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-    <button id="add-button" class="button" data-modal="open">Добавить</button>
-    <div class="modal-container">
-        <div class="overlay" data-modal="close"></div>
-        <div id="modal-form" class="modal">
-            <div class="modal-title">
-                <h4 id="form-name"></h4>
-                <button class="button close-button" data-modal="close"></button>
-            </div>
-            <div class="modal-content">
-                <div class="form" id="clothes-form" novalidate>
-                    <div class="input-group">
-                        <p>Тип</p>
-                        <input name="type" class="editable required" type="text">
-                    </div>
-                    <div class="input-group">
-                        <p>Производитель</p>
-                        <input name="brand" class="editable"  type="text">
-                    </div> 
-                    <div class="input-group">
-                        <p>Цвет</p>
-                        <input name="color" class="editable required"  type="hidden">
-                        <canvas class="color-palette"></canvas>
-                    </div>
-                    <div class="input-group">
-                        <p>Описание</p>
-                        <input name="description" class="editable" type="textarea">
-                    </div>
-                    <div class="input-group">
-                        <p>Стоимость</p>
-                        <input name="price" class="editable required" type="number">
-                    </div>
-                    <div class="input-group">
-                        <p>Дата покупки</p>
-                        <input name="date" class="editable required" type="date" >
-                    </div>
-                    <div class="input-group">
-                        <p>Сезон</p>
-                        <div class="radio-group">
-                            <span>зима</span>
-                            <input name="season" type="radio" value="зима">
-                            <span>весна</span>
-                            <input name="season" type="radio" value="весна">
-                            <span>лето</span>
-                            <input name="season" type="radio" value="лето">
-                            <span>осень</span>
-                            <input name="season" type="radio" value="осень">
-                        </div>
-                    </div>
-                    <input name="id" type="hidden">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="cancel-button" class="button" data-modal="close">Закрыть</button>
-                <button id="submit-button" class="button">Добавить</button>
-            </div>
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ru.js"></script>
-    <script src="js/classes.js"></script>
-    <script src="js/colorPicker.js"></script>
-    <script src="js/init.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>wardrobe</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
 </html>
