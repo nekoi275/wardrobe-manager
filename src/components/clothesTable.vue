@@ -21,7 +21,7 @@
         <td>
           <span class="edit" @click="openModal('edit', row)"></span>
           <span class="remove" @click="remove(row)"></span>
-          <span v-if="currentTable == 'clothes'" class="move" @click="moveToOld(row)"></span>
+          <span v-if="currentTable == 'clothes'" class="move" @click="move(row, 'old')"></span>
         </td>
       </tr>
     </tbody>
@@ -52,9 +52,9 @@ export default {
       this.$store.commit("setCurrentData", row);
       this.$store.dispatch("delete");
     },
-    moveToOld(row) {
+    move(row, table) {
       this.$store.commit("setCurrentData", Object.assign({}, row));
-      this.$store.commit("move", row);
+      this.$store.dispatch("edit", table);
     },
     sort(field) {
       if (field.isSortable) {

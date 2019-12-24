@@ -68,9 +68,9 @@ export const store = new Vuex.Store({
             state.currentTable = tableInfo.name;
             state.headers = tableInfo.headers;
         },
-        move(state, row) {
-            state.tablesView[state.currentTable].splice(this.getters.getArrayIndex(row), 1);
-            state.tablesView.old.push(Object.assign({}, state.currentData));
+        move(state, row, table) {
+            state.tablesCache[state.currentTable].splice(this.getters.getArrayIndex(row), 1);
+            state.tablesCache[table].push(Object.assign({}, state.currentData));
         },
         setData(state, data) {
             state.tablesCache[state.currentTable] = data;
@@ -144,8 +144,12 @@ export const store = new Vuex.Store({
                 .then(json => ctx.commit("add", json))
                 .catch(reason => console.error(reason));
         },
-        edit(ctx) {
-            ctx.state.currentData.table = ctx.state.currentTable;
+        edit(ctx, table) {
+            if (table) {
+                ctx.state.currentData.table = table;
+            } else {
+                ctx.state.currentData.table = ctx.state.currentTable;
+            }
             var update = Object.assign({}, ctx.state.currentData);
             delete update._id;
             var data = {
@@ -169,7 +173,11 @@ export const store = new Vuex.Store({
                     }
                 })
                 .then(json => {
-                    ctx.commit("edit", json);
+                    if (table) {
+                        ctx.commit("move", json, table);
+                    } else {
+                        ctx.commit("edit", json);
+                    }
                     ctx.commit("showData");
                 })
                 .catch(reason => console.error(reason));
