@@ -1,6 +1,6 @@
 # wardrobe
 
-[Preview public version](http://46.173.214.223/clothes/)
+[Preview public sample version](http://46.173.214.223/clothes/)
 
 ## Project setup
 ```
