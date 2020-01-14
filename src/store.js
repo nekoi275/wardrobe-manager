@@ -67,10 +67,11 @@ export const store = new Vuex.Store({
         changeTable(state, tableInfo) {
             state.currentTable = tableInfo.name;
             state.headers = tableInfo.headers;
+            window.location.hash = tableInfo.name;
         },
-        move(state, row, table) {
+        move(state, row) {
             state.tablesCache[state.currentTable].splice(this.getters.getArrayIndex(row), 1);
-            state.tablesCache[table].push(Object.assign({}, state.currentData));
+            state.tablesCache[row.table].push(Object.assign({}, state.currentData));
         },
         setData(state, data) {
             state.tablesCache[state.currentTable] = data;
@@ -111,7 +112,7 @@ export const store = new Vuex.Store({
     },
     actions: {
         loadData(ctx) {
-            fetch("http://46.173.214.223/api/?table=" + ctx.state.currentTable)
+            fetch("api/?table=" + ctx.state.currentTable)
                 .then(response => {
                     if (response.ok) {
                         return response.json();
@@ -127,7 +128,7 @@ export const store = new Vuex.Store({
         },
         add(ctx) {
             ctx.state.currentData.table = ctx.state.currentTable;
-            fetch("http://46.173.214.223/api/", {
+            fetch("api/", {
                 method: 'POST',
                 body: JSON.stringify(ctx.state.currentData),
                 headers: {
@@ -158,7 +159,7 @@ export const store = new Vuex.Store({
                 },
                 update: update
             }
-            fetch("http://46.173.214.223/api/", {
+            fetch("api/", {
                 method: 'PUT',
                 body: JSON.stringify(data),
                 headers: {
@@ -174,7 +175,7 @@ export const store = new Vuex.Store({
                 })
                 .then(json => {
                     if (table) {
-                        ctx.commit("move", json, table);
+                        ctx.commit("move", json);
                     } else {
                         ctx.commit("edit", json);
                     }
@@ -184,7 +185,7 @@ export const store = new Vuex.Store({
         },
         delete(ctx) {
             var id = ctx.state.currentData._id;
-            fetch("http://46.173.214.223/api/?_id=" + id, {
+            fetch("api/?_id=" + id, {
                 method: 'DELETE'
             })
                 .then(response => {
@@ -204,7 +205,7 @@ export const store = new Vuex.Store({
             });
         },
         getArrayIndex: state => el => {
-            return state.tablesCache[state.currentTable].indexOf(el);
+            return state.tablesCache[state.currentTable].map(z => z._id).indexOf(el._id);
         }
     },
 });

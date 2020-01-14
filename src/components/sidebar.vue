@@ -142,7 +142,10 @@ export default {
     },
     changeTable(tableInfo) {
       this.$store.commit("changeTable", tableInfo);
-      this.$store.dispatch("loadData");
+      var table = this.$store.state.tablesCache[tableInfo.name];
+      if (!table.length) {
+        this.$store.dispatch("loadData");
+      }
     },
     getProperties(prop) {
       var table = this.$store.state.tablesCache[this.currentTable];
