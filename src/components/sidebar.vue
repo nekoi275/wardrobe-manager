@@ -4,20 +4,38 @@
       <div v-show="tabs.filter">
         <p>Тип</p>
         <select v-model="filterType" multiple>
-          <option v-for="type in types" :key="type.id" :value="type" :class="{ selected: isSelected('type', type) }">{{type}}</option>
+          <option
+            v-for="type in types"
+            :key="type.id"
+            :value="type"
+            :class="{ selected: isSelected('type', type) }"
+          >{{type}}</option>
         </select>
         <p v-if="currentTable !='jewelry'">Производитель</p>
         <select v-if="currentTable !='jewelry'" v-model="filterBrand" multiple>
-          <option v-for="brand in brands" :key="brand.id" :value="brand" :class="{ selected: isSelected('brand', brand) }">{{brand}}</option>
+          <option
+            v-for="brand in brands"
+            :key="brand.id"
+            :value="brand"
+            :class="{ selected: isSelected('brand', brand) }"
+          >{{brand}}</option>
         </select>
         <p>Год покупки</p>
         <select v-model="filterYear" multiple>
-          <option v-for="year in years" :key="year.id" :value="year" :class="{ selected: isSelected('year', year) }">{{year}}</option>
+          <option
+            v-for="year in years"
+            :key="year.id"
+            :value="year"
+            :class="{ selected: isSelected('year', year) }"
+          >{{year}}</option>
         </select>
         <p v-show="currentTable !='jewelry'">Сезон</p>
         <select v-if="currentTable !='jewelry'" v-model="filterSeason" multiple>
           <option value="зима" :class="{ selected: isSelected('season', 'зима') }">Зима</option>
-          <option value="осень-весна" :class="{ selected: isSelected('season', 'осень-весна') }">Осень/Весна</option>
+          <option
+            value="осень-весна"
+            :class="{ selected: isSelected('season', 'осень-весна') }"
+          >Осень/Весна</option>
           <option value="лето" :class="{ selected: isSelected('season', 'лето') }">Лето</option>
           <option value="любой" :class="{ selected: isSelected('season', 'любой') }">Любой</option>
         </select>
@@ -26,13 +44,19 @@
       <div v-show="tabs.tables">
         <button
           class="small-btn"
+          :class="{ active: isActive('clothes')}"
           @click="changeTable({name: 'clothes', headers: clothesHeaders})"
         >Одежда</button>
         <button
           class="small-btn"
+          :class="{ active: isActive('jewelry')}"
           @click="changeTable({name:'jewelry', headers: jewelryHeaders})"
         >Украшения</button>
-        <button class="small-btn" @click="changeTable({name:'old', headers: oldHeaders})">Старое</button>
+        <button
+          class="small-btn"
+          :class="{ active: isActive('old')}"
+          @click="changeTable({name:'old', headers: oldHeaders})"
+        >Старое</button>
       </div>
     </div>
     <ul>
@@ -165,6 +189,9 @@ export default {
     isSelected(prop, value) {
       return this.$store.state.filters[prop].includes(value);
     },
+    isActive(name) {
+      return this.currentTable === name;
+    },
     removeFilters() {
       this.$store.commit("removeAllFilters");
       this.$store.commit("showData");
@@ -256,5 +283,9 @@ li.active {
 .small-btn {
   width: 110px;
   margin-top: 20px;
+}
+.small-btn.active {
+  background-color: transparent;
+  border: 3px solid var(--main-color);
 }
 </style>

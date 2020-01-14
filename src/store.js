@@ -112,7 +112,7 @@ export const store = new Vuex.Store({
     },
     actions: {
         loadData(ctx) {
-            fetch("api/?table=" + ctx.state.currentTable)
+            fetch("http://46.173.214.223/clothes/api/?table=" + ctx.state.currentTable)
                 .then(response => {
                     if (response.ok) {
                         return response.json();
@@ -128,7 +128,7 @@ export const store = new Vuex.Store({
         },
         add(ctx) {
             ctx.state.currentData.table = ctx.state.currentTable;
-            fetch("api/", {
+            fetch("http://46.173.214.223/clothes/api/", {
                 method: 'POST',
                 body: JSON.stringify(ctx.state.currentData),
                 headers: {
@@ -159,7 +159,7 @@ export const store = new Vuex.Store({
                 },
                 update: update
             }
-            fetch("api/", {
+            fetch("http://46.173.214.223/clothes/api/", {
                 method: 'PUT',
                 body: JSON.stringify(data),
                 headers: {
@@ -185,7 +185,7 @@ export const store = new Vuex.Store({
         },
         delete(ctx) {
             var id = ctx.state.currentData._id;
-            fetch("api/?_id=" + id, {
+            fetch("http://46.173.214.223/clothes/api/?_id=" + id, {
                 method: 'DELETE'
             })
                 .then(response => {
