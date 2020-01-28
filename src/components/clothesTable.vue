@@ -33,13 +33,13 @@ export default {
   name: "clothes-table",
   computed: {
     rows() {
-      return this.$store.state.tablesView[this.currentTable];
+      return this.$store.state.table.view[this.currentTable];
     },
     headers() {
-      return this.$store.state.headers;
+      return this.$store.state.table.headers;
     },
     currentTable() {
-      return this.$store.state.currentTable;
+      return this.$store.state.table.current;
     }
   },
   methods: {
@@ -58,10 +58,10 @@ export default {
     },
     sort(field) {
       if (field.isSortable) {
-        if (this.$store.state.sorting.field == field.name) {
+        if (this.$store.state.table.sorting.field == field.name) {
           this.$store.commit("setSorting", {
             field: field.name,
-            isAscending: !this.$store.state.sorting.isAscending
+            isAscending: !this.$store.state.table.sorting.isAscending
           });
         } else {
           this.$store.commit("setSorting", {

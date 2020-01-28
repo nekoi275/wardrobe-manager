@@ -106,7 +106,7 @@ export default {
       return this.$store.state.sidebar.tabs;
     },
     currentTable() {
-      return this.$store.state.currentTable;
+      return this.$store.state.table.current;
     },
     types() {
       return this.getProperties("type");
@@ -166,13 +166,13 @@ export default {
     },
     changeTable(tableInfo) {
       this.$store.commit("changeTable", tableInfo);
-      var table = this.$store.state.tablesCache[tableInfo.name];
+      var table = this.$store.state.table.view[tableInfo.name];
       if (!table.length) {
         this.$store.dispatch("loadData");
       }
     },
     getProperties(prop) {
-      var table = this.$store.state.tablesCache[this.currentTable];
+      var table = this.$store.state.table.cache[this.currentTable];
       return new Set(
         table
           .map(item => {
@@ -187,7 +187,7 @@ export default {
       this.$store.commit("showData");
     },
     isSelected(prop, value) {
-      return this.$store.state.filters[prop].includes(value);
+      return this.$store.state.sidebar.filters[prop].includes(value);
     },
     isActive(name) {
       return this.currentTable === name;

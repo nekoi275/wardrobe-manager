@@ -79,18 +79,18 @@ export default {
   },
   computed: {
     open() {
-      return this.$store.state.modal.shown;
+      return this.$store.state.form.shown;
     },
     role() {
-      return this.$store.state.modal.role;
+      return this.$store.state.form.role;
     },
     currentData: {
       get() {
-        return this.$store.state.currentData;
+        return this.$store.state.form.currentData;
       }
     },
     currentTable() {
-      return this.$store.state.currentTable;
+      return this.$store.state.table.current;
     }
   },
   methods: {

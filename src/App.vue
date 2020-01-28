@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     currentTable() {
-      return this.$store.state.currentTable;
+      return this.$store.state.table.current;
     }
   },
   methods: {
