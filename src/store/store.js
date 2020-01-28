@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import sidebarModule from './modules/sidebar.js'
 import formModule from './modules/form.js'
 import tableModule from './modules/table.js'
+import api from '../api/api.js'
 
 Vue.use(Vuex);
 
@@ -40,38 +41,14 @@ export const store = new Vuex.Store({
     },
     actions: {
         loadData(ctx) {
-            fetch("/api/?table=" + ctx.state.table.current)
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw Error("get error. Status: " + response.statusText);
-                    }
-                })
-                .then(json => {
-                    ctx.commit("setData", json);
-                    ctx.commit("showData");
-                })
-                .catch(reason => console.error(reason));
+            api.get(ctx.state.table.current, json => {
+                ctx.commit("setData", json);
+                ctx.commit("showData");
+            }, reason => console.error(reason));
         },
         add(ctx) {
             ctx.state.form.currentData.table = ctx.state.table.current;
-            fetch("/api/", {
-                method: 'POST',
-                body: JSON.stringify(ctx.state.form.currentData),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw Error("create error. Status: " + response.statusText);
-                    }
-                })
-                .then(json => ctx.commit("add", json))
-                .catch(reason => console.error(reason));
+            api.add(ctx.state.form.currentData, json => ctx.commit("add", json), reason => console.error(reason));
         },
         edit(ctx, table) {
             if (table) {
@@ -87,43 +64,18 @@ export const store = new Vuex.Store({
                 },
                 update: update
             }
-            fetch("/api/", {
-                method: 'PUT',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
+            api.edit(data, json => {
+                if (table) {
+                    ctx.commit("move", json);
+                } else {
+                    ctx.commit("edit", json);
                 }
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw Error("update error. Status: " + response.statusText);
-                    }
-                })
-                .then(json => {
-                    if (table) {
-                        ctx.commit("move", json);
-                    } else {
-                        ctx.commit("edit", json);
-                    }
-                    ctx.commit("showData");
-                })
-                .catch(reason => console.error(reason));
+                ctx.commit("showData");
+            }, reason => console.error(reason));
         },
         delete(ctx) {
             var id = ctx.state.form.currentData._id;
-            fetch("/api/?_id=" + id, {
-                method: 'DELETE'
-            })
-                .then(response => {
-                    if (response.ok) {
-                        ctx.commit("remove", id);
-                    } else {
-                        throw Error("delete error. Status: " + response.statusText);
-                    }
-                })
-                .catch(reason => console.error(reason));
+            api.delete(id, () => ctx.commit("remove", id), reason => console.error(reason));
         }
     },
 });
