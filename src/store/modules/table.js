@@ -9,19 +9,24 @@ const state = {
         jewelry: [],
         old: []
     },
-    current: '',
+    current: { name: '', displayName: '' },
     headers: [],
-    sorting: { field: '', isAscending: false }
+    sorting: { field: '', isAscending: false },
+    itemsCount: ''
 }
 
 const mutations = {
     changeTable(state, tableInfo) {
-        state.current = tableInfo.name;
+        state.current.name = tableInfo.name;
+        state.current.displayName = tableInfo.displayName;
         state.headers = tableInfo.headers;
         window.location.hash = tableInfo.name;
     },
+    countItems(state) {
+        state.itemsCount = state.cache[state.current.name].length;
+    },
     add(state, data) {
-        state.view[state.current].push(data);
+        state.view[state.current.name].push(data);
     },
     edit(state, data) {
         var record = this.getters.getById(data._id);
@@ -29,24 +34,24 @@ const mutations = {
     },
     remove(state, id) {
         var index = this.getters.getArrayIndex(this.getters.getById(id));
-        state.cache[state.current].splice(index, 1);
+        state.cache[state.current.name].splice(index, 1);
     },
     move(state, row) {
-        state.cache[state.current].splice(this.getters.getArrayIndex(row), 1);
+        state.cache[state.current.name].splice(this.getters.getArrayIndex(row), 1);
         state.cache[row.table].push(Object.assign({}, row));
     },
     setData(state, data) {
-        state.cache[state.current] = data;
+        state.cache[state.current.name] = data;
     },
-    
+
     setSorting(state, sorting) {
         state.sorting = sorting;
     }
 }
 
 const actions = {
-    showData({state, rootState}) {
-        var data = state.cache[state.current];
+    showData({ commit, state, rootState }) {
+        var data = state.cache[state.current.name];
         for (let key in rootState.sidebar.filters) {
             let values = rootState.sidebar.filters[key];
             if (values.length) {
@@ -67,18 +72,19 @@ const actions = {
             }
             return result;
         });
-        state.view[state.current] = data;
+        state.view[state.current.name] = data;
+        commit("countItems");
     }
 }
 
 const getters = {
     getById: state => id => {
-        return state.cache[state.current].find(el => {
+        return state.cache[state.current.name].find(el => {
             return el._id === id
         });
     },
     getArrayIndex: state => el => {
-        return state.cache[state.current].map(z => z._id).indexOf(el._id);
+        return state.cache[state.current.name].map(z => z._id).indexOf(el._id);
     }
 }
 

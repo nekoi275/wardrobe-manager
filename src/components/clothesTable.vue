@@ -39,7 +39,7 @@ export default {
       return this.$store.state.table.headers;
     },
     currentTable() {
-      return this.$store.state.table.current;
+      return this.$store.state.table.current.name;
     }
   },
   methods: {

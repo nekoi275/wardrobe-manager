@@ -2,20 +2,20 @@ import api from '../../api/api.js'
 
 const actions = {
     loadData({ dispatch, commit, rootState }) {
-        api.get(rootState.table.current, json => {
+        api.get(rootState.table.current.name, json => {
             commit("setData", json);
             dispatch("showData");
         }, reason => console.error(reason));
     },
     add({ commit, rootState }) {
-        rootState.form.currentData.table = rootState.table.current;
-        api.add(rootState.form.currentData, json => commit("add", json), reason => console.error(reason));
+        rootState.form.currentData.table = rootState.table.current.name;
+        api.add(rootState.form.currentData, json => {commit("add", json); commit("countItems")}, reason => console.error(reason));
     },
     edit({ dispatch, commit, rootState }, table) {
         if (table) {
             rootState.form.currentData.table = table;
         } else {
-            rootState.form.currentData.table = rootState.table.current;
+            rootState.form.currentData.table = rootState.table.current.name;
         }
         var update = Object.assign({}, rootState.form.currentData);
         delete update._id;
@@ -36,7 +36,7 @@ const actions = {
     },
     delete({ commit, rootState }) {
         var id = rootState.form.currentData._id;
-        api.delete(id, () => commit("remove", id), reason => console.error(reason));
+        api.delete(id, () => {commit("remove", id); commit("countItems")}, reason => console.error(reason));
     }
 }
 

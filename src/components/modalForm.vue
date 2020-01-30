@@ -90,7 +90,7 @@ export default {
       }
     },
     currentTable() {
-      return this.$store.state.table.current;
+      return this.$store.state.table.current.name;
     }
   },
   methods: {

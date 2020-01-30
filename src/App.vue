@@ -2,8 +2,9 @@
   <div>
     <sidebar></sidebar>
     <div class="main-content" @click="closeSidebar()">
+      <div class="header">{{currentTable.displayName}}. Всего: {{count}}</div>
       <clothes-table></clothes-table>
-      <button @click="openModal()" v-show="currentTable != 'old'">Добавить</button>
+      <button @click="openModal()" v-show="currentTable.name != 'old'">Добавить</button>
       <modal-form></modal-form>
     </div>
   </div>
@@ -24,6 +25,9 @@ export default {
   computed: {
     currentTable() {
       return this.$store.state.table.current;
+    },
+    count() {
+      return this.$store.state.table.itemsCount;
     }
   },
   methods: {
@@ -34,12 +38,12 @@ export default {
         price: "0",
         year: new Date().getFullYear()
       };
-      if (this.currentTable == "clothes") {
+      if (this.currentTable.name == "clothes") {
         row.brand = "No name";
         row.color = "";
         row.season = "любой";
       }
-      if (this.currentTable == "jewelry") {
+      if (this.currentTable.name == "jewelry") {
         row.country = "";
       }
       this.$store.commit("setCurrentData", row);
@@ -56,6 +60,7 @@ export default {
   beforeMount: function() {
     this.$store.commit("changeTable", {
       name: "clothes",
+      displayName: "Одежда",
       headers: [
         { name: "type", displayName: "Тип", isSortable: true },
         { name: "brand", displayName: "Производитель", isSortable: true },
@@ -112,5 +117,10 @@ button:hover {
 .main-content {
   margin-left: 40px;
   height: 100vh;
+}
+.header {
+  background-color: var(--modal-color);
+  padding: 10px;
+  color: var(--neutral-color);
 }
 </style>

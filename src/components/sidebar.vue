@@ -45,17 +45,17 @@
         <button
           class="small-btn"
           :class="{ active: isActive('clothes')}"
-          @click="changeTable({name: 'clothes', headers: clothesHeaders})"
+          @click="changeTable({name: 'clothes', displayName: 'Одежда', headers: clothesHeaders})"
         >Одежда</button>
         <button
           class="small-btn"
           :class="{ active: isActive('jewelry')}"
-          @click="changeTable({name:'jewelry', headers: jewelryHeaders})"
+          @click="changeTable({name:'jewelry', displayName: 'Украшения', headers: jewelryHeaders})"
         >Украшения</button>
         <button
           class="small-btn"
           :class="{ active: isActive('old')}"
-          @click="changeTable({name:'old', headers: oldHeaders})"
+          @click="changeTable({name:'old', displayName: 'Старое', headers: oldHeaders})"
         >Старое</button>
       </div>
     </div>
@@ -106,7 +106,7 @@ export default {
       return this.$store.state.sidebar.tabs;
     },
     currentTable() {
-      return this.$store.state.table.current;
+      return this.$store.state.table.current.name;
     },
     types() {
       return this.getProperties("type");
@@ -166,6 +166,7 @@ export default {
     },
     changeTable(tableInfo) {
       this.$store.commit("changeTable", tableInfo);
+      this.$store.commit("countItems");
       var table = this.$store.state.table.view[tableInfo.name];
       if (!table.length) {
         this.$store.dispatch("loadData");
