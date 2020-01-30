@@ -69,7 +69,7 @@ export default {
             isAscending: true
           });
         }
-        this.$store.commit("showData");
+        this.$store.dispatch("showData");
       }
     }
   }

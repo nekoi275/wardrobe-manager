@@ -1,17 +1,17 @@
 import api from '../../api/api.js'
 
 const actions = {
-    loadData({ commit, rootState }) {
+    loadData({ dispatch, commit, rootState }) {
         api.get(rootState.table.current, json => {
             commit("setData", json);
-            commit("showData");
+            dispatch("showData");
         }, reason => console.error(reason));
     },
     add({ commit, rootState }) {
         rootState.form.currentData.table = rootState.table.current;
         api.add(rootState.form.currentData, json => commit("add", json), reason => console.error(reason));
     },
-    edit({ commit, rootState }, table) {
+    edit({ dispatch, commit, rootState }, table) {
         if (table) {
             rootState.form.currentData.table = table;
         } else {
@@ -31,7 +31,7 @@ const actions = {
             } else {
                 commit("edit", json);
             }
-            commit("showData");
+            dispatch("showData");
         }, reason => console.error(reason));
     },
     delete({ commit, rootState }) {

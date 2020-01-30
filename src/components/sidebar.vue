@@ -184,7 +184,7 @@ export default {
     setFilter(name, value) {
       var filter = { name: name, value: value };
       this.$store.commit("setFilter", filter);
-      this.$store.commit("showData");
+      this.$store.dispatch("showData");
     },
     isSelected(prop, value) {
       return this.$store.state.sidebar.filters[prop].includes(value);
@@ -194,7 +194,7 @@ export default {
     },
     removeFilters() {
       this.$store.commit("removeAllFilters");
-      this.$store.commit("showData");
+      this.$store.dispatch("showData");
     }
   }
 };

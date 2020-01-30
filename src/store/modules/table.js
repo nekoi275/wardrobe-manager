@@ -44,6 +44,33 @@ const mutations = {
     }
 }
 
+const actions = {
+    showData({state, rootState}) {
+        var data = state.cache[state.current];
+        for (let key in rootState.sidebar.filters) {
+            let values = rootState.sidebar.filters[key];
+            if (values.length) {
+                data = data.filter(item => { return values.includes(item[key]) });
+            }
+        }
+        data.sort((item1, item2) => {
+            var field = state.sorting.field;
+            var result = 0;
+            if (item1[field] > item2[field]) {
+                result = 1;
+            }
+            if (item1[field] < item2[field]) {
+                result = -1;
+            }
+            if (!state.sorting.isAscending) {
+                result = -result;
+            }
+            return result;
+        });
+        state.view[state.current] = data;
+    }
+}
+
 const getters = {
     getById: state => id => {
         return state.cache[state.current].find(el => {
@@ -56,5 +83,5 @@ const getters = {
 }
 
 export default {
-    state, mutations, getters
+    state, mutations, getters, actions
 }
