@@ -2,7 +2,7 @@
   <table>
     <thead>
       <th v-for="header in headers" :key="header.id">
-        <div @click="sort(header)">
+        <div :class="{ pointed: header.isSortable}"  @click="sort(header)">
           {{header.displayName}}
         </div>
       </th>
@@ -95,7 +95,7 @@ thead {
 thead th {
   padding: 15px;
 }
-thead th div {
+.pointed {
   cursor: pointer;
 }
 tbody tr {
