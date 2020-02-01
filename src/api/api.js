@@ -14,7 +14,7 @@ const urlFactory = function(url) {
             return url + "/api/?_id=" + id
         }
     }
-}('http://46.173.214.223/clothes');
+}();
 
 export default {
     get(tableName, onSuccess, onError) {
