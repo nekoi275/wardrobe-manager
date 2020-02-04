@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar" v-bind:class="{ open: open }">
+  <aside v-bind:class="{ open: open }">
     <div class="options">
       <div v-show="tabs.filter">
         <p>Тип</p>
@@ -63,7 +63,7 @@
       <li class="filter" @click="switchTab('filter')" v-bind:class="{ active: tabs.filter }"></li>
       <li class="tables" @click="switchTab('tables')" v-bind:class="{ active: tabs.tables }"></li>
     </ul>
-  </div>
+  </aside>
 </template>
 
 <script>
@@ -202,7 +202,7 @@ export default {
 </script>
 
 <style scoped>
-.sidebar {
+aside {
   position: fixed;
   display: flex;
   z-index: 1;
@@ -215,7 +215,7 @@ export default {
   background-color: var(--neutral-color);
   border-right: 1px solid var(--main-color);
 }
-.sidebar.open {
+.open {
   transform: none;
 }
 .options {

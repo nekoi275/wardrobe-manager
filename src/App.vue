@@ -1,26 +1,28 @@
 <template>
   <div>
     <sidebar></sidebar>
-    <div class="main-content" @click="closeSidebar()">
-      <div class="header">{{currentTable.displayName}}. Всего: {{count}}</div>
-      <clothes-table></clothes-table>
+    <header>{{currentTable.displayName}}. Всего: {{count}}</header>
+    <main @click="closeSidebar()">
+      <clothes-card v-bind:item = "{type: 1, brand: 2}"></clothes-card>
       <button @click="openModal()" v-show="currentTable.name != 'old'">Добавить</button>
       <modal-form></modal-form>
-    </div>
+    </main>
   </div>
 </template>
 
 <script>
-import clothesTable from "./components/clothesTable.vue";
+// import clothesTable from "./components/clothesTable.vue";
 import modalForm from "./components/modalForm.vue";
 import sidebar from "./components/sidebar.vue";
+import clothesCard from "./components/clothesCard.vue";
 
 export default {
   name: "app",
   components: {
-    clothesTable,
+    // clothesTable,
     modalForm,
-    sidebar
+    sidebar,
+    clothesCard
   },
   computed: {
     currentTable() {
@@ -28,7 +30,8 @@ export default {
     },
     count() {
       return this.$store.state.table.itemsCount;
-    }
+    },
+
   },
   methods: {
     openModal() {
@@ -114,13 +117,14 @@ button:hover {
   background-color: var(--modal-color);
   border: 3px solid var(--main-color);
 }
-.main-content {
+main {
   margin-left: 40px;
   height: 100vh;
 }
-.header {
+header {
   background-color: var(--modal-color);
   padding: 10px;
   color: var(--neutral-color);
+  margin-left: 40px;
 }
 </style>
