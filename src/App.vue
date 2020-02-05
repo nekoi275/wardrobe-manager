@@ -3,7 +3,10 @@
     <sidebar></sidebar>
     <header>{{currentTable.displayName}}. Всего: {{count}}</header>
     <main @click="closeSidebar()">
-      <clothes-card v-bind:item = "{type: 1, brand: 2}"></clothes-card>
+      <div v-if="isMobile">
+        <clothes-card v-for="item in items" :key="item.id" v-bind:item="item"></clothes-card>
+      </div>
+      <clothes-table v-if="!isMobile"></clothes-table>
       <button @click="openModal()" v-show="currentTable.name != 'old'">Добавить</button>
       <modal-form></modal-form>
     </main>
@@ -11,7 +14,7 @@
 </template>
 
 <script>
-// import clothesTable from "./components/clothesTable.vue";
+import clothesTable from "./components/clothesTable.vue";
 import modalForm from "./components/modalForm.vue";
 import sidebar from "./components/sidebar.vue";
 import clothesCard from "./components/clothesCard.vue";
@@ -19,7 +22,7 @@ import clothesCard from "./components/clothesCard.vue";
 export default {
   name: "app",
   components: {
-    // clothesTable,
+    clothesTable,
     modalForm,
     sidebar,
     clothesCard
@@ -31,7 +34,12 @@ export default {
     count() {
       return this.$store.state.table.itemsCount;
     },
-
+    items() {
+      return this.$store.state.table.view[this.currentTable.name];
+    },
+    isMobile() {
+      return window.innerWidth <= 840;
+    }
   },
   methods: {
     openModal() {
@@ -91,7 +99,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: "Tahoma";
+  font-family: sans-serif;
   font-size: 12pt;
   background-color: var(--body-color);
   height: 100%;

@@ -3,23 +3,27 @@
     <img src="https://placeimg.com/640/480/nature" alt="item photo" />
     <table>
       <tr v-for="property in properties" :key="property.id">
-        <td>{{property.displayName}} :</td>
-        <td>{{item[property.name]}}</td>
+        <td>{{property.displayName}}:</td>
+        <td v-if="property.name != 'color'">{{data[property.name]}}</td>
+        <td v-if="property.name === 'color'" v-bind:style="{backgroundColor: data.color.hex}"></td>
       </tr>
     </table>
-    <span class="edit" @click="openModal('edit', row)"></span>
-    <span class="remove" @click="remove(row)"></span>
-    <span v-if="currentTable == 'clothes'" class="move" @click="move(row, 'old')"></span>
+    <footer>
+      <span class="edit" @click="openModal('edit', data)"></span>
+      <span class="remove" @click="remove(data)"></span>
+      <span v-if="currentTable == 'clothes'" class="move" @click="move(data, 'old')"></span>
+    </footer>
   </div>
 </template>
 
 <script>
 export default {
   name: "clothes-card",
-  props: {
-    item: Object
-  },
+  props: ["item"],
   computed: {
+    data() {
+      return this.item;
+    },
     properties() {
       return this.$store.state.table.headers;
     },
@@ -28,30 +32,47 @@ export default {
     }
   },
   methods: {
-    openModal(role, row) {
-      this.$store.commit("setCurrentData", Object.assign({}, row));
+    openModal(role, item) {
+      this.$store.commit("setCurrentData", Object.assign({}, item));
       this.$store.commit("modalToggle");
       this.$store.commit("changeModalRole", role);
     },
-    remove(row) {
-      this.$store.commit("setCurrentData", row);
+    remove(item) {
+      this.$store.commit("setCurrentData", item);
       this.$store.dispatch("delete");
     },
-    move(row, table) {
-      this.$store.commit("setCurrentData", Object.assign({}, row));
+    move(item, table) {
+      this.$store.commit("setCurrentData", Object.assign({}, item));
       this.$store.dispatch("edit", table);
     }
-  }  
-}
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .card {
+  width: 300px;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: var(--main-color);
+  color: var(--neutral-color);
+}
+img {
+  width: 100%;
+}
+table tr td {
+  padding: 5px;
+  width: 50%;
+}
+footer {
+  background-color: var(--modal-color);
+  padding: 10px;
+  text-align: center;
 }
 span {
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 20px;
   cursor: pointer;
   width: 20px;
   height: 20px;

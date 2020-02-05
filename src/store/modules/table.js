@@ -43,7 +43,6 @@ const mutations = {
     setData(state, data) {
         state.cache[state.current.name] = data;
     },
-
     setSorting(state, sorting) {
         state.sorting = sorting;
     }
@@ -71,7 +70,7 @@ const actions = {
                 result = -result;
             }
             return result;
-        });
+        }); 
         state.view[state.current.name] = data;
         commit("countItems");
     }

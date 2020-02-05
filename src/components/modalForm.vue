@@ -2,8 +2,8 @@
   <div class="container" v-show="open">
     <div class="overlay" @click="close()"></div>
     <div class="modal">
-      <div class="title" v-if="role === 'add'">Добавить новую вещь</div>
-      <div class="title" v-if="role === 'edit'">Редактировать</div>
+      <header v-if="role === 'add'">Добавить новую вещь</header>
+      <header v-if="role === 'edit'">Редактировать</header>
       <form action="#" target="_self">
         <span
           class="required-msg"
@@ -145,7 +145,7 @@ export default {
   background-color: var(--modal-color);
   border-radius: 3px;
 }
-.container .modal .title {
+header {
   text-align: center;
   border-bottom: 1px solid var(--main-color);
   padding: 15px;
