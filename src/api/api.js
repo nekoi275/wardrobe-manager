@@ -2,19 +2,19 @@ const urlFactory = function(url) {
     url = url || "";
     return {
         get(tableName) {
-            return url + "/api/?table=" + tableName
+            return url + "api/?table=" + tableName
         },
         add() {
-            return url + "/api/"
+            return url + "api/"
         },
         edit() {
-            return url + "/api/"
+            return url + "api/"
         },
         delete(id) {
-            return url + "/api/?_id=" + id
+            return url + "api/?_id=" + id
         }
     }
-}('http://46.173.214.223/clothes');
+}();
 
 export default {
     get(tableName, onSuccess, onError) {
