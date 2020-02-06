@@ -38,7 +38,7 @@ const mutations = {
     },
     move(state, row) {
         state.cache[state.current.name].splice(this.getters.getArrayIndex(row), 1);
-        state.cache[row.table].push(Object.assign({}, row));
+        state.cache[row.table].push({...row});
     },
     setData(state, data) {
         state.cache[state.current.name] = data;

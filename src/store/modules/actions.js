@@ -17,7 +17,7 @@ const actions = {
         } else {
             rootState.form.currentData.table = rootState.table.current.name;
         }
-        var update = Object.assign({}, rootState.form.currentData);
+        var update = {...rootState.form.currentData};
         delete update._id;
         var data = {
             query: {

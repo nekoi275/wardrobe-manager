@@ -1,5 +1,6 @@
 <template>
   <div>
+    <modal-form></modal-form>
     <sidebar></sidebar>
     <header>{{currentTable.displayName}}. Всего: {{count}}</header>
     <main @click="closeSidebar()">
@@ -8,7 +9,6 @@
       </div>
       <clothes-table v-if="!isMobile"></clothes-table>
       <button @click="openModal()" v-show="currentTable.name != 'old'">Добавить</button>
-      <modal-form></modal-form>
     </main>
   </div>
 </template>

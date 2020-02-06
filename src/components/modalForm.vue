@@ -127,6 +127,7 @@ export default {
   bottom: 0;
   left: 0;
   position: fixed;
+  z-index: 10;
 }
 .container .overlay {
   position: fixed;
@@ -138,6 +139,7 @@ export default {
 }
 .container .modal {
   position: absolute;
+  z-index: 10;
   box-sizing: border-box;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);

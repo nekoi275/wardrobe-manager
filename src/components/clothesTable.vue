@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     openModal(role, row) {
-      this.$store.commit("setCurrentData", Object.assign({}, row));
+      this.$store.commit("setCurrentData", {...row});
       this.$store.commit("modalToggle");
       this.$store.commit("changeModalRole", role);
     },
@@ -53,7 +53,7 @@ export default {
       this.$store.dispatch("delete");
     },
     move(row, table) {
-      this.$store.commit("setCurrentData", Object.assign({}, row));
+      this.$store.commit("setCurrentData", {...row});
       this.$store.dispatch("edit", table);
     },
     sort(field) {
