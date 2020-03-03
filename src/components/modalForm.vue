@@ -11,11 +11,11 @@
         >Это поле обязательное</span>
         <label>
           <span>Тип</span>
-          <input type="text" v-model="currentData.type" required />
+          <input type="text" v-model="currentData.type" required>
         </label>
         <label v-if="currentTable != 'jewelry'">
           <span>Производитель</span>
-          <input type="text" v-model="currentData.brand" />
+          <input type="text" v-model="currentData.brand">
         </label>
         <span
           class="required-msg"
@@ -27,11 +27,15 @@
         </div>
         <label>
           <span>Описание</span>
-          <input type="text" v-model="currentData.description" />
+          <input type="text" v-model="currentData.description">
+        </label>
+        <label>
+          <span>Фото</span>
+          <input type="file" accept="image/png, image/jpeg, image/heic" @change="getImage">
         </label>
         <label>
           <span>Стоимость</span>
-          <input type="number" v-model="currentData.price" />
+          <input type="number" v-model="currentData.price">
         </label>
         <span
           class="required-msg"
@@ -39,7 +43,7 @@
         >Это поле обязательное</span>
         <label>
           <span>Год покупки</span>
-          <input type="number" min="2000" max="2050" v-model="currentData.year" required />
+          <input type="number" min="2000" max="2050" v-model="currentData.year" required>
         </label>
         <label v-if="currentTable != 'jewelry'">
           <span>Сезон</span>
@@ -52,9 +56,9 @@
         </label>
         <label v-if="currentTable == 'jewelry'">
           <span>Страна</span>
-          <input type="text" v-model="currentData.country" />
+          <input type="text" v-model="currentData.country">
         </label>
-        <input type="hidden" v-model="currentData.id" />
+        <input type="hidden" v-model="currentData.id">
         <button @click="submit()" v-if="role === 'add'" type="button">Добавить</button>
         <button @click="submit()" v-if="role === 'edit'" type="button">Изменить</button>
         <button @click="close()" type="reset">Закрыть</button>
@@ -91,6 +95,9 @@ export default {
     },
     currentTable() {
       return this.$store.state.table.current.name;
+    },
+    isMobile() {
+      return window.innerWidth <= 840;
     }
   },
   methods: {
@@ -98,12 +105,16 @@ export default {
       this.isSubmitted = false;
       this.$store.commit('modalToggle');
     },
+    getImage(event) {
+      this.$store.commit('setImage', event);
+    },
     submit() {
       this.isSubmitted = true;
       if (this.isValid()) {
         if (this.currentTable != 'jewelry') {
           this.$store.commit('setColor', this.colors);
         }
+        this.$store.dispatch('uploadImage');
         this.$store.dispatch(this.role);
         this.close();
       }

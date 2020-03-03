@@ -1,13 +1,14 @@
 const state = {
-    shown: false, 
+    shown: false,
     role: '',
-    currentData: {}
+    currentData: {},
+    currentImage: {}
 }
 
 const mutations = {
     modalToggle(state) {
         state.shown = !state.shown;
-    },        
+    },
     changeModalRole(state, role) {
         state.role = role;
     },
@@ -17,6 +18,14 @@ const mutations = {
     setCurrentData(state, row) {
         state.currentData = row;
     },
+    setImage(state, event) {
+        let id = Date.now().toString(16);
+        let formData = new FormData();
+        formData.append('image', event.target.files[0]);
+        formData.append('id', id);
+        state.currentImage = formData;
+        state.currentData.image = id;
+    }
 }
 
 export default {

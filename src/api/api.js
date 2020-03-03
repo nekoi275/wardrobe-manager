@@ -1,4 +1,4 @@
-const urlFactory = function(url) {
+const urlFactory = function (url) {
     url = url || "";
     return {
         get(tableName) {
@@ -12,9 +12,12 @@ const urlFactory = function(url) {
         },
         delete(id) {
             return url + "api/?_id=" + id
+        },
+        upload() {
+            return url + "api/upload"
         }
     }
-}();
+}('http://46.173.214.223/clothes/');
 
 export default {
     get(tableName, onSuccess, onError) {
@@ -47,6 +50,14 @@ export default {
             .then(onSuccess)
             .catch(onError);
     },
+    upload(formData, onSuccess, onError) {
+        fetch(urlFactory.upload(), {
+            method: 'POST',
+            body: formData
+        })
+            .then(onSuccess)
+            .catch(onError);
+    },
     edit(data, onSuccess, onError) {
         fetch(urlFactory.edit(), {
             method: 'PUT',
@@ -59,7 +70,7 @@ export default {
                 if (response.ok) {
                     return response.json();
                 } else {
-                   onError("update error. Status: " + response.statusText + " " + response.text);
+                    onError("update error. Status: " + response.statusText + " " + response.text);
                 }
             })
             .then(onSuccess)
