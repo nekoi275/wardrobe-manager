@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <img src="https://placeimg.com/640/480/nature" alt="item photo" />
+    <img v-bind:src="getImageUrl()" alt="item photo" />
     <table>
       <tr v-for="property in properties" :key="property.id">
         <td>{{property.displayName}}:</td>
@@ -44,6 +44,9 @@ export default {
     move(item, table) {
       this.$store.commit("setCurrentData", {...item});
       this.$store.dispatch("edit", table);
+    },
+    getImageUrl() {
+      return 'http://46.173.214.223/clothes/api/images/' + this.data.image;
     }
   }
 };
