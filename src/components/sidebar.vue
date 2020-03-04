@@ -1,5 +1,5 @@
 <template>
-  <aside v-bind:class="{ open: open }">
+  <aside :class="{ open: open }">
     <div class="options">
       <div v-show="tabs.filter">
         <p>Тип</p>
@@ -60,8 +60,8 @@
       </div>
     </div>
     <ul>
-      <li class="filter" @click="switchTab('filter')" v-bind:class="{ active: tabs.filter }"></li>
-      <li class="tables" @click="switchTab('tables')" v-bind:class="{ active: tabs.tables }"></li>
+      <li class="filter" @click="switchTab('filter')" :class="{ active: tabs.filter }"></li>
+      <li class="tables" @click="switchTab('tables')" :class="{ active: tabs.tables }"></li>
     </ul>
   </aside>
 </template>

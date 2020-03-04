@@ -1,11 +1,11 @@
 <template>
   <div class="card">
-    <img v-bind:src="getImageUrl()" alt="item photo" />
+    <img :src="getImageUrl()" alt="item photo" />
     <table>
       <tr v-for="property in properties" :key="property.id">
         <td>{{property.displayName}}:</td>
         <td v-if="property.name != 'color'">{{data[property.name]}}</td>
-        <td v-if="property.name === 'color'" v-bind:style="{backgroundColor: data.color.hex}"></td>
+        <td v-if="property.name === 'color'" :style="{backgroundColor: data.color.hex}"></td>
       </tr>
     </table>
     <footer>
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import api from '../api/api.js';
+
 export default {
   name: "clothes-card",
   props: ["item"],
@@ -46,7 +48,11 @@ export default {
       this.$store.dispatch("edit", table);
     },
     getImageUrl() {
-      return 'http://46.173.214.223/clothes/api/images/' + this.data.image;
+      if (this.data.image) {
+        return api.imageUrl(this.data.image);
+      } else {
+        return api.imageUrl('placeholder.png');
+      }
     }
   }
 };

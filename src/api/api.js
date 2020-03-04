@@ -15,11 +15,15 @@ const urlFactory = function (url) {
         },
         upload() {
             return url + "api/upload"
+        },
+        imageUrl(id) {
+            return url + "api/images/" + id
         }
     }
-}('http://46.173.214.223/clothes/');
+}('');
 
 export default {
+    imageUrl(id) {return urlFactory.imageUrl(id)},
     get(tableName, onSuccess, onError) {
         fetch(urlFactory.get(tableName))
             .then(response => {
@@ -50,12 +54,11 @@ export default {
             .then(onSuccess)
             .catch(onError);
     },
-    upload(formData, onSuccess, onError) {
+    upload(formData, onError) {
         fetch(urlFactory.upload(), {
             method: 'POST',
             body: formData
         })
-            .then(onSuccess)
             .catch(onError);
     },
     edit(data, onSuccess, onError) {

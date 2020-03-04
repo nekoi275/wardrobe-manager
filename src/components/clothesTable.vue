@@ -1,36 +1,43 @@
 <template>
-  <table>
-    <thead>
-      <th v-for="header in headers" :key="header.id">
-        <div :class="{ pointed: header.isSortable}"  @click="sort(header)">
-          {{header.displayName}}
-        </div>
-      </th>
-      <th></th>
-    </thead>
-    <tbody>
-      <tr v-for="row in rows" :key="row.id">
-        <td>{{row.type}}</td>
-        <td v-if="currentTable != 'jewelry'">{{row.brand}}</td>
-        <td v-if="currentTable != 'jewelry'" v-bind:style="{backgroundColor: row.color.hex}"></td>
-        <td>{{row.description}}</td>
-        <td>{{row.price}}</td>
-        <td>{{row.year}}</td>
-        <td v-if="currentTable != 'jewelry'">{{row.season}}</td>
-        <td v-if="currentTable == 'jewelry'">{{row.country}}</td>
-        <td>
-          <span class="edit" @click="openModal('edit', row)"></span>
-          <span class="remove" @click="remove(row)"></span>
-          <span v-if="currentTable == 'clothes'" class="move" @click="move(row, 'old')"></span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <table>
+      <thead>
+        <th v-for="header in headers" :key="header.id">
+          <div :class="{ pointed: header.isSortable}" @click="sort(header)">{{header.displayName}}</div>
+        </th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr v-for="row in rows" :key="row.id">
+          <td>{{row.type}}</td>
+          <td v-if="currentTable != 'jewelry'">{{row.brand}}</td>
+          <td v-if="currentTable != 'jewelry'" :style="{backgroundColor: row.color.hex}"></td>
+          <td>{{row.description}}</td>
+          <td>{{row.price}}</td>
+          <td>{{row.year}}</td>
+          <td v-if="currentTable != 'jewelry'">{{row.season}}</td>
+          <td v-if="currentTable == 'jewelry'">{{row.country}}</td>
+          <td>
+            <span v-show="row.image" class="photo" @click="openImageModal(row.image)"></span>
+            <span class="edit" @click="openModal('edit', row)"></span>
+            <span class="remove" @click="remove(row)"></span>
+            <span v-if="currentTable == 'clothes'" class="move" @click="move(row, 'old')"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <modal-image></modal-image>
+  </div>
 </template>
 
 <script>
+import modalImage from "./modalImage.vue";
+
 export default {
   name: "clothes-table",
+  components: {
+    modalImage
+  },
   computed: {
     rows() {
       return this.$store.state.table.view[this.currentTable];
@@ -44,16 +51,20 @@ export default {
   },
   methods: {
     openModal(role, row) {
-      this.$store.commit("setCurrentData", {...row});
+      this.$store.commit("setCurrentData", { ...row });
       this.$store.commit("modalToggle");
       this.$store.commit("changeModalRole", role);
+    },
+    openImageModal(imageId) {
+      this.$store.commit('setImageUrl', imageId);
+      this.$store.commit('toggleImage');
     },
     remove(row) {
       this.$store.commit("setCurrentData", row);
       this.$store.dispatch("delete");
     },
     move(row, table) {
-      this.$store.commit("setCurrentData", {...row});
+      this.$store.commit("setCurrentData", { ...row });
       this.$store.dispatch("edit", table);
     },
     sort(field) {
@@ -126,5 +137,8 @@ span {
 }
 .move {
   background-image: url("../assets/transfer.png");
+}
+.photo {
+  background-image: url("../assets/photo.png");
 }
 </style>

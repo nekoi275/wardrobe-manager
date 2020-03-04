@@ -19,7 +19,8 @@ const mutations = {
         state.currentData = row;
     },
     setImage(state, event) {
-        let id = Date.now().toString(16);
+        let id = state.currentData.image || Date.now().toString(16);
+        console.log(id);
         let formData = new FormData();
         formData.append('image', event.target.files[0]);
         formData.append('id', id);

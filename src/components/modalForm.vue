@@ -4,7 +4,7 @@
     <div class="modal">
       <header v-if="role === 'add'">Добавить новую вещь</header>
       <header v-if="role === 'edit'">Редактировать</header>
-      <form action="#" target="_self">
+      <form>
         <span
           class="required-msg"
           v-show="currentData.type == '' && isSubmitted"
@@ -123,7 +123,7 @@ export default {
       return (
         this.currentData.type != '' &&
         this.currentData.year != '' &&
-        (this.colors != '' || this.$store.currentTable == 'jewelry')
+        (this.colors != '' || this.currentTable == 'jewelry')
       );
     }
   }

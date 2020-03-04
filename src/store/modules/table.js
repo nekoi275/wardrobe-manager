@@ -1,3 +1,5 @@
+import api from '../../api/api.js';
+
 const state = {
     view: {
         clothes: [],
@@ -12,7 +14,12 @@ const state = {
     current: { name: '', displayName: '' },
     headers: [],
     sorting: { field: '', isAscending: false },
-    itemsCount: ''
+    itemsCount: '',
+    image: {
+        shown: false,
+        url: ''
+    }
+
 }
 
 const mutations = {
@@ -38,13 +45,20 @@ const mutations = {
     },
     move(state, row) {
         state.cache[state.current.name].splice(this.getters.getArrayIndex(row), 1);
-        state.cache[row.table].push({...row});
+        state.cache[row.table].push({ ...row });
     },
     setData(state, data) {
         state.cache[state.current.name] = data;
     },
     setSorting(state, sorting) {
         state.sorting = sorting;
+    },
+    toggleImage(state) {
+        state.image.shown = !state.image.shown;
+    },
+    setImageUrl(state, id) {
+        state.image.url = api.imageUrl(id);
+        
     }
 }
 
@@ -70,7 +84,7 @@ const actions = {
                 result = -result;
             }
             return result;
-        }); 
+        });
         state.view[state.current.name] = data;
         commit("countItems");
     }

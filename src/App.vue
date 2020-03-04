@@ -5,7 +5,7 @@
     <header>{{currentTable.displayName}}. Всего: {{count}}</header>
     <main @click="closeSidebar()">
       <div v-if="isMobile">
-        <clothes-card v-for="item in items" :key="item.id" v-bind:item="item"></clothes-card>
+        <clothes-card v-for="item in items" :key="item.id" :item="item"></clothes-card>
       </div>
       <clothes-table v-if="!isMobile"></clothes-table>
       <button @click="openModal()" v-show="currentTable.name != 'old'">Добавить</button>
