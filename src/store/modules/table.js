@@ -59,6 +59,9 @@ const mutations = {
     setImageUrl(state, id) {
         state.image.url = api.imageUrl(id);
         
+    },
+    removeImageUrl(state) {
+        state.image.url = '';
     }
 }
 

@@ -21,6 +21,7 @@ export default {
   methods: {
     close() {
       this.$store.commit("toggleImage");
+      this.$store.commit("removeImageUrl");
     }
   }
 };
