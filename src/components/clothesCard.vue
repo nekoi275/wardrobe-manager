@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <img :src="getImageUrl()" alt="item photo" />
+    <div class="card-image" :style="{backgroundImage: 'url(' + getImageUrl(this.data.image) + ')'}"></div>
     <table>
       <tr v-for="property in properties" :key="property.id">
         <td>{{property.displayName}}:</td>
@@ -47,9 +47,9 @@ export default {
       this.$store.commit("setCurrentData", {...item});
       this.$store.dispatch("edit", table);
     },
-    getImageUrl() {
-      if (this.data.image) {
-        return api.imageUrl(this.data.image);
+    getImageUrl(image) {
+      if (image) {
+        return api.imageUrl(image);
       } else {
         return api.imageUrl('placeholder.png');
       }
@@ -67,8 +67,11 @@ export default {
   background-color: var(--main-color);
   color: var(--neutral-color);
 }
-img {
-  width: 100%;
+.card-image {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 300px;
 }
 table tr td {
   padding: 5px;
