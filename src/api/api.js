@@ -20,7 +20,7 @@ const urlFactory = function (url) {
             return url + "api/images/" + id
         }
     }
-}('http://46.173.214.223/clothes/');
+}('https://nekoi.pp.ua/clothes/');
 
 export default {
     imageUrl(id) {return urlFactory.imageUrl(id)},

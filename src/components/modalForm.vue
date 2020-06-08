@@ -35,7 +35,7 @@
         </label>
         <label>
           <span>Стоимость</span>
-          <input type="number" v-model="currentData.price">
+          <input type="number" v-model.number="currentData.price">
         </label>
         <span
           class="required-msg"
@@ -43,7 +43,7 @@
         >Это поле обязательное</span>
         <label>
           <span>Год покупки</span>
-          <input type="number" min="2000" max="2050" v-model="currentData.year" required>
+          <input type="number" min="2000" max="2050" v-model.number="currentData.year" required>
         </label>
         <label v-if="currentTable != 'jewelry'">
           <span>Сезон</span>

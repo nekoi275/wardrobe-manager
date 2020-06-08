@@ -4,11 +4,12 @@
     <sidebar></sidebar>
     <header>{{currentTable.displayName}}. Всего: {{count}}</header>
     <main @click="closeSidebar()">
+      <button @click="openModal()" v-show="currentTable.name != 'old'" v-if="isMobile">Добавить</button>
       <div v-if="isMobile">
         <clothes-card v-for="item in items" :key="item.id" :item="item"></clothes-card>
       </div>
       <clothes-table v-if="!isMobile"></clothes-table>
-      <button @click="openModal()" v-show="currentTable.name != 'old'">Добавить</button>
+      <button @click="openModal()" v-show="currentTable.name != 'old'" v-if="!isMobile">Добавить</button>
     </main>
   </div>
 </template>
