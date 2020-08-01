@@ -27,7 +27,6 @@ const mutations = {
         state.current.name = tableInfo.name;
         state.current.displayName = tableInfo.displayName;
         state.headers = tableInfo.headers;
-        window.location.hash = tableInfo.name;
     },
     countItems(state) {
         state.itemsCount = state.cache[state.current.name].length;

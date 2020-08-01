@@ -42,21 +42,15 @@
         <button class="small-btn" @click="removeFilters()">Сброс</button>
       </div>
       <div v-show="tabs.tables">
-        <button
-          class="small-btn"
-          :class="{ active: isActive('clothes')}"
-          @click="changeTable({name: 'clothes', displayName: 'Одежда', headers: clothesHeaders})"
-        >Одежда</button>
-        <button
-          class="small-btn"
-          :class="{ active: isActive('jewelry')}"
-          @click="changeTable({name:'jewelry', displayName: 'Украшения', headers: jewelryHeaders})"
-        >Украшения</button>
-        <button
-          class="small-btn"
-          :class="{ active: isActive('old')}"
-          @click="changeTable({name:'old', displayName: 'Старое', headers: oldHeaders})"
-        >Старое</button>
+        <router-link to="/clothes">
+          <button class="small-btn" :class="{ active: isActive('clothes')}">Одежда</button>
+        </router-link>
+        <router-link to="/jewelry">
+          <button class="small-btn" :class="{ active: isActive('jewelry')}">Украшения</button>
+        </router-link>
+        <router-link to="/old">
+          <button class="small-btn" :class="{ active: isActive('old')}">Старое</button>
+        </router-link>
       </div>
     </div>
     <ul>
@@ -69,35 +63,6 @@
 <script>
 export default {
   name: "sidebar",
-  data: function() {
-    return {
-      clothesHeaders: [
-        { name: "type", displayName: "Тип", isSortable: true },
-        { name: "brand", displayName: "Производитель", isSortable: true },
-        { name: "color", displayName: "Цвет" },
-        { name: "description", displayName: "Описание" },
-        { name: "price", displayName: "Стоимость", isSortable: true },
-        { name: "year", displayName: "Год покупки", isSortable: true },
-        { name: "season", displayName: "Сезон", isSortable: true }
-      ],
-      oldHeaders: [
-        { name: "type", displayName: "Тип", isSortable: true },
-        { name: "brand", displayName: "Производитель", isSortable: true },
-        { name: "color", displayName: "Цвет" },
-        { name: "description", displayName: "Описание" },
-        { name: "price", displayName: "Стоимость", isSortable: true },
-        { name: "year", displayName: "Год покупки", isSortable: true },
-        { name: "season", displayName: "Сезон", isSortable: true }
-      ],
-      jewelryHeaders: [
-        { name: "type", displayName: "Тип", isSortable: true },
-        { name: "description", displayName: "Описание" },
-        { name: "price", displayName: "Стоимость", isSortable: true },
-        { name: "year", displayName: "Год покупки", isSortable: true },
-        { name: "country", displayName: "Страна", isSortable: true }
-      ]
-    };
-  },
   computed: {
     open() {
       return this.$store.state.sidebar.open;
@@ -127,7 +92,7 @@ export default {
       },
       set(value) {
         this.setFilter("type", value);
-      }
+      },
     },
     filterBrand: {
       get() {
@@ -135,7 +100,7 @@ export default {
       },
       set(value) {
         this.setFilter("brand", value);
-      }
+      },
     },
     filterYear: {
       get() {
@@ -143,7 +108,7 @@ export default {
       },
       set(value) {
         this.setFilter("year", value);
-      }
+      },
     },
     filterSeason: {
       get() {
@@ -151,8 +116,8 @@ export default {
       },
       set(value) {
         this.setFilter("season", value);
-      }
-    }
+      },
+    },
   },
   methods: {
     slideOpen() {
@@ -164,19 +129,11 @@ export default {
       this.$store.commit("switchTabs", tab);
       this.slideOpen();
     },
-    changeTable(tableInfo) {
-      this.$store.commit("changeTable", tableInfo);
-      this.$store.commit("countItems");
-      var table = this.$store.state.table.view[tableInfo.name];
-      if (!table.length) {
-        this.$store.dispatch("loadData");
-      }
-    },
     getProperties(prop) {
       var table = this.$store.state.table.cache[this.currentTable];
       return new Set(
         table
-          .map(item => {
+          .map((item) => {
             return item[prop];
           })
           .sort()
@@ -196,8 +153,8 @@ export default {
     removeFilters() {
       this.$store.commit("removeAllFilters");
       this.$store.dispatch("showData");
-    }
-  }
+    },
+  },
 };
 </script>
 

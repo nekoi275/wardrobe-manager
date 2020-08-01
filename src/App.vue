@@ -2,20 +2,21 @@
   <div>
     <modal-form></modal-form>
     <sidebar></sidebar>
-    <header>{{currentTable.displayName}}. Всего: {{count}}</header>
+    <header @click="closeSidebar()">{{currentTable.displayName}}. Всего: {{count}}</header>
+
     <main @click="closeSidebar()">
       <button @click="openModal()" v-show="currentTable.name != 'old'" v-if="isMobile">Добавить</button>
-      <div v-if="isMobile">
-        <clothes-card v-for="item in items" :key="item.id" :item="item"></clothes-card>
-      </div>
-      <clothes-table v-if="!isMobile"></clothes-table>
+      <router-view>
+        <div v-if="isMobile">
+          <clothes-card v-for="item in items" :key="item.id" :item="item"></clothes-card>
+        </div>
+      </router-view>
       <button @click="openModal()" v-show="currentTable.name != 'old'" v-if="!isMobile">Добавить</button>
     </main>
   </div>
 </template>
 
 <script>
-import clothesTable from "./components/clothesTable.vue";
 import modalForm from "./components/modalForm.vue";
 import sidebar from "./components/sidebar.vue";
 import clothesCard from "./components/clothesCard.vue";
@@ -23,10 +24,9 @@ import clothesCard from "./components/clothesCard.vue";
 export default {
   name: "app",
   components: {
-    clothesTable,
     modalForm,
     sidebar,
-    clothesCard
+    clothesCard,
   },
   computed: {
     currentTable() {
@@ -40,15 +40,15 @@ export default {
     },
     isMobile() {
       return window.innerWidth <= 840;
-    }
+    },
   },
   methods: {
     openModal() {
       var row = {
         type: "",
         description: "",
-        price: "0",
-        year: new Date().getFullYear()
+        price: 0,
+        year: new Date().getFullYear(),
       };
       if (this.currentTable.name == "clothes") {
         row.brand = "No name";
@@ -67,24 +67,8 @@ export default {
         this.$store.commit("sidebarToggle");
         this.$store.commit("deactivateTabs");
       }
-    }
+    },
   },
-  beforeMount: function() {
-    this.$store.commit("changeTable", {
-      name: "clothes",
-      displayName: "Одежда",
-      headers: [
-        { name: "type", displayName: "Тип", isSortable: true },
-        { name: "brand", displayName: "Производитель", isSortable: true },
-        { name: "color", displayName: "Цвет" },
-        { name: "description", displayName: "Описание" },
-        { name: "price", displayName: "Стоимость", isSortable: true },
-        { name: "year", displayName: "Год покупки", isSortable: true },
-        { name: "season", displayName: "Сезон", isSortable: true }
-      ]
-    });
-    this.$store.dispatch("loadData");
-  }
 };
 </script>
 
