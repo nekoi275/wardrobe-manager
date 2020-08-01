@@ -114,8 +114,7 @@ const routesData = {
   ]
 };
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     components: clothesTable
   },
@@ -125,7 +124,7 @@ const routes = [
   },
   {
     path: '/old',
-    components: clothesTable
+    component: clothesTable
   },
   {
     path: '/jewelry',

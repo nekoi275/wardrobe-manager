@@ -3,7 +3,6 @@
     <modal-form></modal-form>
     <sidebar></sidebar>
     <header @click="closeSidebar()">{{currentTable.displayName}}. Всего: {{count}}</header>
-
     <main @click="closeSidebar()">
       <button @click="openModal()" v-show="currentTable.name != 'old'" v-if="isMobile">Добавить</button>
       <router-view>
@@ -26,7 +25,7 @@ export default {
   components: {
     modalForm,
     sidebar,
-    clothesCard,
+    clothesCard
   },
   computed: {
     currentTable() {
