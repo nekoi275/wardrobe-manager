@@ -23,7 +23,9 @@ const urlFactory = function (url) {
 }('https://nekoi.pp.ua/clothes/');
 
 export default {
-    imageUrl(id) {return urlFactory.imageUrl(id)},
+    imageUrl(id) {
+        return urlFactory.imageUrl(id)
+    },
     get(tableName, onSuccess, onError) {
         fetch(urlFactory.get(tableName))
             .then(response => {
@@ -38,12 +40,12 @@ export default {
     },
     add(data, onSuccess, onError) {
         fetch(urlFactory.add(), {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -54,21 +56,22 @@ export default {
             .then(onSuccess)
             .catch(onError);
     },
-    upload(formData, onError) {
+    upload(formData, onSuccess, onError) {
         fetch(urlFactory.upload(), {
-            method: 'POST',
-            body: formData
-        })
+                method: 'POST',
+                body: formData
+            })
+            .then(onSuccess)
             .catch(onError);
     },
     edit(data, onSuccess, onError) {
         fetch(urlFactory.edit(), {
-            method: 'PUT',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+                method: 'PUT',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -81,8 +84,8 @@ export default {
     },
     delete(id, onSuccess, onError) {
         fetch(urlFactory.delete(id), {
-            method: 'DELETE'
-        })
+                method: 'DELETE'
+            })
             .then(response => {
                 if (response.ok) {
                     onSuccess();

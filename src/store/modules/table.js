@@ -19,7 +19,6 @@ const state = {
         shown: false,
         url: ''
     }
-
 }
 
 const mutations = {

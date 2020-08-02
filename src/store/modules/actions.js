@@ -11,9 +11,11 @@ const actions = {
         rootState.form.currentData.table = rootState.table.current.name;
         api.add(rootState.form.currentData, json => {commit("add", json); commit("countItems")}, reason => console.error(reason));
     },
-    uploadImage({ rootState }) {
+    uploadImage({ rootState }, onSuccess) {
         if (rootState.form.currentImage) {
-            api.upload(rootState.form.currentImage, reason => console.error(reason));
+            api.upload(rootState.form.currentImage, onSuccess, reason => console.error(reason));
+        } else {
+            onSuccess();
         }
     },
     edit({ dispatch, commit, rootState }, table) {
