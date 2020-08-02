@@ -116,7 +116,7 @@ const routesData = {
 
 const routes = [{
     path: '/',
-    components: clothesTable
+    component: clothesTable
   },
   {
     path: '/clothes',

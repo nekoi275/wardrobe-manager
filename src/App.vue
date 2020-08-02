@@ -5,11 +5,10 @@
     <header @click="closeSidebar()">{{currentTable.displayName}}. Всего: {{count}}</header>
     <main @click="closeSidebar()">
       <button @click="openModal()" v-show="currentTable.name != 'old'" v-if="isMobile">Добавить</button>
-      <router-view>
-        <div v-if="isMobile">
-          <clothes-card v-for="item in items" :key="item.id" :item="item"></clothes-card>
-        </div>
-      </router-view>
+      <router-view v-if="!isMobile"></router-view>
+      <div v-if="isMobile">
+        <clothes-card v-for="item in items" :key="item.id" :item="item"></clothes-card>
+      </div>
       <button @click="openModal()" v-show="currentTable.name != 'old'" v-if="!isMobile">Добавить</button>
     </main>
   </div>
@@ -25,7 +24,7 @@ export default {
   components: {
     modalForm,
     sidebar,
-    clothesCard
+    clothesCard,
   },
   computed: {
     currentTable() {
