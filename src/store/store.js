@@ -4,6 +4,7 @@ import sidebarModule from './modules/sidebar.js'
 import formModule from './modules/form.js'
 import tableModule from './modules/table.js'
 import actionsModule from './modules/actions.js'
+import moodboardModule from './modules/moodboard.js'
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export const store = new Vuex.Store({
         sidebar: sidebarModule,
         form: formModule,
         table: tableModule,
-        actions: actionsModule
+        actions: actionsModule,
+        moodboard: moodboardModule
     }
 });

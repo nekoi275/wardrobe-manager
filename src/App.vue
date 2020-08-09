@@ -2,7 +2,7 @@
   <div>
     <modal-form></modal-form>
     <sidebar></sidebar>
-    <header @click="closeSidebar()">{{currentTable.displayName}}. Всего: {{count}}</header>
+    <header v-show="!isMoodboard" @click="closeSidebar()">{{currentTable.displayName}}. Всего: {{count}}</header>
     <main @click="closeSidebar()">
       <button @click="openModal()" v-show="currentTable.name != 'old'" v-if="isMobile">Добавить</button>
       <router-view v-if="!isMobile"></router-view>
@@ -24,11 +24,14 @@ export default {
   components: {
     modalForm,
     sidebar,
-    clothesCard,
+    clothesCard
   },
   computed: {
     currentTable() {
       return this.$store.state.table.current;
+    },
+    isMoodboard() {
+      return this.$store.state.moodboard.shown;
     },
     count() {
       return this.$store.state.table.itemsCount;

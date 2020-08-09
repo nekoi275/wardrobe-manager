@@ -43,18 +43,21 @@
       </div>
       <div v-show="tabs.tables">
         <router-link to="/clothes">
-          <button class="small-btn" :class="{ active: isActive('clothes')}">Одежда</button>
+          <button class="small-btn" :class="{ active: isActiveTable('clothes')}">Одежда</button>
         </router-link>
         <router-link to="/jewelry">
-          <button class="small-btn" :class="{ active: isActive('jewelry')}">Украшения</button>
+          <button class="small-btn" :class="{ active: isActiveTable('jewelry')}">Украшения</button>
         </router-link>
         <router-link to="/old">
-          <button class="small-btn" :class="{ active: isActive('old')}">Старое</button>
+          <button class="small-btn" :class="{ active: isActiveTable('old')}">Старое</button>
+        </router-link>
+        <router-link to="/moodboard">
+          <button class="small-btn" :class="{ active: isActiveMoodboard()}">Галерея</button>
         </router-link>
       </div>
     </div>
     <ul>
-      <li class="filter" @click="switchTab('filter')" :class="{ active: tabs.filter }"></li>
+      <li v-show="!isActiveMoodboard()" class="filter" @click="switchTab('filter')" :class="{ active: tabs.filter }"></li>
       <li class="tables" @click="switchTab('tables')" :class="{ active: tabs.tables }"></li>
     </ul>
   </aside>
@@ -131,13 +134,15 @@ export default {
     },
     getProperties(prop) {
       var table = this.$store.state.table.cache[this.currentTable];
-      return new Set(
-        table
-          .map((item) => {
-            return item[prop];
-          })
-          .sort()
-      );
+      if (table) {
+        return new Set(
+          table
+            .map((item) => {
+              return item[prop];
+            })
+            .sort()
+        );
+      }
     },
     setFilter(name, value) {
       var filter = { name: name, value: value };
@@ -147,8 +152,11 @@ export default {
     isSelected(prop, value) {
       return this.$store.state.sidebar.filters[prop].includes(value);
     },
-    isActive(name) {
-      return this.currentTable === name;
+    isActiveMoodboard() {
+      return this.$store.state.moodboard.shown
+    },
+    isActiveTable(name) {
+      return this.currentTable === name && !this.$store.state.moodboard.shown;
     },
     removeFilters() {
       this.$store.commit("removeAllFilters");

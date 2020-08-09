@@ -5,6 +5,7 @@ import {
 } from './store/store.js'
 import VueRouter from 'vue-router'
 import clothesTable from "./components/clothesTable.vue";
+import moodboard from "./components/moodboard.vue";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
@@ -129,6 +130,10 @@ const routes = [{
   {
     path: '/jewelry',
     component: clothesTable
+  },
+  {
+    path: '/moodboard',
+    component: moodboard
   }
 ]
 
@@ -166,6 +171,11 @@ router.beforeEach((to, from, next) => {
         headers: routesData.oldHeaders
       })
       break;
+    case '/moodboard':
+      store.commit("toggleMoodboard");
+  }
+  if (from.path == '/moodboard') {
+    store.commit("toggleMoodboard");
   }
   next();
 });
