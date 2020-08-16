@@ -138,7 +138,8 @@ export default {
         return new Set(
           table
             .map((item) => {
-              return item[prop];
+              if (item[prop]) return item[prop] 
+              else return "No Name";
             })
             .sort()
         );

@@ -1,7 +1,7 @@
 <template>
   <div>
     <button @click="openModal('add', setModalRow())" v-show="currentTable.name != 'old'">Добавить</button>
-    <div class="card-container">
+    <div>
       <clothes-card v-for="item in items" :key="item.id" :item="item"></clothes-card>
     </div>
   </div>
@@ -49,7 +49,3 @@ export default {
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
