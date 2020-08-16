@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="openModal()" v-show="currentTable.name != 'old'">Добавить</button>
+    <button @click="openModal('add', setModalRow())" v-show="currentTable.name != 'old'">Добавить</button>
     <div class="card-container">
       <clothes-card v-for="item in items" :key="item.id" :item="item"></clothes-card>
     </div>
@@ -29,6 +29,23 @@ export default {
       this.$store.commit("modalToggle");
       this.$store.commit("changeModalRole", role);
     },
+    setModalRow() {
+      let row = {
+        type: "",
+        description: "",
+        price: 0,
+        year: new Date().getFullYear(),
+      };
+      if (this.currentTable.name == "clothes") {
+        row.brand = "No name";
+        row.color = "";
+        row.season = "любой";
+      }
+      if (this.currentTable.name == "jewelry") {
+        row.country = "";
+      }
+      return row;
+    }
   },
 };
 </script>

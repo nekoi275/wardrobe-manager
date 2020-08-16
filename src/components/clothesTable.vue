@@ -27,6 +27,7 @@
       </tbody>
     </table>
     <modal-image></modal-image>
+    <button @click="openModal('add', setModalRow())" v-show="currentTable != 'old'">Добавить</button>
   </div>
 </template>
 
@@ -36,7 +37,7 @@ import modalImage from "./modalImage.vue";
 export default {
   name: "clothes-table",
   components: {
-    modalImage
+    modalImage,
   },
   computed: {
     rows() {
@@ -47,17 +48,34 @@ export default {
     },
     currentTable() {
       return this.$store.state.table.current.name;
-    }
+    },
   },
   methods: {
+    setModalRow() {
+      let row = {
+        type: "",
+        description: "",
+        price: 0,
+        year: new Date().getFullYear(),
+      };
+      if (this.currentTable == "clothes") {
+        row.brand = "No name";
+        row.color = "";
+        row.season = "любой";
+      }
+      if (this.currentTable == "jewelry") {
+        row.country = "";
+      }
+      return row;
+    },
     openModal(role, row) {
       this.$store.commit("setCurrentData", { ...row });
       this.$store.commit("modalToggle");
       this.$store.commit("changeModalRole", role);
     },
     openImageModal(imageId) {
-      this.$store.commit('setImageUrl', imageId);
-      this.$store.commit('toggleImage');
+      this.$store.commit("setImageUrl", imageId);
+      this.$store.commit("toggleImage");
     },
     remove(row) {
       this.$store.commit("setCurrentData", row);
@@ -72,18 +90,18 @@ export default {
         if (this.$store.state.table.sorting.field == field.name) {
           this.$store.commit("setSorting", {
             field: field.name,
-            isAscending: !this.$store.state.table.sorting.isAscending
+            isAscending: !this.$store.state.table.sorting.isAscending,
           });
         } else {
           this.$store.commit("setSorting", {
             field: field.name,
-            isAscending: true
+            isAscending: true,
           });
         }
         this.$store.dispatch("showData");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

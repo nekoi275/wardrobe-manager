@@ -8,11 +8,6 @@
     >{{currentTable.displayName}}. Всего: {{count}}</header>
     <main @click="closeSidebar()">
       <router-view></router-view>
-      <!-- <button
-        @click="openModal()"
-        v-show="currentTable.name != 'old' && !isMoodboard"
-        v-if="!isMobile"
-      >Добавить</button> -->
     </main>
   </div>
 </template>
@@ -39,25 +34,6 @@ export default {
     },
   },
   methods: {
-    openModal() {
-      var row = {
-        type: "",
-        description: "",
-        price: 0,
-        year: new Date().getFullYear(),
-      };
-      if (this.currentTable.name == "clothes") {
-        row.brand = "No name";
-        row.color = "";
-        row.season = "любой";
-      }
-      if (this.currentTable.name == "jewelry") {
-        row.country = "";
-      }
-      this.$store.commit("setCurrentData", row);
-      this.$store.commit("modalToggle");
-      this.$store.commit("changeModalRole", "add");
-    },
     closeSidebar() {
       if (this.$store.state.sidebar.open) {
         this.$store.commit("sidebarToggle");
