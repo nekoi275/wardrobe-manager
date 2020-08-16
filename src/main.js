@@ -6,6 +6,7 @@ import {
 import VueRouter from 'vue-router'
 import clothesTable from "./components/clothesTable.vue";
 import moodboard from "./components/moodboard.vue";
+import cardsContainer from "./components/cardsContainer.vue"
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
@@ -115,7 +116,7 @@ const routesData = {
   ]
 };
 
-const routes = [{
+const desktopRoutes = [{
     path: '/',
     component: clothesTable
   },
@@ -136,6 +137,30 @@ const routes = [{
     component: moodboard
   }
 ]
+
+const mobileRoutes = [{
+    path: '/',
+    component: cardsContainer
+  },
+  {
+    path: '/clothes',
+    component: cardsContainer
+  },
+  {
+    path: '/old',
+    component: cardsContainer
+  },
+  {
+    path: '/jewelry',
+    component: cardsContainer
+  },
+  {
+    path: '/moodboard',
+    component: moodboard
+  }
+]
+
+var routes = window.innerWidth <= 840 ? mobileRoutes : desktopRoutes;
 
 const router = new VueRouter({
   routes

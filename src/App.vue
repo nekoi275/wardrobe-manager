@@ -2,14 +2,17 @@
   <div>
     <modal-form></modal-form>
     <sidebar></sidebar>
-    <header v-show="!isMoodboard" @click="closeSidebar()">{{currentTable.displayName}}. Всего: {{count}}</header>
+    <header
+      v-show="!isMoodboard"
+      @click="closeSidebar()"
+    >{{currentTable.displayName}}. Всего: {{count}}</header>
     <main @click="closeSidebar()">
-      <button @click="openModal()" v-show="currentTable.name != 'old'" v-if="isMobile">Добавить</button>
-      <router-view v-if="!isMobile"></router-view>
-      <div v-if="isMobile">
-        <clothes-card v-for="item in items" :key="item.id" :item="item"></clothes-card>
-      </div>
-      <button @click="openModal()" v-show="currentTable.name != 'old'" v-if="!isMobile">Добавить</button>
+      <router-view></router-view>
+      <!-- <button
+        @click="openModal()"
+        v-show="currentTable.name != 'old' && !isMoodboard"
+        v-if="!isMobile"
+      >Добавить</button> -->
     </main>
   </div>
 </template>
@@ -17,14 +20,12 @@
 <script>
 import modalForm from "./components/modalForm.vue";
 import sidebar from "./components/sidebar.vue";
-import clothesCard from "./components/clothesCard.vue";
 
 export default {
   name: "app",
   components: {
     modalForm,
-    sidebar,
-    clothesCard
+    sidebar
   },
   computed: {
     currentTable() {
@@ -35,12 +36,6 @@ export default {
     },
     count() {
       return this.$store.state.table.itemsCount;
-    },
-    items() {
-      return this.$store.state.table.view[this.currentTable.name];
-    },
-    isMobile() {
-      return window.innerWidth <= 840;
     },
   },
   methods: {
