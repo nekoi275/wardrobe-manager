@@ -18,6 +18,13 @@ const actions = {
             onSuccess();
         }
     },
+    uploadMoodboardImage({ rootState }, onSuccess) {
+        if (rootState.moodboard.currentImage.file) {
+            api.upload(rootState.moodboard.currentImage.file, onSuccess, reason => console.error(reason));
+        } else {
+            onSuccess();
+        }
+    },
     edit({ dispatch, commit, rootState }, table) {
         if (table) {
             rootState.form.currentData.table = table;

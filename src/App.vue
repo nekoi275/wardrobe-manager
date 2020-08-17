@@ -2,7 +2,7 @@
   <div>
     <modal-form></modal-form>
     <sidebar></sidebar>
-    <header
+    <header class="page-header"
       v-show="!isMoodboard"
       @click="closeSidebar()"
     >{{currentTable.displayName}}. Всего: {{count}}</header>
@@ -86,7 +86,7 @@ main {
   margin-left: 40px;
   height: 100vh;
 }
-header {
+.page-header {
   background-color: var(--modal-color);
   padding: 10px;
   color: var(--neutral-color);

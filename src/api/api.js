@@ -26,6 +26,7 @@ export default {
     imageUrl(id) {
         return urlFactory.imageUrl(id)
     },
+    moodboardImageUrl() {},
     get(tableName, onSuccess, onError) {
         fetch(urlFactory.get(tableName))
             .then(response => {
