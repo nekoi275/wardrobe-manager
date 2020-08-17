@@ -19,19 +19,23 @@ const mutations = {
     },
     setMoodboardImage(state, data) {
         state.images.push(data);
+        state.currentImage = {};
     },
     setMoodboardImageForUpload(state, event) {
-        let id = 'moodboard' + Date.now().toString(16);
-        let formData = new FormData();
-        formData.append('image', event.target.files[0]);
-        formData.append('id', id);
-        state.currentImage.file = formData;
-        state.currentImage.id = id;
+        if (event.target.value) {
+            let id = 'moodboard' + Date.now().toString(16);
+            let formData = new FormData();
+            formData.append('image', event.target.files[0]);
+            formData.append('id', id);
+            state.currentImage.file = formData;
+            state.currentImage.id = id;
+        }
     },
     removeImage(state, id) {
         api.delete(id, () => {
-            state.images.forEach(element => {
-                state.images.splice(state.images.indexOf(element._id == id, 1))
+            state.images.filter(element =>element._id == id)
+            .forEach(element => {
+                state.images.splice(state.images.indexOf(element), 1);
             })
         })
     }
