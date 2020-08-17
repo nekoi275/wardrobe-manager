@@ -2,26 +2,38 @@ import api from '../../api/api.js';
 
 const state = {
     shown: false,
-    imageURLs: [],
-    imageIDs: [],
-    currentImage: {}
+    currentImage: {},
+    images: []
 }
 
 const mutations = {
     toggleMoodboard(state) {
+        if (state.images.length == 0) {
+            api.get('moodboard', (data) => {
+                data.forEach(element => {
+                    state.images.push(element)
+                });
+            });
+        }
         state.shown = !state.shown;
     },
-    setImageUrl(state, id) {
-        state.imageURLs.push(api.imageUrl(id));
+    setMoodboardImage(state, data) {
+        state.images.push(data);
     },
-    setMoodBoardImageForUpload(state, event) {
-        let id = "moodboard" + Date.now().toString(16);
+    setMoodboardImageForUpload(state, event) {
+        let id = 'moodboard' + Date.now().toString(16);
         let formData = new FormData();
         formData.append('image', event.target.files[0]);
         formData.append('id', id);
         state.currentImage.file = formData;
         state.currentImage.id = id;
-        state.imageIDs.push(id);
+    },
+    removeImage(state, id) {
+        api.delete(id, () => {
+            state.images.forEach(element => {
+                state.images.splice(state.images.indexOf(element._id == id, 1))
+            })
+        })
     }
 }
 

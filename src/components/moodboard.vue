@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="moodboard-container">
-      <div class="moodboard-image" v-for="imageURL in imageURLs" :key="imageURL.id">
-        <img :src="imageURL">
-        <span class="remove" @click="remove(id)"></span>
+      <div class="moodboard-image" v-for="image in images" :key="image.id">
+        <img :src="api.imageUrl(image.id)">
+        <span class="remove" @click="remove(image._id)"></span>
       </div>
     </div>
     <button>
@@ -14,25 +14,33 @@
 </template>
 
 <script>
-// import api from '../api/api.js';
+import api from '../api/api.js';
 
 export default {
   name: "moodboard",
+  data: function() {
+    return {
+      api: api
+    }
+  },
   computed: {
-    imageURLs() {
-      return this.$store.state.moodboard.imageURLs;
+    images() {
+      return this.$store.state.moodboard.images;
     }
   },
   methods: {
     getImage(event) {
-      this.$store.commit("setMoodBoardImageForUpload", event);
+      this.$store.commit("setMoodboardImageForUpload", event);
     },
     submitImage() {
       if (this.$store.state.moodboard.currentImage) {
-        this.$store.dispatch("uploadMoodboardImage", () => {
-          this.$store.commit("setImageUrl", this.$store.state.moodboard.currentImage.id);
+        this.$store.dispatch("uploadMoodboardImage", (data) => {
+          this.$store.commit("setMoodboardImage", data);
         });
       }
+    },
+    remove(id) {
+      this.$store.commit("removeImage", id)
     }
   }
 };
