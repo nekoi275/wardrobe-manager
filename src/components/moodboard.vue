@@ -54,12 +54,11 @@ export default {
 .moodboard-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
-  margin: 30px;
+  width: 100%;
 }
 .moodboard-image {
-  margin: 10px;
   position: relative;
 }
 .moodboard-image img {
