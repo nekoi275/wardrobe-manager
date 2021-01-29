@@ -1,13 +1,18 @@
 <template>
   <div>
     <div class="moodboard-container">
-      <div class="moodboard-image" v-for="image in images" :key="image.id">
+      <figure v-for="image in images" :key="image.id">
         <img :src="api.imageUrl(image.id)" />
         <span class="remove" @click="remove(image._id)"></span>
-      </div>
+      </figure>
     </div>
     <button>
-      <input type="file" accept="image/png, image/jpeg, image/heic" :value="currentImageFile" @change="getImage" />
+      <input
+        type="file"
+        accept="image/png, image/jpeg, image/heic"
+        :value="currentImageFile"
+        @change="getImage"
+      />
     </button>
     <button @click="submitImage()">Добавить</button>
   </div>
@@ -29,7 +34,7 @@ export default {
     },
     currentImageFile() {
       return this.$store.state.moodboard.currentImage.file;
-    }
+    },
   },
   methods: {
     getImage(event) {
@@ -52,32 +57,39 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .moodboard-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 100%;
+  column-count: 3;
+  column-gap: 10px;
 }
-.moodboard-image {
+img {
+  max-width: 100%;
+  display: block;
   position: relative;
 }
-.moodboard-image img {
-  max-width: 400px;
+figure {
+  margin: 0;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  margin-bottom: 10px;
+  break-inside: avoid;
+}
+figure > img {
+  grid-row: 1 / -1;
+  grid-column: 1;
 }
 input {
   cursor: pointer;
 }
 .remove {
   background-image: url("../assets/garbage.png");
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  width: 20px;
-  height: 20px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  position: absolute;
   z-index: 10;
   cursor: pointer;
+  grid-row: 1;
+  padding: 10px;
+  margin: 10px;
+  justify-self: end;
 }
 </style>
