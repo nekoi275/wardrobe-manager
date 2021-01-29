@@ -85,11 +85,16 @@ input {
   background-position: center;
   background-size: cover;
   position: absolute;
-  z-index: 10;
   cursor: pointer;
   grid-row: 1;
   padding: 10px;
   margin: 10px;
   justify-self: end;
+}
+
+@media (max-width: 800px) {
+  .moodboard-container {
+    column-count: 1;
+  }
 }
 </style>
