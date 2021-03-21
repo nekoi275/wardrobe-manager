@@ -78,9 +78,11 @@ const actions = {
         rootState
     }) {
         var id = rootState.form.currentData._id;
+        var imageId = rootState.form.currentData.image;
         api.delete(id, () => {
             commit("remove", id);
-            commit("countItems")
+            commit("countItems");
+            api.deleteImage(imageId, () => {}, reason => console.error(reason));
         }, reason => console.error(reason));
     }
 }

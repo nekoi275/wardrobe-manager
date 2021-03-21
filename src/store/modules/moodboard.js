@@ -32,12 +32,11 @@ const mutations = {
         }
     },
     removeImage(state, id) {
+        let image = state.images.filter(element => element._id == id)[0];
         api.delete(id, () => {
-            state.images.filter(element =>element._id == id)
-            .forEach(element => {
-                state.images.splice(state.images.indexOf(element), 1);
-            })
-        })
+            state.images.splice(state.images.indexOf(image), 1);
+        });
+        api.deleteImage(image.id, () => {}, reason => console.error(reason));
     }
 }
 
