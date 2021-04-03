@@ -55,8 +55,4 @@ export default {
   background-color: var(--modal-color);
   border-radius: 3px;
 }
-img {
-  width: 100%;
-  height: 100%;
-}
 </style>

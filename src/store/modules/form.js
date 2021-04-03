@@ -2,11 +2,13 @@ const state = {
     shown: false,
     role: '',
     currentData: {},
-    currentImage: {}
+    currentImage: {},
+    previewImage: null
 }
 
 const mutations = {
     modalToggle(state) {
+        state.previewImage = null;
         state.shown = !state.shown;
     },
     changeModalRole(state, role) {
@@ -25,6 +27,11 @@ const mutations = {
         formData.append('id', id);
         state.currentImage = formData;
         state.currentData.image = id;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            state.previewImage = e.target.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
     }
 }
 

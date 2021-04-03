@@ -11,7 +11,7 @@
         <tr v-for="row in rows" :key="row.id">
           <td>{{row.type}}</td>
           <td v-if="currentTable != 'jewelry'">{{row.brand}}</td>
-          <td v-if="currentTable != 'jewelry'" :style="{backgroundColor: row.color.hex}"></td>
+          <td v-if="currentTable != 'jewelry'" :style="{backgroundColor: row.color}"></td>
           <td>{{row.description}}</td>
           <td>{{row.price}}</td>
           <td>{{row.year}}</td>

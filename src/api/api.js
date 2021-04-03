@@ -20,7 +20,7 @@ const urlFactory = function (url) {
             return url + "api/images/" + id
         }
     }
-}('https://nekoi.pp.ua/clothes/');
+}();
 
 export default {
     imageUrl(id) {
@@ -85,6 +85,19 @@ export default {
     },
     delete(id, onSuccess, onError) {
         fetch(urlFactory.delete(id), {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    onSuccess();
+                } else {
+                    onError("delete error. Status: " + response.statusText + " " + response.text);
+                }
+            })
+            .catch(onError);
+    },
+    deleteImage(id, onSuccess, onError) {
+        fetch(urlFactory.imageUrl(id), {
                 method: 'DELETE'
             })
             .then(response => {

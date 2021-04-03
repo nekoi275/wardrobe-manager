@@ -5,7 +5,7 @@
       <tr v-for="property in properties" :key="property.id">
         <td>{{property.displayName}}:</td>
         <td v-if="property.name != 'color'">{{data[property.name]}}</td>
-        <td v-if="property.name === 'color'" :style="{backgroundColor: data.color.hex}"></td>
+        <td v-if="property.name === 'color'" :style="{backgroundColor: data.color}"></td>
       </tr>
     </table>
     <footer>

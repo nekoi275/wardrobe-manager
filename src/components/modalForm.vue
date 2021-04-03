@@ -1,10 +1,11 @@
 <template>
   <div class="container" v-show="open">
     <div class="overlay" @click="close()"></div>
-    <div class="modal">
+    <div class="modal" :class="{'modal-mobile': isMobile}">
       <header class="modal-header" v-if="role === 'add'">Добавить новую вещь</header>
       <header class="modal-header" v-if="role === 'edit'">Редактировать</header>
       <form>
+        <input type="hidden" v-model="currentData.id">
         <span
           class="required-msg"
           v-show="currentData.type == '' && isSubmitted"
@@ -17,21 +18,9 @@
           <span>Производитель</span>
           <input type="text" v-model="currentData.brand">
         </label>
-        <span
-          class="required-msg"
-          v-show="colors == '' && isSubmitted && currentTable !='jewelry'"
-        >Это поле обязательное</span>
-        <div v-if="currentTable != 'jewelry'" class="colors">
-          <span>Цвет</span>
-          <color-picker v-model="colors"></color-picker>
-        </div>
         <label>
           <span>Описание</span>
           <input type="text" v-model="currentData.description">
-        </label>
-        <label>
-          <span>Фото</span>
-          <input type="file" accept="image/png, image/jpeg, image/heic" @change="getImage">
         </label>
         <label>
           <span>Стоимость</span>
@@ -58,27 +47,35 @@
           <span>Страна</span>
           <input type="text" v-model="currentData.country">
         </label>
-        <input type="hidden" v-model="currentData.id">
-        <button @click="submit()" v-if="role === 'add'" type="button">Добавить</button>
-        <button @click="submit()" v-if="role === 'edit'" type="button">Изменить</button>
-        <button @click="close()" type="reset">Закрыть</button>
+        <label>
+          <span>Фото</span>
+          <input type="file" accept="image/png, image/jpeg, image/heic" @change="getImage">
+        </label>
+        <span
+          class="required-msg"
+          v-show="currentData.color == '' && isSubmitted && currentTable !='jewelry'"
+        >Это поле обязательное</span>
+        <label v-if="currentTable != 'jewelry'">
+          <span>Цвет</span>
+          <input type="text" v-model="currentData.color">
+        </label>
+        <label class="color-label" v-show="previewImage" v-if="currentTable != 'jewelry'">
+          <canvas id="preview" width="200" height="200" @click="getColor"></canvas>
+        </label>
+        <button @click="submit()" v-if="role === 'add'" type="button" :class="{'modal-button': isMobile}">Добавить</button>
+        <button @click="submit()" v-if="role === 'edit'" type="button" :class="{'modal-button': isMobile}">Изменить</button>
+        <button @click="close()" type="reset" :class="{'modal-button': isMobile}">Закрыть</button>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-import { Compact } from 'vue-color';
-
 export default {
   name: 'modal-form',
-  components: {
-    'color-picker': Compact
-  },
   data: () => {
     return {
-      isSubmitted: false,
-      colors: ''
+      isSubmitted: false
     };
   },
   computed: {
@@ -96,12 +93,33 @@ export default {
     currentTable() {
       return this.$store.state.table.current.name;
     },
+    previewImage() {
+      return this.$store.state.form.previewImage;
+    },
     isMobile() {
       return window.innerWidth <= 840;
     }
   },
+  watch: {
+    previewImage(newImage) {
+      if (this.currentTable !== 'jewelry') {
+        const canvas = document.getElementById('preview');
+        const ctx = canvas.getContext('2d');
+        const img = new Image;
+        img.onload = function() {
+          ctx.drawImage(img,0,0,200,200);
+        };
+        img.src = newImage;
+      }
+    }
+  },
   methods: {
     close() {
+      if (this.currentTable !== 'jewelry') {
+        const canvas = document.getElementById('preview');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0,0,200,200);
+      }
       this.isSubmitted = false;
       this.$store.commit('modalToggle');
     },
@@ -111,20 +129,25 @@ export default {
     submit() {
       this.isSubmitted = true;
       if (this.isValid()) {
-        if (this.currentTable != 'jewelry') {
-          this.$store.commit('setColor', this.colors);
-        }
         this.$store.dispatch('uploadImage', () => {
           this.$store.dispatch(this.role);
         });
         this.close();
       }
     },
+    getColor(event) {
+      const canvas = document.getElementById('preview');
+      const ctx = canvas.getContext('2d');
+      let x = event.offsetX;
+      let y = event.offsetY;
+      let imageData = ctx.getImageData(x, y, 1, 1).data;
+      this.currentData.color = `rgb(${imageData[0]},${imageData[1]},${imageData[2]})`;
+    },
     isValid() {
       return (
         this.currentData.type != '' &&
         this.currentData.year != '' &&
-        (this.colors != '' || this.currentTable == 'jewelry')
+        (this.currentData.color != '' || this.currentTable == 'jewelry')
       );
     }
   }
@@ -159,6 +182,13 @@ export default {
   background-color: var(--modal-color);
   border-radius: 3px;
 }
+.modal-mobile {
+  width: 100%;
+  height: 100%;
+}
+.modal-button {
+  width: 100px;
+}
 .modal-header {
   text-align: center;
   border-bottom: 1px solid var(--main-color);
@@ -166,25 +196,11 @@ export default {
   color: var(--neutral-color);
   font-weight: bold;
 }
-.colors {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: flex-end;
-}
-.colors span {
-  color: var(--neutral-color);
-  margin-right: 30px;
-}
-.colors div {
-  margin: 8px;
-}
 label {
   display: flex;
   color: var(--neutral-color);
   align-items: center;
   width: 100%;
-  cursor: pointer;
   justify-content: flex-end;
 }
 input,
@@ -200,6 +216,9 @@ select {
 input:focus {
   border: 3px solid var(--neutral-color);
 }
+input[type="file"] {
+  cursor: pointer;
+}
 span {
   margin-left: 30px;
 }
@@ -207,5 +226,11 @@ span {
   margin-left: 30px;
   color: var(--warning-color);
   font-size: 10pt;
+}
+.color-label {
+  justify-content: center;
+}
+#preview {
+  cursor: crosshair;
 }
 </style>
