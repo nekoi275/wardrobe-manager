@@ -54,5 +54,13 @@ export default {
   top: 50%;
   background-color: var(--modal-color);
   border-radius: 3px;
+  width: 600px;
+  height: 600px;
+}
+
+img {
+  width: 600px;
+  height: 600px;
+  border-radius: 3px;
 }
 </style>
