@@ -37,15 +37,11 @@
         <label v-if="currentTable != 'jewelry'">
           <span>Сезон</span>
           <select name="season" v-model="currentData.season" required>
-            <option value="зима">Зима</option>
-            <option value="осень-весна">Осень/Весна</option>
-            <option value="лето">Лето</option>
-            <option value="любой">Любой</option>
+            <option value="зима">зима</option>
+            <option value="осень-весна">осень/весна</option>
+            <option value="лето">лето</option>
+            <option value="любой">любой</option>
           </select>
-        </label>
-        <label v-if="currentTable == 'jewelry'">
-          <span>Страна</span>
-          <input type="text" v-model="currentData.country">
         </label>
         <label>
           <span>Фото</span>
@@ -208,6 +204,7 @@ select {
   box-sizing: border-box;
   padding: 5px;
   margin: 8px;
+  font-family: monospace;
   border-radius: 3px;
   transition: all 0.3s ease;
   border: 3px solid transparent;

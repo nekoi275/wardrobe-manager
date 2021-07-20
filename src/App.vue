@@ -56,7 +56,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: monospace;
   font-size: 12pt;
   background-color: var(--body-color);
   height: 100%;
@@ -74,8 +74,8 @@ button {
   transition: 0.3s ease all;
   text-align: center;
   width: 200px;
+  font-family: monospace;
   background-color: var(--main-color);
-  font-family: "Tahoma";
   font-size: 12pt;
 }
 button:hover {

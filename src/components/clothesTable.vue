@@ -16,7 +16,6 @@
           <td>{{row.price}}</td>
           <td>{{row.year}}</td>
           <td v-if="currentTable != 'jewelry'">{{row.season}}</td>
-          <td v-if="currentTable == 'jewelry'">{{row.country}}</td>
           <td>
             <span v-show="row.image" class="photo" @click="openImageModal(row.image)"></span>
             <span class="edit" @click="openModal('edit', row)"></span>
@@ -59,12 +58,9 @@ export default {
         year: new Date().getFullYear(),
       };
       if (this.currentTable == "clothes") {
-        row.brand = "No name";
+        row.brand = "no name";
         row.color = "";
         row.season = "любой";
-      }
-      if (this.currentTable == "jewelry") {
-        row.country = "";
       }
       return row;
     },

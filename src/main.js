@@ -108,11 +108,6 @@ const routesData = {
       displayName: "Год покупки",
       isSortable: true
     },
-    {
-      name: "country",
-      displayName: "Страна",
-      isSortable: true
-    },
   ]
 };
 

@@ -139,7 +139,7 @@ export default {
           table
             .map((item) => {
               if (item[prop]) return item[prop] 
-              else return "No Name";
+              else return "no name";
             })
             .sort()
         );
@@ -195,6 +195,7 @@ select {
   width: 100%;
   background-color: var(--neutral-color);
   border: none;
+  font-family: monospace;
   color: var(--modal-color);
 }
 .selected {

@@ -37,12 +37,9 @@ export default {
         year: new Date().getFullYear(),
       };
       if (this.currentTable.name == "clothes") {
-        row.brand = "No name";
+        row.brand = "no name";
         row.color = "";
         row.season = "любой";
-      }
-      if (this.currentTable.name == "jewelry") {
-        row.country = "";
       }
       return row;
     }
