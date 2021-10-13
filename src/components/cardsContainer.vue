@@ -1,7 +1,7 @@
 <template>
   <div>
     <button @click="openModal('add', setModalRow())" v-show="currentTable.name != 'old'">Добавить</button>
-    <div>
+    <div class="cards-container">
       <clothes-card v-for="item in items" :key="item.id" :item="item"></clothes-card>
     </div>
   </div>
@@ -46,3 +46,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+</style>

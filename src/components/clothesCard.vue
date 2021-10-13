@@ -50,8 +50,6 @@ export default {
     getImageUrl(image) {
       if (image) {
         return api.imageUrl(image);
-      } else {
-        return api.imageUrl('placeholder.png');
       }
     }
   }
@@ -62,7 +60,7 @@ export default {
 <style scoped>
 .card {
   width: 300px;
-  margin: 20px auto;
+  margin: 20px;
   padding: 10px;
   background-color: var(--main-color);
   color: var(--neutral-color);

@@ -55,10 +55,19 @@
           <button class="small-btn" :class="{ active: isActiveMoodboard()}">Галерея</button>
         </router-link>
       </div>
+      <div v-show="tabs.views">
+        <router-link :to="{ name: 'viewRoute', params: { tableName: currentTable }}">
+          <button class="small-btn" @click="switchView('tableView')" :class="{ active: view.tableView}">Таблица</button>
+        </router-link>
+        <router-link :to="{ name: 'viewRoute', params: { tableName: currentTable }}">
+          <button class="small-btn" @click="switchView('cardView')" :class="{ active: view.cardView}">Карточки</button>
+        </router-link>
+      </div>
     </div>
     <ul>
       <li v-show="!isActiveMoodboard()" class="filter" @click="switchTab('filter')" :class="{ active: tabs.filter }"></li>
       <li class="tables" @click="switchTab('tables')" :class="{ active: tabs.tables }"></li>
+      <li v-show="!isActiveMoodboard() && !isMobile" class="views" @click="switchTab('views')" :class="{ active: tabs.views }"></li>
     </ul>
   </aside>
 </template>
@@ -70,8 +79,14 @@ export default {
     open() {
       return this.$store.state.sidebar.open;
     },
+    isMobile() {
+      return window.innerWidth <= 840;
+    },
     tabs() {
       return this.$store.state.sidebar.tabs;
+    },
+    view() {
+      return this.$store.state.sidebar.view;
     },
     currentTable() {
       return this.$store.state.table.current.name;
@@ -131,6 +146,9 @@ export default {
     switchTab(tab) {
       this.$store.commit("switchTabs", tab);
       this.slideOpen();
+    },
+    switchView(view) {
+      this.$store.commit("switchView", view);
     },
     getProperties(prop) {
       var table = this.$store.state.table.cache[this.currentTable];
@@ -247,6 +265,9 @@ li.active {
 }
 .tables {
   background-image: url("../assets/spreadsheet.png");
+}
+.views {
+  background-image: url("../assets/vision.png");
 }
 .small-btn {
   width: 110px;

@@ -60,6 +60,8 @@ body {
   font-size: 12pt;
   background-color: var(--body-color);
   height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 button {
   -moz-user-select: none;

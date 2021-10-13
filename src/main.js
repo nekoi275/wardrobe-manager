@@ -6,7 +6,8 @@ import {
 import VueRouter from 'vue-router'
 import clothesTable from "./components/clothesTable.vue";
 import moodboard from "./components/moodboard.vue";
-import cardsContainer from "./components/cardsContainer.vue"
+import cardsContainer from "./components/cardsContainer.vue";
+import viewRoute from "./components/viewRoute.vue"
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
@@ -14,6 +15,9 @@ Vue.use(VueRouter);
 function changeTable(tableInfo) {
   store.commit("changeTable", tableInfo);
   store.commit("countItems");
+  if (tableInfo.view) {
+    store.commit("switchView", tableInfo.view);
+  }
   var table = store.state.table.view[tableInfo.name];
   if (!table.length) {
     store.dispatch("loadData");
@@ -116,20 +120,13 @@ const desktopRoutes = [{
     component: clothesTable
   },
   {
-    path: '/clothes',
-    component: clothesTable
-  },
-  {
-    path: '/old',
-    component: clothesTable
-  },
-  {
-    path: '/jewelry',
-    component: clothesTable
-  },
-  {
     path: '/moodboard',
     component: moodboard
+  },
+  {
+    path: '/:tableName',
+    name: 'viewRoute',
+    component: viewRoute
   }
 ]
 
@@ -167,7 +164,8 @@ router.beforeEach((to, from, next) => {
       changeTable({
         name: 'clothes',
         displayName: 'Одежда',
-        headers: routesData.clothesHeaders
+        headers: routesData.clothesHeaders,
+        view: 'tableView'
       })
       break;
     case '/clothes':
