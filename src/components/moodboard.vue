@@ -71,6 +71,7 @@ figure {
   grid-template-rows: 1fr auto;
   margin-bottom: 10px;
   break-inside: avoid;
+  position: relative;
 }
 figure > img {
   grid-row: 1 / -1;
@@ -88,7 +89,8 @@ input {
   cursor: pointer;
   grid-row: 1;
   padding: 10px;
-  margin: 10px;
+  top: 5px;
+  right: 5px;
   justify-self: end;
 }
 

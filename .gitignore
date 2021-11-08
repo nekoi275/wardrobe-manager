@@ -1,6 +1,9 @@
 .DS_Store
 node_modules
 /dist
+/src/server
+backup_jewelery.json
+backup.json
 
 # local env files
 .env.local
