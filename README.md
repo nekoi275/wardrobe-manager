@@ -1,6 +1,6 @@
 # wardrobe
 
-[Preview public sample version](http://nekoi.pp.ua/clothes/)
+
 
 ## Project setup
 ```
