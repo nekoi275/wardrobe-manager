@@ -1,5 +1,7 @@
-# wardrobe
-
+# Wardrobe manager
+Pet-project used to track your clothes, shoes, accessories and arrange moodboards.
+The projects requires a simple REST API back-end able to handle requests from `src/api/api.js`.
+Previously used NoDB for storing data. Pretty simple.
 
 
 ## Project setup
